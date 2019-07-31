@@ -25,10 +25,8 @@ namespace DALSamplesServer
         private TcpClient clientSocket;
 
         // The IDs of the samples that connect to the server
-        private const int EPID_PROVISIONING_SAMPLE = 1;
-        private const int EPID_SIGNING_SAMPLE = 2;
-        private const int SIGMA_SAMPLE = 3;
-
+        private const int MVP_SAMPLE = 1;
+       
         private const int SERVER_PORT = 27015;
 
         public Server()
@@ -85,25 +83,13 @@ namespace DALSamplesServer
 
                     switch (sampleID)
                     {
-                        case EPID_PROVISIONING_SAMPLE:
+                        case MVP_SAMPLE:
                             {
-                                Console.WriteLine("Connected client is EPID Provisioning Sample.");
-                                sampleHandler = new EPIDProvisioningHandler();
+                                Console.WriteLine("Connected client is MVP Sample.");
+                                sampleHandler = new MvpHandler();
                             }
                             break;
-                        case EPID_SIGNING_SAMPLE:
-                            {
-                                Console.WriteLine("Connected client is EPID Signing Sample.");
-                                sampleHandler = new EPIDSigningHandler();
-                            }
-                            break;
-                        case SIGMA_SAMPLE:
-                            {
-                                Console.WriteLine("Connected client is SIGMA Sample.");
-                                sampleHandler = new SIGMAHandler();
-                            }
-                            break;
-
+                        
                         default: break;
                     }
 
