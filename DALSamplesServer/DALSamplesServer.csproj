@@ -52,12 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\EPIDProvisioningHandler.cs" />
+    <Compile Include="Handlers\EPIDSigningHandler.cs" />
+    <Compile Include="Handlers\MvpHandler.cs" />
     <Compile Include="Handlers\SampleHandler.cs" />
     <Compile Include="Handlers\SIGMAHandler.cs" />
     <Compile Include="Utils\CryptoDataGenWrapper.cs" />
     <Compile Include="Utils\SharedDataStructures.cs" />
-    <Compile Include="Handlers\EPIDProvisioningHandler.cs" />
-    <Compile Include="Handlers\EPIDSigningHandler.cs" />
     <Compile Include="Utils\EPIDDataStructures.cs" />
     <Compile Include="Utils\GeneralUtils.cs" />
     <Compile Include="Utils\OCSPWrapper.cs" />

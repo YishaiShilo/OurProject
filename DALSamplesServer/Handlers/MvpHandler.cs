@@ -34,14 +34,22 @@ namespace DALSamplesServer.Handlers
                         socket.SendInt(STATUS_FAILED);
                         continue;
                     }
+                    Console.WriteLine("got s1:");
+
+                    Console.WriteLine(s1Msg[0]);
+
                     // Send S1 message processing status to client
                     socket.SendInt(STATUS_SUCCEEDED);
 
-                    // Send S2 message status to client
-                    byte[] s2Message = BitConverter.GetBytes('h');
-                                                       
+                    // Send S2 message length to client
+                    socket.SendInt(1);
+
+
                     // Send the S2 message to the client
+                    byte[] s2Message = BitConverter.GetBytes('i');
                     socket.SendMessage(s2Message);
+                    Console.WriteLine("send s2:");
+                    Console.WriteLine(s2Message[0]);
 
                     // Receive S3 message length from client
                     int s3MessageLen = socket.ReceiveMessageAsInt();
@@ -54,6 +62,9 @@ namespace DALSamplesServer.Handlers
                         socket.SendInt(STATUS_FAILED);
                         continue;
                     }
+                    Console.WriteLine("got s3:");
+                    Console.WriteLine(s3Msg[0]);
+
                     socket.SendInt(STATUS_SUCCEEDED);
                 }
 
