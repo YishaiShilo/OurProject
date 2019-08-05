@@ -1,3 +1,0 @@
-/cs/ep/524/Shilo/OurProject/hostApp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/cs/ep/524/Shilo/OurProject/hostApp/cmake-build-debug/CMakeFiles/edit_cache.dir
-/cs/ep/524/Shilo/OurProject/hostApp/cmake-build-debug/CMakeFiles/hostApp.dir
