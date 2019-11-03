@@ -9,7 +9,7 @@ import com.intel.util.*;
 // NOTE:  This default Trusted Application implementation is intended for DAL API Level 7 and above
 // **************************************************************************************************
 
-public class Apllet1 extends IntelApplet {
+public class Applet1 extends IntelApplet {
 
 	/**
 	 * This method will be called by the VM when a new session is opened to the Trusted Application 
