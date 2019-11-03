@@ -10,9 +10,9 @@
 	<!-- The name of the project (in Eclipse) -->
 	<property name="project_name" 						value="Applet1"/>
 	<!-- The build directory - note that the .jeff and .pack files in this directory will be deleted -->
-	<property name="bin_dir" 							location="C:\Project\OurProject\Applet1\Applet1\bin\ME12.0"/>
+	<property name="bin_dir" 							location="C:\Users\USER\Desktop\project\OurProject\Applet1\Applet1\bin\ME12.0"/>
 	<!-- Project directory -->
-	<property name="project_dir" 						value="C:/Project/OurProject/Applet1/Applet1"/>
+	<property name="project_dir" 						value="C:/Users/USER/Desktop/project/OurProject/Applet1/Applet1"/>
 	<!-- Intel DAL SDK directory -->
 	<property name="sdk_dir" 							value="C:\DALsdk\"/> 
 	<!-- value indicating if this is a compilation for signing -->

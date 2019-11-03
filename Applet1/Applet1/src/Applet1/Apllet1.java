@@ -45,7 +45,13 @@ public class Apllet1 extends IntelApplet {
 			DebugPrint.printBuffer(request);
 		}
 		
-		final byte[] myResponse = { 'D', 'Y' };
+		final byte[] myResponse = new byte[1];
+		if (commandId == 1) {
+			myResponse[0] = '1';
+		}
+		else {
+			myResponse[0] = '2';
+		}
 
 		/*
 		 * To return the response data to the command, call the setResponse

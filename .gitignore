@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+Applet1/Applet1/bin/Applet1.dalp
+*.dalp
+Applet1/Applet1/bin/dalpToolConfig.txt
+Applet1/Applet1/bin/dalpToolConfig.txt
