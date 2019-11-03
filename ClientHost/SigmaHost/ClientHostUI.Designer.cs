@@ -117,7 +117,7 @@ namespace ClientHostGUI
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(100, 28);
             this.btnConnect.TabIndex = 53;
-            this.btnConnect.Text = "Connect";
+            this.btnConnect.Text = "Connects";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 

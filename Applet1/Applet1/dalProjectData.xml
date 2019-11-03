@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="com.dal.pedal.dalMainClassPackage">Applet1</entry>
+<entry key="com.dal.pedal.vsVersion">VS2015</entry>
+<entry key="com.dal.pedal.dalRunOption">DIC</entry>
+<entry key="com.dal.pedal.dalSupportedPlatfom">23</entry>
+<entry key="com.dal.pedal.dalUUID">c53f43be-8b04-44cd-9532-5fbe11eda2d3</entry>
+<entry key="com.dal.pedal.dalProjectVersion">DAL_9</entry>
+<entry key="com.dal.pedal.dalMainClassName">Apllet1</entry>
+<entry key="com.dal.pedal.dalHostProjectLocation">null\null</entry>
+<entry key="com.dal.pedal.dalActiveManifest">23</entry>
+</properties>
