@@ -397,6 +397,7 @@ namespace DALSamplesServer
                             if (VerifyS3Message(s3Msg))
                             {
                                 socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));
+                                return;
                             }
                             else
                             {

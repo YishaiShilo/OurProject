@@ -36,6 +36,7 @@ namespace DALSamplesServer
         private const int EPID_PROVISIONING_SAMPLE = 2;
         private const int EPID_SIGNING_SAMPLE = 3;
         private const int SIGMA_SAMPLE = 4;
+        private const int SECURE_IMAGE = 5;
         public Server()
         {
             //init Protected Output Sample data
@@ -111,7 +112,7 @@ namespace DALSamplesServer
                             Thread clientThread = new Thread(new ParameterizedThreadStart(ch.handleClientComm));
                             clientThread.Start(client);
                         } break;
-						case SIGMA_SAMPLE:
+					case SIGMA_SAMPLE:
                         {
                             Console.WriteLine("Connected client is SIGMA Sample");
                             //create a thread to handle communication 
@@ -120,7 +121,16 @@ namespace DALSamplesServer
                             Thread clientThread = new Thread(new ParameterizedThreadStart(ch.handleClientComm));
                             clientThread.Start(client);
                         } break;
-                    
+                    case SECURE_IMAGE:
+                        {
+                            Console.WriteLine("Connected client is SECURE IMAGE");
+                            //create a thread to handle communication 
+                            //with connected client
+                             SecureImageHandler ch = new SecureImageHandler();
+                            Thread clientThread = new Thread(new ParameterizedThreadStart(ch.handleClientComm));
+                            clientThread.Start(client);
+                        }
+                        break;
                     default: break;
                 }
             }       
