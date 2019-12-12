@@ -1,0 +1,15 @@
+C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\bin\Amulet\SigmaHostGUI.exe
+C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\bin\Amulet\SigmaHostGUI.pdb
+C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\obj\x86\Amulet\SigmaHostGUI.Properties.Resources.resources
+C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\obj\x86\Amulet\SigmaHostGUI.Form1.resources
+C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\obj\x86\Amulet\SigmaHost.csproj.GenerateResource.Cache
+C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\obj\x86\Amulet\SigmaHostGUI.exe
+C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\obj\x86\Amulet\SigmaHostGUI.pdb
+C:\Project\OurProject\Sigma_Send\SigmaSample\SigmaHost\SigmaHost\obj\x86\Amulet\SigmaHostGUI.exe
+C:\Project\OurProject\Sigma_Send\SigmaSample\SigmaHost\SigmaHost\obj\x86\Amulet\SigmaHostGUI.pdb
+C:\Project\OurProject\Sigma_Send\SigmaSample\SigmaHost\SigmaHost\obj\x86\Amulet\SigmaHost.csprojResolveAssemblyReference.cache
+C:\Project\OurProject\Sigma_Send\SigmaSample\SigmaHost\SigmaHost\obj\x86\Amulet\SigmaHostGUI.Properties.Resources.resources
+C:\Project\OurProject\Sigma_Send\SigmaSample\SigmaHost\SigmaHost\obj\x86\Amulet\SigmaHostGUI.Form1.resources
+C:\Project\OurProject\Sigma_Send\SigmaSample\SigmaHost\SigmaHost\obj\x86\Amulet\SigmaHost.csproj.GenerateResource.Cache
+C:\Project\OurProject\Sigma_Send\SigmaSample\SigmaHost\SigmaHost\bin\Amulet\SigmaHostGUI.exe
+C:\Project\OurProject\Sigma_Send\SigmaSample\SigmaHost\SigmaHost\bin\Amulet\SigmaHostGUI.pdb
