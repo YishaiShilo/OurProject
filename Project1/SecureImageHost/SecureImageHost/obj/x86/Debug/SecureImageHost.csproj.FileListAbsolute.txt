@@ -1,0 +1,2 @@
+C:\Project\OurProject\Project1\SecureImageHost\SecureImageHost\obj\x86\Debug\CSharpClientUI.exe
+C:\Project\OurProject\Project1\SecureImageHost\SecureImageHost\obj\x86\Debug\CSharpClientUI.pdb

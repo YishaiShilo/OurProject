@@ -1,4 +1,0 @@
-::Name Applet1
-::Description This is the Applet1 applet
-::Vendor DALSDK_build
-::Applet C:\Users\USER\Desktop\project\OurProject\Applet1\Applet1\bin\ME12.0\Applet1_ME12.0.pack ::FwVersion 11.0.0

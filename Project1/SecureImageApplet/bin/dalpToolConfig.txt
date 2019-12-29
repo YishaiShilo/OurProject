@@ -1,0 +1,8 @@
+::Name SecureImageApplet
+::Description This is the SecureImageApplet applet
+::Vendor DALSDK_build
+::Applet C:\Project\OurProject\Project1\SecureImageApplet\bin\ME9.0\SecureImageApplet_ME9.0.pack ::FwVersion 9.0.0
+::Applet C:\Project\OurProject\Project1\SecureImageApplet\bin\ME9.1\SecureImageApplet_ME9.1.pack ::FwVersion 9.1.0
+::Applet C:\Project\OurProject\Project1\SecureImageApplet\bin\ME9.1.35\SecureImageApplet_ME9.1.35.pack ::FwVersion 9.1.35
+::Applet C:\Project\OurProject\Project1\SecureImageApplet\bin\ME9.5\SecureImageApplet_ME9.5.pack ::FwVersion 9.5.0
+::Applet C:\Project\OurProject\Project1\SecureImageApplet\bin\ME9.5.55\SecureImageApplet_ME9.5.55.pack ::FwVersion 9.5.55

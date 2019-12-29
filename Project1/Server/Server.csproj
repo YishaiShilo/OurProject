@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\SecureImageHandler.cs" />
     <Compile Include="Handlers\SIGMAHandler.cs" />
     <Compile Include="Utils\CryptoDataGenWrapper_1_1.cs" />
     <Compile Include="Utils\DataStructures.cs" />
