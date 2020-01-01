@@ -1,6 +1,6 @@
 ﻿namespace CSharpClientUI
 {
-    partial class ProtectedOutputUI
+    partial class SecureImageUI
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProtectedOutputUI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecureImageUI));
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnSendKeys = new System.Windows.Forms.Button();
             this.btnGetPicture = new System.Windows.Forms.Button();
@@ -63,10 +63,8 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
-            //this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            //this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
-            //this.lineShape3 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.resetToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
@@ -87,13 +85,13 @@
             // 
             this.btnSendKeys.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.btnSendKeys.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.btnSendKeys.Location = new System.Drawing.Point(333, 267);
+            this.btnSendKeys.Location = new System.Drawing.Point(333, 287);
             this.btnSendKeys.Name = "btnSendKeys";
             this.btnSendKeys.Size = new System.Drawing.Size(100, 28);
             this.btnSendKeys.TabIndex = 1;
-            this.btnSendKeys.Text = "Send";
+            this.btnSendKeys.Text = "Sigma";
             this.btnSendKeys.UseVisualStyleBackColor = true;
-            this.btnSendKeys.Click += new System.EventHandler(this.btnSendKeys_Click);
+            this.btnSendKeys.Click += new System.EventHandler(this.btnSigma_Click);
             // 
             // btnGetPicture
             // 
@@ -440,47 +438,30 @@
             this.btnReset.TabIndex = 40;
             this.btnReset.Text = "Reset";
             this.resetToolTip.SetToolTip(this.btnReset, "By clicking the reset button the solution will be reseted. \r\nThis will clean the " +
-                    "TA keys and metadata and will reset the TA MTC.\r\nAll stored images will become i" +
-                    "nvalid.");
+        "TA keys and metadata and will reset the TA MTC.\r\nAll stored images will become i" +
+        "nvalid.");
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
-            // shapeContainer1
+            // button1
             // 
-            //this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
-            //this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-            //this.shapeContainer1.Name = "shapeContainer1";
-            //this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            //this.lineShape2,
-            //this.lineShape3});
-            //this.shapeContainer1.Size = new System.Drawing.Size(875, 594);
-            //this.shapeContainer1.TabIndex = 15;
-            //this.shapeContainer1.TabStop = false;
+            this.button1.Font = new System.Drawing.Font("Verdana", 9.75F);
+            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
+            this.button1.Location = new System.Drawing.Point(333, 253);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 28);
+            this.button1.TabIndex = 41;
+            this.button1.Text = "Install";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.install_Click);
             // 
-            // lineShape2
-            // 
-            //this.lineShape2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            //this.lineShape2.Name = "lineShape2";
-            //this.lineShape2.X1 = -5;
-            //this.lineShape2.X2 = 877;
-            //this.lineShape2.Y1 = 130;
-            //this.lineShape2.Y2 = 130;
-            // 
-            // lineShape3
-            // 
-            //this.lineShape3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            //this.lineShape3.Name = "lineShape3";
-            //this.lineShape3.X1 = 449;
-            //this.lineShape3.X2 = 449;
-            //this.lineShape3.Y1 = 130;
-            //this.lineShape3.Y2 = 547;
-            // 
-            // ProtectedOutputUI
+            // SecureImageUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(875, 594);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
@@ -513,11 +494,10 @@
             this.Controls.Add(this.panel);
             this.Controls.Add(this.btnShow);
             this.Controls.Add(this.btnSave);
-            //this.Controls.Add(this.shapeContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(300, 39);
-            this.Name = "ProtectedOutputUI";
-            this.Text = "Protected Output";
+            this.Name = "SecureImageUI";
+            this.Text = "Secure Image";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.formClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
@@ -565,6 +545,7 @@
         //private Microsoft.VisualBasic.PowerPacks.LineShape lineShape3;
         //private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
         private System.Windows.Forms.ToolTip resetToolTip;
+        private System.Windows.Forms.Button button1;
     }
 }
 

@@ -17,27 +17,30 @@ using System.Runtime.InteropServices;
 
 namespace CSharpClientUI
 {
-    public class ProtectedOutputHostWrapper
+    public class SecureImageHostWrapper
     {
-        [DllImport("protectedoutputlibrary", EntryPoint = "refresh", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("secureimagelibrary", EntryPoint = "refresh", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool refresh();
 
-        [DllImport("protectedoutputlibrary", EntryPoint = "getRemainingTimes", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("secureimagelibrary", EntryPoint = "getRemainingTimes", CallingConvention = CallingConvention.Cdecl)]
         public static extern int getRemainingTimes();
 
-        [DllImport("protectedoutputlibrary", EntryPoint = "close", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("secureimagelibrary", EntryPoint = "close", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool close(StringBuilder errorMsg);
 
-        [DllImport("protectedoutputlibrary", EntryPoint = "closePavpSession", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("secureimagelibrary", EntryPoint = "closePavpSession", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool closePavpSession();
 
-        [DllImport("protectedoutputlibrary", EntryPoint = "getGroupId", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("secureimagelibrary", EntryPoint = "getGroupId", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool getGroupId(IntPtr groupId);
 
-        [DllImport("protectedoutputlibrary", EntryPoint = "resetSolution", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("secureimagelibrary", EntryPoint = "installApplet", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool installApplet();
+
+        [DllImport("secureimagelibrary", EntryPoint = "resetSolution", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool resetSolution(StringBuilder errorMsg);
 
-        [DllImport("protectedoutputlibrary", EntryPoint = "getPublicKey", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("secureimagelibrary", EntryPoint = "getPublicKey", CallingConvention = CallingConvention.Cdecl)]
         private static extern bool getPublicKey(IntPtr mod, IntPtr exponent, IntPtr signed_modulus, IntPtr signed_exponent, IntPtr signature_nonce, StringBuilder errorMsg);
 
         public static bool getPublicKey(byte[] mod, byte[] exponent, byte[] signed_modulus, byte[] signed_exponent, byte[] signature_nonce, StringBuilder errorMsg)
@@ -74,7 +77,7 @@ namespace CSharpClientUI
             return ret;
         }
 
-        [DllImport("protectedoutputlibrary", EntryPoint = "showImage", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("secureimagelibrary", EntryPoint = "showImage", CallingConvention = CallingConvention.Cdecl)]
         private static extern bool showImage(IntPtr ServerData, IntPtr targetControl, StringBuilder errorMsg);
 
         public static bool showImage(byte[] ServerData, IntPtr targetControl, StringBuilder errorMsg)

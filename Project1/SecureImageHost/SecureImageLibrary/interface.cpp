@@ -11,7 +11,7 @@
 **/
 #include "interface.h"
 #include "PavpHandler.h"
-#include "ProtectedOutput.h"
+#include "SecureImage.h"
 #include <iostream>
 
 #include "crypt_data_gen.h"
@@ -21,28 +21,35 @@ int SigmaCryptoUtils::current_gid;
 
 BOOL showImage(UINT8* ServerData, HWND targetControl,char* errorMsg)
 {
-	return ProtectedOutput::Session()->showImage(ServerData,targetControl,errorMsg);
+	return SecureImage::Session()->showImage(ServerData,targetControl,errorMsg);
 }
 
 BOOL getPublicKey(UINT8* mod,UINT8* exponent,UINT8* signed_modulus, UINT8* signed_exponent, UINT8* signature_nonce, char* errorMsg)
 {
-	BOOL res = ProtectedOutput::Session()->getPublicKey(mod,exponent,signed_modulus, signed_exponent, signature_nonce, errorMsg);
+	BOOL res = SecureImage::Session()->getPublicKey(mod,exponent,signed_modulus, signed_exponent, signature_nonce, errorMsg);
 	return res;
+}
+
+BOOL installApplet()
+{
+		SecureImage::Session();
+		return true; // TODO return something more relevant
+
 }
 
 BOOL getGroupId(byte *groupId)
 {
-	return ProtectedOutput::Session()->getGroupId(groupId);
+	return SecureImage::Session()->getGroupId(groupId);
 }
 
 BOOL refresh()
 {
-	return ProtectedOutput::Session()->refresh();
+	return SecureImage::Session()->refresh();
 }
 
 int getRemainingTimes()
 {
-	return ProtectedOutput::Session()->getRemainingTimes();
+	return SecureImage::Session()->getRemainingTimes();
 }
 
 BOOL encryptBitmap(UINT8* plainBitmap,UINT32 plainBitmapSize,UINT8* encryptedBitmap,UINT8* key)
@@ -66,15 +73,15 @@ BOOL encryptBitmap(UINT8* plainBitmap,UINT32 plainBitmapSize,UINT8* encryptedBit
 
 BOOL closePavpSession()
 {
-	return ProtectedOutput::Session()->closePavpSession();
+	return SecureImage::Session()->closePavpSession();
 }
 
 BOOL resetSolution(char* errorMsg)
 {
-	return ProtectedOutput::Session()->resetAll(errorMsg);
+	return SecureImage::Session()->resetAll(errorMsg);
 }
 
 BOOL close(char* errorMsg)
 {
-	return ProtectedOutput::Session()->close(errorMsg);
+	return SecureImage::Session()->close(errorMsg);
 }

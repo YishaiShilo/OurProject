@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 
 namespace CSharpClientUI
 {
-    public partial class ProtectedOutputUI : Form
+    public partial class SecureImageUI : Form
     {
         private Thread refreshThread;
         byte[] serverData;
@@ -47,7 +47,7 @@ namespace CSharpClientUI
         const int EPID_NONCE_LEN = 32;
         const int EPID_SIGNATURE_LEN = 569;
 
-        public ProtectedOutputUI()
+        public SecureImageUI()
         {
             InitializeComponent();        
             btnGetPicture.Enabled = false;
@@ -87,7 +87,7 @@ namespace CSharpClientUI
 
         }
 
-        private void btnSendKeys_Click(object sender, EventArgs e)
+        private void btnSigma_Click(object sender, EventArgs e)
         {
             lblKeyStatus.Text = "Sending, this might take a minute or two...";
             lblKeyStatus.Refresh();
@@ -125,7 +125,7 @@ namespace CSharpClientUI
                 byte[] nonce = new byte[EPID_NONCE_LEN];
                 
                 //get keys from the library
-                if (!ProtectedOutputHostWrapper.getPublicKey(mod, exponent, signed_mod, signed_exponent, nonce, builder))
+                if (!SecureImageHostWrapper.getPublicKey(mod, exponent, signed_mod, signed_exponent, nonce, builder))
                     return false;
 
                 //prepare the send data buffer
@@ -166,7 +166,7 @@ namespace CSharpClientUI
         {
              //get the current platform EPID group Id
             IntPtr groupId = Marshal.AllocHGlobal(4);
-            bool res = ProtectedOutputHostWrapper.getGroupId(groupId);
+            bool res = SecureImageHostWrapper.getGroupId(groupId);
             if (res)
             {
                 byte[] cmdSendG = BitConverter.GetBytes(SENDING_GROUP_ID);
@@ -278,16 +278,16 @@ namespace CSharpClientUI
                 if (refreshThread != null)
                     refreshThread.Abort();
                 //close session
-                ProtectedOutputHostWrapper.closePavpSession();
+                SecureImageHostWrapper.closePavpSession();
                 sessionExists = false;
             }
             //request library to show the image
             StringBuilder builder = new StringBuilder(bufferSize);
-            if (ProtectedOutputHostWrapper.showImage(serverData, panel.Handle,builder))
+            if (SecureImageHostWrapper.showImage(serverData, panel.Handle,builder))
             {
                 //get number of times  presented image can be shown again
                 sessionExists = true;
-                lblNumViews.Text = ProtectedOutputHostWrapper.getRemainingTimes().ToString();
+                lblNumViews.Text = SecureImageHostWrapper.getRemainingTimes().ToString();
                 //start a refresh thred to refresh the view periodically
                 refreshThread = new Thread(new ThreadStart(refresh));
                 refreshThread.Start();
@@ -328,7 +328,7 @@ namespace CSharpClientUI
             while (true)
             {
                 //refresh the image
-                ProtectedOutputHostWrapper.refresh();
+                SecureImageHostWrapper.refresh();
                 Thread.Sleep(100);
             }
         }
@@ -342,7 +342,7 @@ namespace CSharpClientUI
 
             StringBuilder builder = new StringBuilder(bufferSize);
             //de-init library
-            ProtectedOutputHostWrapper.close(builder);
+            SecureImageHostWrapper.close(builder);
             //exit application
             Application.Exit();
         }
@@ -392,11 +392,11 @@ namespace CSharpClientUI
             if (refreshThread != null)
                 refreshThread.Abort();
             //close session
-            ProtectedOutputHostWrapper.closePavpSession();
+            SecureImageHostWrapper.closePavpSession();
             resetUI();
             //reset library
             StringBuilder builder = new StringBuilder(bufferSize);
-            if (ProtectedOutputHostWrapper.resetSolution(builder))
+            if (SecureImageHostWrapper.resetSolution(builder))
                 MessageBox.Show("Reset was successful!");
             else
                 MessageBox.Show("Failed to reset solution. " + builder.ToString());
@@ -417,6 +417,11 @@ namespace CSharpClientUI
             lblKeyStatus.ForeColor = color;
             lblServerStatus.ForeColor = color;
             lblLocalPictureStatus.ForeColor = color;           
+        }
+
+        private void install_Click(object sender, EventArgs e)
+        {
+            SecureImageHostWrapper.installApplet();
         }
     }
 }

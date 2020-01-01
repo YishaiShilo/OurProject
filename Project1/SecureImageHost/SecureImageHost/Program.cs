@@ -26,7 +26,7 @@ namespace CSharpClientUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ProtectedOutputUI());
+            Application.Run(new SecureImageUI());
         }
     }
 }

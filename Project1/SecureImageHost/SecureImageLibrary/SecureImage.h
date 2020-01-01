@@ -44,11 +44,11 @@ static int NOT_PROVISIONED = 1;
 #define ERROR_MESSAGE_LEN 200
 #define GROUP_ID_LENGTH 4
 
-class ProtectedOutput
+class SecureImage
 {
 public:
-	//return current instance of the ProtectedOutput class
-	static ProtectedOutput* Session();
+	//return current instance of the SecureImage class
+	static SecureImage* Session();
 	/*Return the TA public key abd signature, at first run or after reset- will generate a new pair of keys*/
 	bool getPublicKey(byte* modulus,byte* exponent, byte* signed_modulus, byte* signed_exponent, byte* signature_nonce, char* errorMsg);
 	/*Parses the server data nad presents the image */
@@ -69,8 +69,8 @@ public:
 private:
 	//functions:
 
-	ProtectedOutput(void);
-	~ProtectedOutput(void);
+	SecureImage(void);
+	~SecureImage(void);
 	//helper function to perform JHI calls and return errors
 	bool callJHI(JVM_COMM_BUFFER* buff, int command, char* errorMsg);
 	//load the RSA key pair to the TA

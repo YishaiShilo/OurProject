@@ -41,6 +41,9 @@ Note that in real use cases - this option should not be exposed so easily, as it
 DRM_EXPORT resetSolution(char* errorMsg);
 
 //Get the EPID Group ID for this platform
+DRM_EXPORT installApplet();
+
+//Get the EPID Group ID for this platform
 DRM_EXPORT getGroupId(byte *groupId);
 
 /*Return the number of times the current image can be viewed. -1 for failure.*/

@@ -19,7 +19,7 @@ the macro DELAYIMP_INSECURE_WRITABLE_HOOKS prior to including DelayImp header
 */
 #define DELAYIMP_INSECURE_WRITABLE_HOOKS
 
-#include "ProtectedOutput.h"
+#include "SecureImage.h"
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -29,7 +29,7 @@ PfnDliHook __pfnDliNotifyHook2 = delayHook;
 
 using namespace std;
 
-ProtectedOutput::ProtectedOutput(void)
+SecureImage::SecureImage(void)
 {
 	try
 	{
@@ -122,17 +122,17 @@ ProtectedOutput::ProtectedOutput(void)
 	}
 }
 
-ProtectedOutput* ProtectedOutput::Session()
+SecureImage* SecureImage::Session()
 {
 	//initialized at the first time
-	static ProtectedOutput instance;
+	static SecureImage instance;
 	//return pointer
 	return &instance;
 }
 
 //public functions:
 
-bool ProtectedOutput::getPublicKey(byte* modulus,byte* exponent, byte* signed_modulus, byte* signed_exponent, byte* signature_nonce, char* errorMsg)
+bool SecureImage::getPublicKey(byte* modulus,byte* exponent, byte* signed_modulus, byte* signed_exponent, byte* signature_nonce, char* errorMsg)
 {
 	//if initialization error occured - return failure with matching error
 	if(!initialized)
@@ -170,7 +170,7 @@ bool ProtectedOutput::getPublicKey(byte* modulus,byte* exponent, byte* signed_mo
 	return true;
 }
 
-bool ProtectedOutput::showImage(UINT8* ServerData, HWND targetControl,char* errorMsg)
+bool SecureImage::showImage(UINT8* ServerData, HWND targetControl,char* errorMsg)
 {
 	//if initialization error occured - return failure with the error
 	if(!initialized)
@@ -242,13 +242,13 @@ bool ProtectedOutput::showImage(UINT8* ServerData, HWND targetControl,char* erro
 	return PavpHandler::Session()->ShowImage(encryptedBitmap,encryptedBitmapSize,targetControl);
 }
 
-bool ProtectedOutput::refresh()
+bool SecureImage::refresh()
 {
 	//call PAVP refresh
 	return PavpHandler::Session()->DisplayVideo()==0;
 }
 
-bool ProtectedOutput::closePavpSession()
+bool SecureImage::closePavpSession()
 {
 	bool res=true;
 	//close PAVP session
@@ -257,7 +257,7 @@ bool ProtectedOutput::closePavpSession()
 	return res;
 }
 
-bool ProtectedOutput::close(char* errorMsg)
+bool SecureImage::close(char* errorMsg)
 {
 	//save metadata
 	bool res = saveData(errorMsg);
@@ -333,7 +333,7 @@ bool ProtectedOutput::close(char* errorMsg)
 	return res;
 }
 
-int ProtectedOutput::getRemainingTimes()
+int SecureImage::getRemainingTimes()
 {
 	//if initialization error occured - return failure
 	if(!initialized)
@@ -359,7 +359,7 @@ int ProtectedOutput::getRemainingTimes()
 	return size;
 }
 
-bool ProtectedOutput::resetAll(char* errorMsg)
+bool SecureImage::resetAll(char* errorMsg)
 {
 	//check if there is a seeion with the TA
 	//not checking initialization flag since a case where th metadata was not loaded is OK for a reset
@@ -400,7 +400,7 @@ bool ProtectedOutput::resetAll(char* errorMsg)
 
 //private functions:
 
-bool ProtectedOutput::getGroupId(byte *groupId)
+bool SecureImage::getGroupId(byte *groupId)
 {
 	//if initialization error occured - return failure
 	if(!initialized)
@@ -431,7 +431,7 @@ bool ProtectedOutput::getGroupId(byte *groupId)
 	return true;
 }
 
-bool ProtectedOutput::callJHI(JVM_COMM_BUFFER* commBuf, int command, char* errorMsg)
+bool SecureImage::callJHI(JVM_COMM_BUFFER* commBuf, int command, char* errorMsg)
 {
 	//if initialization error occured - return failure
 	if(!initialized)
@@ -468,7 +468,7 @@ bool ProtectedOutput::callJHI(JVM_COMM_BUFFER* commBuf, int command, char* error
 	return true;
 }
 
-const char* ProtectedOutput::getJHIRet(JHI_RET ret)
+const char* SecureImage::getJHIRet(JHI_RET ret)
 {
 	static std::map<JHI_RET,const char*> codes;
 	static bool mapInited=false;
@@ -532,7 +532,7 @@ const char* ProtectedOutput::getJHIRet(JHI_RET ret)
 	return codes[ret];
 }
 
-bool ProtectedOutput::loadData()
+bool SecureImage::loadData()
 {
 	bool res=true;
 	//open the file at the end
@@ -585,7 +585,7 @@ bool ProtectedOutput::loadData()
 	return res;
 }
 
-bool ProtectedOutput::saveData(char* errorMsg)
+bool SecureImage::saveData(char* errorMsg)
 {
 	//if initialization error occured - return failure
 	if(!initialized)
@@ -617,7 +617,7 @@ bool ProtectedOutput::saveData(char* errorMsg)
 	return true;
 }
 
-bool ProtectedOutput::isProvisioned(char* errorMsg)
+bool SecureImage::isProvisioned(char* errorMsg)
 {
 	//if initialization error occured - return failure
 	if(!initialized)
@@ -646,7 +646,7 @@ bool ProtectedOutput::isProvisioned(char* errorMsg)
 	return false;
 }
 
-int ProtectedOutput::parseMetaData(byte *rawData)
+int SecureImage::parseMetaData(byte *rawData)
 {
 	//extract the size of the encrypted private key, mod and exponent
 	mod_size = (short)((rawData[0] << 8) | rawData[1]); // should be 256
@@ -677,7 +677,7 @@ int ProtectedOutput::parseMetaData(byte *rawData)
 	return currInd;
 }
 
-bool ProtectedOutput::loadKeys(char* errorMsg)
+bool SecureImage::loadKeys(char* errorMsg)
 {
 	//if initialization error occured - return failure
 	if(!initialized)
@@ -717,7 +717,7 @@ bool ProtectedOutput::loadKeys(char* errorMsg)
 	return true;
 }
 
-bool ProtectedOutput::generateKeys(char* errorMsg)
+bool SecureImage::generateKeys(char* errorMsg)
 {
 	//if initialization error occured - return failure
 	if(!initialized)
@@ -759,7 +759,7 @@ bool ProtectedOutput::generateKeys(char* errorMsg)
 	return true;
 }
 
-ProtectedOutput::~ProtectedOutput(void)
+SecureImage::~SecureImage(void)
 {
 	
 }

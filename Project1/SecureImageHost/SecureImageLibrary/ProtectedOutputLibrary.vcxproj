@@ -92,13 +92,13 @@
     <ClCompile Include="DelayLoader.cpp" />
     <ClCompile Include="interface.cpp" />
     <ClCompile Include="PavpHandler.cpp" />
-    <ClCompile Include="ProtectedOutput.cpp" />
+    <ClCompile Include="SecureImage.cpp" />
     <ClCompile Include="SignatureVerifier.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="interface.h" />
     <ClInclude Include="PavpHandler.h" />
-    <ClInclude Include="ProtectedOutput.h" />
+    <ClInclude Include="SecureImage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

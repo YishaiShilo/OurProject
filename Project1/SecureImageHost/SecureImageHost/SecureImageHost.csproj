@@ -78,14 +78,14 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProtectedOutputUI.cs">
+    <Compile Include="SecureImageUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProtectedOutputHostWrapper.cs" />
-    <Compile Include="ProtectedOutputUI.Designer.cs">
-      <DependentUpon>ProtectedOutputUI.cs</DependentUpon>
+    <Compile Include="SecureImageHostWrapper.cs" />
+    <Compile Include="SecureImageUI.Designer.cs">
+      <DependentUpon>SecureImageUI.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
@@ -100,8 +100,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ProtectedOutputUI.resx">
-      <DependentUpon>ProtectedOutputUI.cs</DependentUpon>
+    <EmbeddedResource Include="SecureImageUI.resx">
+      <DependentUpon>SecureImageUI.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -127,8 +127,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy "$(SolutionDir)$(ConfigurationName)\ProtectedOutputLibrary.dll" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\ProtectedOutputLibrary.dll"
-copy "$(SolutionDir)$(ConfigurationName)\ProtectedOutputLibrary.pdb" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\ProtectedOutputLibrary.pdb"
+    <PreBuildEvent>copy "$(SolutionDir)$(ConfigurationName)\SecureImageLibrary.dll" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\SecureImageLibrary.dll"
+copy "$(SolutionDir)$(ConfigurationName)\SecureImageLibrary.pdb" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\SecureImageLibrary.pdb"
 copy "$(SolutionDir)..\WysResources\epid_keyrevlist.dat" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\epid_keyrevlist.dat"
 copy "$(SolutionDir)..\WysResources\epid_paramcert.dat" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\epid_paramcert.dat"</PreBuildEvent>
   </PropertyGroup>
