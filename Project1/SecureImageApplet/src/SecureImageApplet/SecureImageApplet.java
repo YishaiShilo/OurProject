@@ -135,17 +135,12 @@ public class SecureImageApplet extends IntelApplet {
 				break;
 			}
 		}
-		
-		
-		//  I am here ############################################################################################ finished to do the invoke command, 
-		// need to see what is the set respond thing.
 
 		/*
 		 * To return the response data to the command, call the setResponse
 		 * method before returning from this method. Note that calling this
 		 * method more than once will reset the response data previously set.
 		 */
-		setResponse(myResponse, 0, myResponse.length);
 
 		/*
 		 * In order to provide a return value for the command, which will be
@@ -154,7 +149,9 @@ public class SecureImageApplet extends IntelApplet {
 		 * method more than once will reset the code previously set. If not set,
 		 * the default response code that will be returned to SW application is 0.
 		 */
-		setResponseCode(commandId);
+		setResponseCode(result);
+		if(_sigmaReplyBuffer != null)
+			setResponse(_sigmaReplyBuffer, ZERO_INDEX, _sigmaReplyBuffer.length);
 
 		/*
 		 * The return value of the invokeCommand method is not guaranteed to be
