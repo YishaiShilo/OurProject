@@ -3,12 +3,15 @@
 <properties>
 <entry key="com.dal.pedal.dalMainClassPackage">SecureImageApplet</entry>
 <entry key="com.dal.pedal.vsVersion">VS2015</entry>
+<entry key="com.dal.pedal.userTarget"/>
 <entry key="com.dal.pedal.dalRunOption">VS</entry>
 <entry key="com.dal.pedal.dalSupportedPlatfom">7,8,12,10,15</entry>
 <entry key="com.dal.pedal.dalUUID">33ad2931-2dd1-4387-b073-e9895fb9a5ef</entry>
 <entry key="com.dal.pedal.dalProjectVersion">DAL_4</entry>
 <entry key="com.dal.pedal.dalMainClassName">SecureImageApplet</entry>
-<entry key="com.dal.pedal.dalHostProjectLocation">C:\Project\OurProject\Project1\SecureImageLibrary</entry>
+<entry key="com.dal.pedal.userBuildScript"/>
+<entry key="com.dal.pedal.dalHostProjectLocation">C:\Project\OurProject\Project1\SecureImageHost</entry>
 <entry key="com.dal.pedal.dalActiveManifest">8</entry>
-<entry key="com.dal.pedal.dalHostProjectName">SecureImageLibrary</entry>
+<entry key="com.dal.pedal.dalHostProjectName">SecureImageHost</entry>
+<entry key="com.dal.pedal.dalInitBuffer"/>
 </properties>

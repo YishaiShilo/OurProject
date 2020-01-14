@@ -78,6 +78,7 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AuthenticationHandler.cs" />
     <Compile Include="SecureImageUI.cs">
       <SubType>Form</SubType>
     </Compile>

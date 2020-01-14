@@ -1,0 +1,513 @@
+VMFileHeader sFileHeader
+00000000:4A..............  TU1 nMagicWord1 = 74
+00000001:..45............  TU1 nMagicWord2 = 69
+00000002:....46..........  TU1 nMagicWord3 = 70
+00000003:......46........  TU1 nMagicWord4 = 70
+00000004:........01......  TU1 nFormatVersionMajor = 1
+00000005:..........00....  TU1 nFormatVersionMinor = 0
+00000006:............00..  TU1 nByteOrder = 0
+00000007:..............02  TU1 nOptions = 2 (VM_USE_UCS_BMP)
+00000008:90030000........  TU4 nFileLength = 912
+0000000C:........0001....  TU2 nFileVersion = 256 (1.0)
+0000000E:............0300  TU2 nTotalPackageCount = 3
+00000010:0100............  TU2 nInternalClassCount = 1
+00000012:....0500........  TU2 nTotalClassCount = 5
+00000014:........00000000  TU4 nTotalFieldCount = 0
+00000018:0C000000........  TU4 nTotalMethodCount = 12
+0000001C:........AC010000  VMDOFFSET<VMAttributeSection> dofAttributeSection = 0x000001AC
+00000020:C8010000........  VMDOFFSET<VMSymbolicDataSection> dofSymbolicData = 0x000001C8
+00000024:........50020000  VMDOFFSET<VMConstantDataPool> dofConstantDataPool = 0x00000250
+00000028:00000000........  VMDOFFSET<VMFileSignature> dofFileSignature = 0x00000000
+0000002C:........30000000  VMDOFFSET<VMClassHeader> dofClassHeader[0] = 0x00000030 (-> SecureImageApplet.SecureImageApplet)
+VMClassArea classArea[0] (SecureImageApplet.SecureImageApplet)
+ VMClassHeader sClassHeader
+ 00000030(0000):2000............  VMOFFSET<VMCINDEX> ofThisClassIndex = 0x0020 (-> 0 -> SecureImageApplet.SecureImageApplet)
+ 00000032(0002):....0000........  VMPINDEX pidPackage = 0 (SecureImageApplet)
+ 00000034(0004):........2100....  VMACCESS aAccessFlag = 0x0021 (public super)
+ 00000036(0006):............0000  TU2 nClassData = 0
+ 00000038(0008):0000............  VMOFFSET<VMMethodInfo> ofClassConstructor = 0x0000
+ 0000003A(000A):....0000........  VMOFFSET<VMInterfaceTable> ofInterfaceTable = 0x0000
+ 0000003C(000C):........0000....  VMOFFSET<VMFieldInfoTable> ofFieldTable = 0x0000
+ 0000003E(000E):............2800  VMOFFSET<VMMethodInfoTable> ofMethodTable = 0x0028
+ 00000040(0010):0000............  VMOFFSET<VMReferencedFieldTable> ofReferencedFieldTable = 0x0000
+ 00000042(0012):....5C00........  VMOFFSET<VMReferencedMethodTable> ofReferencedMethodTable = 0x005C
+ 00000044(0014):........1E00....  VMOFFSET<VMReferencedClassTable> ofReferencedClassTable = 0x001E
+ 00000046(0016):............2A01  VMOFFSET<VMConstantDataSection> ofConstantDataSection = 0x012A
+ 00000048(0018):2400............  VMOFFSET<VMCINDEX> ofSuperClassIndex = 0x0024 (-> 2 -> com.intel.util.IntelApplet)
+ 0000004A(001A):....0000........  TU2 nInstanceData = 0
+ 0000004C(001C):........2C00....  VMOFFSET<VMMethodInfo> ofInstanceConstructor = 0x002C (-> SecureImageApplet.SecureImageApplet.<init> ()V)
+ VMReferencedClassTable sReferencedClassTable
+ 0000004E(001E):............0400  TU2 nReferencedClassCount = 4
+ 00000050(0020):0000............  VMCINDEX cidReferencedClass[0] = 0 (SecureImageApplet.SecureImageApplet)
+ 00000052(0022):....0100........  VMCINDEX cidReferencedClass[1] = 1 (com.intel.util.DebugPrint)
+ 00000054(0024):........0200....  VMCINDEX cidReferencedClass[2] = 2 (com.intel.util.IntelApplet)
+ 00000056(0026):............0400  VMCINDEX cidReferencedClass[3] = 4 (java.lang.StringBuffer)
+ VMMethodInfoTable sMethodTable
+ 00000058(0028):0400............  TU2 nMethodCount = 4
+ 0000005A(002A):....0000........  <padding>
+  VMMethodInfo sMethodInfo[0] (SecureImageApplet.SecureImageApplet.<init> ()V)
+  0000005C(002C):........00000000  VMMINDEX midMethodIndex = 0 (<init> ()V)
+  00000060(0030):2000............  VMOFFSET<VMCINDEX> ofThisClassIndex = 0x0020 (-> 0 -> SecureImageApplet.SecureImageApplet)
+  00000062(0032):....0100........  VMNCELL ncStackArgument = 1
+  00000064(0034):........0100....  VMACCESS aAccessFlag = 0x0001 (public)
+  00000066(0036):............A800  VMOFFSET<VMBytecodeBlock> ofCode = 0x00A8
+  VMMethodInfo sMethodInfo[1] (SecureImageApplet.SecureImageApplet.invokeCommand (I[B)I)
+  00000068(0038):01000000........  VMMINDEX midMethodIndex = 1 (invokeCommand (I[B)I)
+  0000006C(003C):........2000....  VMOFFSET<VMCINDEX> ofThisClassIndex = 0x0020 (-> 0 -> SecureImageApplet.SecureImageApplet)
+  0000006E(003E):............0300  VMNCELL ncStackArgument = 3
+  00000070(0040):0100............  VMACCESS aAccessFlag = 0x0001 (public)
+  00000072(0042):....B600........  VMOFFSET<VMBytecodeBlock> ofCode = 0x00B6
+  VMMethodInfo sMethodInfo[2] (SecureImageApplet.SecureImageApplet.onClose ()I)
+  00000074(0044):........02000000  VMMINDEX midMethodIndex = 2 (onClose ()I)
+  00000078(0048):2000............  VMOFFSET<VMCINDEX> ofThisClassIndex = 0x0020 (-> 0 -> SecureImageApplet.SecureImageApplet)
+  0000007A(004A):....0100........  VMNCELL ncStackArgument = 1
+  0000007C(004C):........0100....  VMACCESS aAccessFlag = 0x0001 (public)
+  0000007E(004E):............0601  VMOFFSET<VMBytecodeBlock> ofCode = 0x0106
+  VMMethodInfo sMethodInfo[3] (SecureImageApplet.SecureImageApplet.onInit ([B)I)
+  00000080(0050):03000000........  VMMINDEX midMethodIndex = 3 (onInit ([B)I)
+  00000084(0054):........2000....  VMOFFSET<VMCINDEX> ofThisClassIndex = 0x0020 (-> 0 -> SecureImageApplet.SecureImageApplet)
+  00000086(0056):............0200  VMNCELL ncStackArgument = 2
+  00000088(0058):0100............  VMACCESS aAccessFlag = 0x0001 (public)
+  0000008A(005A):....1801........  VMOFFSET<VMBytecodeBlock> ofCode = 0x0118
+  TU4[] nNativeReference
+ VMReferencedMethodTable sReferencedMethodTable
+ 0000008C(005C):........0900....  TU2 nMethodCount = 9
+ 0000008E(005E):............0000  <padding>
+  VMReferencedMethod sReferencedMethod[0] (com.intel.util.DebugPrint.printBuffer ([B)V)
+  00000090(0060):07000000........  VMMINDEX midMethodIndex = 7 (printBuffer ([B)V)
+  00000094(0064):........2200....  VMOFFSET<VMCINDEX> ofClassIndex = 0x0022 (-> 1 -> com.intel.util.DebugPrint)
+  00000096(0066):............0100  VMNCELL ncStackArgument = 1
+  VMReferencedMethod sReferencedMethod[1] (com.intel.util.DebugPrint.printString (Ljava.lang.String;)V)
+  00000098(0068):08000000........  VMMINDEX midMethodIndex = 8 (printString (Ljava.lang.String;)V)
+  0000009C(006C):........2200....  VMOFFSET<VMCINDEX> ofClassIndex = 0x0022 (-> 1 -> com.intel.util.DebugPrint)
+  0000009E(006E):............0100  VMNCELL ncStackArgument = 1
+  VMReferencedMethod sReferencedMethod[2] (com.intel.util.IntelApplet.<init> ()V)
+  000000A0(0070):00000000........  VMMINDEX midMethodIndex = 0 (<init> ()V)
+  000000A4(0074):........2400....  VMOFFSET<VMCINDEX> ofClassIndex = 0x0024 (-> 2 -> com.intel.util.IntelApplet)
+  000000A6(0076):............0100  VMNCELL ncStackArgument = 1
+  VMReferencedMethod sReferencedMethod[3] (com.intel.util.IntelApplet.setResponse ([BII)V)
+  000000A8(0078):09000000........  VMMINDEX midMethodIndex = 9 (setResponse ([BII)V)
+  000000AC(007C):........2400....  VMOFFSET<VMCINDEX> ofClassIndex = 0x0024 (-> 2 -> com.intel.util.IntelApplet)
+  000000AE(007E):............0400  VMNCELL ncStackArgument = 4
+  VMReferencedMethod sReferencedMethod[4] (com.intel.util.IntelApplet.setResponseCode (I)V)
+  000000B0(0080):0A000000........  VMMINDEX midMethodIndex = 10 (setResponseCode (I)V)
+  000000B4(0084):........2400....  VMOFFSET<VMCINDEX> ofClassIndex = 0x0024 (-> 2 -> com.intel.util.IntelApplet)
+  000000B6(0086):............0200  VMNCELL ncStackArgument = 2
+  VMReferencedMethod sReferencedMethod[5] (java.lang.StringBuffer.<init> (Ljava.lang.String;)V)
+  000000B8(0088):04000000........  VMMINDEX midMethodIndex = 4 (<init> (Ljava.lang.String;)V)
+  000000BC(008C):........2600....  VMOFFSET<VMCINDEX> ofClassIndex = 0x0026 (-> 4 -> java.lang.StringBuffer)
+  000000BE(008E):............0200  VMNCELL ncStackArgument = 2
+  VMReferencedMethod sReferencedMethod[6] (java.lang.StringBuffer.append (I)Ljava.lang.StringBuffer;)
+  000000C0(0090):05000000........  VMMINDEX midMethodIndex = 5 (append (I)Ljava.lang.StringBuffer;)
+  000000C4(0094):........2600....  VMOFFSET<VMCINDEX> ofClassIndex = 0x0026 (-> 4 -> java.lang.StringBuffer)
+  000000C6(0096):............0200  VMNCELL ncStackArgument = 2
+  VMReferencedMethod sReferencedMethod[7] (java.lang.StringBuffer.append (Ljava.lang.String;)Ljava.lang.StringBuffer;)
+  000000C8(0098):06000000........  VMMINDEX midMethodIndex = 6 (append (Ljava.lang.String;)Ljava.lang.StringBuffer;)
+  000000CC(009C):........2600....  VMOFFSET<VMCINDEX> ofClassIndex = 0x0026 (-> 4 -> java.lang.StringBuffer)
+  000000CE(009E):............0200  VMNCELL ncStackArgument = 2
+  VMReferencedMethod sReferencedMethod[8] (java.lang.StringBuffer.toString ()Ljava.lang.String;)
+  000000D0(00A0):0B000000........  VMMINDEX midMethodIndex = 11 (toString ()Ljava.lang.String;)
+  000000D4(00A4):........2600....  VMOFFSET<VMCINDEX> ofClassIndex = 0x0026 (-> 4 -> java.lang.StringBuffer)
+  000000D6(00A6):............0100  VMNCELL ncStackArgument = 1
+ VMBytecodeBlock sBytecodeBlock@00A8 (SecureImageApplet.SecureImageApplet.<init> ()V)
+ 000000D8(00A8):0100............  VMNCELL ncMaxStack = 1
+ 000000DA(00AA):....0100........  VMNCELL ncMaxLocals = 1
+ 000000DC(00AC):........0000....  VMOFFSET<VMExceptionCatchTable> ofExceptionCatchTable = 0x0000
+ 000000DE(00AE):............0500  TU2 nByteCodeSize = 5
+  TU1[] bytecode
+   VMInstruction instr@00B0
+   000000E0(00B0):2A..............  TU1 opcode = ALOAD_0
+   VMInstruction instr@00B1
+   000000E1(00B1):..B7............  TU1 opcode = INVOKESPECIAL
+   000000E2(00B2):....7000........  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x0070 (-> com.intel.util.IntelApplet.<init> ()V)
+   VMInstruction instr@00B4
+   000000E4(00B4):........B1......  TU1 opcode = RETURN
+ VMBytecodeBlock sBytecodeBlock@00B6 (SecureImageApplet.SecureImageApplet.invokeCommand (I[B)I)
+ 000000E6(00B6):............0400  VMNCELL ncMaxStack = 4
+ 000000E8(00B8):0300............  VMNCELL ncMaxLocals = 3
+ 000000EA(00BA):....0000........  VMOFFSET<VMExceptionCatchTable> ofExceptionCatchTable = 0x0000
+ 000000EC(00BC):........4800....  TU2 nByteCodeSize = 72
+  TU1[] bytecode
+   VMInstruction instr@00BE
+   000000EE(00BE):............BB..  TU1 opcode = NEW
+   000000EF(00BF):..............00  <padding>
+   000000F0(00C0):2600............  VMOFFSET<VMCINDEX> ofClassIndex = 0x0026 (-> 4 -> java.lang.StringBuffer)
+   VMInstruction instr@00C2
+   000000F2(00C2):....59..........  TU1 opcode = DUP
+   VMInstruction instr@00C3
+   000000F3(00C3):......D0........  TU1 opcode = SLDC
+   000000F4(00C4):........6601....  VMOFFSET<VMConstUtf8> ofConstant = 0x0166 (-> "Received command Id ")
+   VMInstruction instr@00C6
+   000000F6(00C6):............B7..  TU1 opcode = INVOKESPECIAL
+   000000F7(00C7):..............00  <padding>
+   000000F8(00C8):8800............  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x0088 (-> java.lang.StringBuffer.<init> (Ljava.lang.String;)V)
+   VMInstruction instr@00CA
+   000000FA(00CA):....1B..........  TU1 opcode = ILOAD_1
+   VMInstruction instr@00CB
+   000000FB(00CB):......B6........  TU1 opcode = INVOKEVIRTUAL
+   000000FC(00CC):........9000....  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x0090 (-> java.lang.StringBuffer.append (I)Ljava.lang.StringBuffer;)
+   VMInstruction instr@00CE
+   000000FE(00CE):............D0..  TU1 opcode = SLDC
+   000000FF(00CF):..............00  <padding>
+   00000100(00D0):3201............  VMOFFSET<VMConstUtf8> ofConstant = 0x0132 (-> ".")
+   VMInstruction instr@00D2
+   00000102(00D2):....B6..........  TU1 opcode = INVOKEVIRTUAL
+   00000103(00D3):......00........  <padding>
+   00000104(00D4):........9800....  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x0098 (-> java.lang.StringBuffer.append (Ljava.lang.String;)Ljava.lang.StringBuffer;)
+   VMInstruction instr@00D6
+   00000106(00D6):............B6..  TU1 opcode = INVOKEVIRTUAL
+   00000107(00D7):..............00  <padding>
+   00000108(00D8):A000............  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x00A0 (-> java.lang.StringBuffer.toString ()Ljava.lang.String;)
+   VMInstruction instr@00DA
+   0000010A(00DA):....B8..........  TU1 opcode = INVOKESTATIC
+   0000010B(00DB):......00........  <padding>
+   0000010C(00DC):........6800....  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x0068 (-> com.intel.util.DebugPrint.printString (Ljava.lang.String;)V)
+   VMInstruction instr@00DE
+   0000010E(00DE):............2C..  TU1 opcode = ALOAD_2
+   VMInstruction instr@00DF
+   0000010F(00DF):..............C6  TU1 opcode = IFNULL
+   00000110(00E0):EE00............  VMOFFSET<VMInstruction> ofJump = 0x00EE
+   VMInstruction instr@00E2
+   00000112(00E2):....D0..........  TU1 opcode = SLDC
+   00000113(00E3):......00........  <padding>
+   00000114(00E4):........5401....  VMOFFSET<VMConstUtf8> ofConstant = 0x0154 (-> "Received buffer:")
+   VMInstruction instr@00E6
+   00000116(00E6):............B8..  TU1 opcode = INVOKESTATIC
+   00000117(00E7):..............00  <padding>
+   00000118(00E8):6800............  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x0068 (-> com.intel.util.DebugPrint.printString (Ljava.lang.String;)V)
+   VMInstruction instr@00EA
+   0000011A(00EA):....2C..........  TU1 opcode = ALOAD_2
+   VMInstruction instr@00EB
+   0000011B(00EB):......B8........  TU1 opcode = INVOKESTATIC
+   0000011C(00EC):........6000....  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x0060 (-> com.intel.util.DebugPrint.printBuffer ([B)V)
+   VMInstruction instr@00EE
+   0000011E(00EE):............CB..  TU1 opcode = NEWCONSTARRAY
+   0000011F(00EF):..............64  VMTYPE tArrayType = 0x64 (VM_TYPE_REF | VM_TYPE_MONO | VM_TYPE_BYTE)
+   00000120(00F0):0200............  TU2 nLength = 2
+   00000122(00F2):....3001........  VMOFFSET<JBYTE[2]> ofConstData = 0x0130
+   VMInstruction instr@00F4
+   00000124(00F4):........4D......  TU1 opcode = ASTORE_2
+   VMInstruction instr@00F5
+   00000125(00F5):..........2A....  TU1 opcode = ALOAD_0
+   VMInstruction instr@00F6
+   00000126(00F6):............2C..  TU1 opcode = ALOAD_2
+   VMInstruction instr@00F7
+   00000127(00F7):..............03  TU1 opcode = ICONST_0
+   VMInstruction instr@00F8
+   00000128(00F8):2C..............  TU1 opcode = ALOAD_2
+   VMInstruction instr@00F9
+   00000129(00F9):..BE............  TU1 opcode = ARRAYLENGTH
+   VMInstruction instr@00FA
+   0000012A(00FA):....B6..........  TU1 opcode = INVOKEVIRTUAL
+   0000012B(00FB):......00........  <padding>
+   0000012C(00FC):........7800....  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x0078 (-> com.intel.util.IntelApplet.setResponse ([BII)V)
+   VMInstruction instr@00FE
+   0000012E(00FE):............2A..  TU1 opcode = ALOAD_0
+   VMInstruction instr@00FF
+   0000012F(00FF):..............1B  TU1 opcode = ILOAD_1
+   VMInstruction instr@0100
+   00000130(0100):B6..............  TU1 opcode = INVOKEVIRTUAL
+   00000131(0101):..00............  <padding>
+   00000132(0102):....8000........  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x0080 (-> com.intel.util.IntelApplet.setResponseCode (I)V)
+   VMInstruction instr@0104
+   00000134(0104):........03......  TU1 opcode = ICONST_0
+   VMInstruction instr@0105
+   00000135(0105):..........AC....  TU1 opcode = IRETURN
+ VMBytecodeBlock sBytecodeBlock@0106 (SecureImageApplet.SecureImageApplet.onClose ()I)
+ 00000136(0106):............0100  VMNCELL ncMaxStack = 1
+ 00000138(0108):0100............  VMNCELL ncMaxLocals = 1
+ 0000013A(010A):....0000........  VMOFFSET<VMExceptionCatchTable> ofExceptionCatchTable = 0x0000
+ 0000013C(010C):........0A00....  TU2 nByteCodeSize = 10
+  TU1[] bytecode
+   VMInstruction instr@010E
+   0000013E(010E):............D0..  TU1 opcode = SLDC
+   0000013F(010F):..............00  <padding>
+   00000140(0110):3601............  VMOFFSET<VMConstUtf8> ofConstant = 0x0136 (-> "Goodbye, DAL!")
+   VMInstruction instr@0112
+   00000142(0112):....B8..........  TU1 opcode = INVOKESTATIC
+   00000143(0113):......00........  <padding>
+   00000144(0114):........6800....  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x0068 (-> com.intel.util.DebugPrint.printString (Ljava.lang.String;)V)
+   VMInstruction instr@0116
+   00000146(0116):............03..  TU1 opcode = ICONST_0
+   VMInstruction instr@0117
+   00000147(0117):..............AC  TU1 opcode = IRETURN
+ VMBytecodeBlock sBytecodeBlock@0118 (SecureImageApplet.SecureImageApplet.onInit ([B)I)
+ 00000148(0118):0100............  VMNCELL ncMaxStack = 1
+ 0000014A(011A):....0200........  VMNCELL ncMaxLocals = 2
+ 0000014C(011C):........0000....  VMOFFSET<VMExceptionCatchTable> ofExceptionCatchTable = 0x0000
+ 0000014E(011E):............0A00  TU2 nByteCodeSize = 10
+  TU1[] bytecode
+   VMInstruction instr@0120
+   00000150(0120):D0..............  TU1 opcode = SLDC
+   00000151(0121):..00............  <padding>
+   00000152(0122):....4601........  VMOFFSET<VMConstUtf8> ofConstant = 0x0146 (-> "Hello, DAL!")
+   VMInstruction instr@0124
+   00000154(0124):........B8......  TU1 opcode = INVOKESTATIC
+   00000155(0125):..........00....  <padding>
+   00000156(0126):............6800  VMOFFSET<VMMethodInfo|VMReferencedMethod> ofMethodInfo = 0x0068 (-> com.intel.util.DebugPrint.printString (Ljava.lang.String;)V)
+   VMInstruction instr@0128
+   00000158(0128):03..............  TU1 opcode = ICONST_0
+   VMInstruction instr@0129
+   00000159(0129):..AC............  TU1 opcode = IRETURN
+ VMConstantDataSection sConstantDataSection
+ 0000015A(012A):....6000........  TU2 nConstFlags = 96 (VM_CONST_BYTE | VM_CONST_STRING)
+ 0000015C(012C):........0200....  TU2 nByteNumber = 2
+ 0000015E(012E):............0500  TU2 nStringNumber = 5
+ 00000160(0130):4F..............  JBYTE nByteValue[0] = 79
+ 00000161(0131):..4B............  JBYTE nByteValue[1] = 75
+  VMConstUtf8 sConstString[0] (".")
+  00000162(0132):....0100........  TU2 nStringLength = 1
+  00000164(0134):........2E......  TU1[] nStringValue
+ 00000165(0135):..........00....  <padding>
+  VMConstUtf8 sConstString[1] ("Goodbye, DAL!")
+  00000166(0136):............0D00  TU2 nStringLength = 13
+  00000168(0138):476F6F646279652C  TU1[] nStringValue
+                 2044414C21...... 
+ 00000175(0145):..........00....  <padding>
+  VMConstUtf8 sConstString[2] ("Hello, DAL!")
+  00000176(0146):............0B00  TU2 nStringLength = 11
+  00000178(0148):48656C6C6F2C2044  TU1[] nStringValue
+                 414C21.......... 
+ 00000183(0153):......00........  <padding>
+  VMConstUtf8 sConstString[3] ("Received buffer:")
+  00000184(0154):........1000....  TU2 nStringLength = 16
+  00000186(0156):............5265  TU1[] nStringValue
+                 6365697665642062 
+                 75666665723A.... 
+  VMConstUtf8 sConstString[4] ("Received command Id ")
+  00000196(0166):............1400  TU2 nStringLength = 20
+  00000198(0168):5265636569766564  TU1[] nStringValue
+                 20636F6D6D616E64 
+                 20496420........ 
+VMAttributeSection sAttributeSection
+000001AC:........C2010000  VMDOFFSET<VMAttributeTable> dofFileAttributeList = 0x000001C2
+000001B0:00000000........  VMDOFFSET<VMClassAttributes> dofClassAttributes[0] = 0x00000000
+000001B4:........0100....  TU2 nAttributeTypeCount = 1
+000001B6:............0000  TU2 nClassAttributeCount = 0
+ VMAttributeType sAttributeType[0]
+ 000001B8:C0020000........  VMDOFFSET<VMConstUtf8> dofTypeName = 0x000002C0 (-> "com.trustedlogic.tf.Service")
+ 000001BC:........1D00....  TU2 nTypeFlags = 29 (VM_ATTR_INDEXES | VM_ATTR_VMDOFFSETS | VM_ATTR_BYTE_ORDER | VM_ATTR_CST_LENGTH)
+ 000001BE:............0200  TU2 nTypeLength = 2
+000001C0:0100............  TU2 nAttributeTableCount = 1
+ VMAttributeTable sAttributeTable[0]
+ 000001C2:....0100........  TU2 nAttributeCount = 1
+  VMAttribute sAttribute[0]
+  000001C4:........0000....  TU2 nAttributeType = 0 (-> com.trustedlogic.tf.Service)
+  000001C6:............0000  TU1[] nData
+VMSymbolicDataSection sSymbolicDataSection
+000001C8:0100............  VMPINDEX pidExtClassPackage[1] = 1 (com.intel.util)
+000001CA:....0100........  VMPINDEX pidExtClassPackage[2] = 1 (com.intel.util)
+000001CC:........0200....  VMPINDEX pidExtClassPackage[3] = 2 (java.lang)
+000001CE:............0200  VMPINDEX pidExtClassPackage[4] = 2 (java.lang)
+000001D0:7E020000........  VMDOFFSET<VMConstUtf8> dofPackageName[0] = 0x0000027E (-> "SecureImageApplet")
+000001D4:........B0020000  VMDOFFSET<VMConstUtf8> dofPackageName[1] = 0x000002B0 (-> "com.intel.util")
+000001D8:EE020000........  VMDOFFSET<VMConstUtf8> dofPackageName[2] = 0x000002EE (-> "java.lang")
+000001DC:........7E020000  VMDOFFSET<VMConstUtf8> dofClassName[0] = 0x0000027E (-> "SecureImageApplet")
+000001E0:64020000........  VMDOFFSET<VMConstUtf8> dofClassName[1] = 0x00000264 (-> "DebugPrint")
+000001E4:........70020000  VMDOFFSET<VMConstUtf8> dofClassName[2] = 0x00000270 (-> "IntelApplet")
+000001E8:92020000........  VMDOFFSET<VMConstUtf8> dofClassName[3] = 0x00000292 (-> "String")
+000001EC:........9A020000  VMDOFFSET<VMConstUtf8> dofClassName[4] = 0x0000029A (-> "StringBuffer")
+ VMMethodSymbolicInfo sMethodSymbolicInfo[0]
+ 000001F0:5C020000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x0000025C (-> "<init>")
+ 000001F4:........5C030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x0000035C (-> ()V)
+ VMMethodSymbolicInfo sMethodSymbolicInfo[1]
+ 000001F8:DE020000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x000002DE (-> "invokeCommand")
+ 000001FC:........6A030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x0000036A (-> (I[B)I)
+ VMMethodSymbolicInfo sMethodSymbolicInfo[2]
+ 00000200:FA020000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x000002FA (-> "onClose")
+ 00000204:........52030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x00000352 (-> ()I)
+ VMMethodSymbolicInfo sMethodSymbolicInfo[3]
+ 00000208:04030000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x00000304 (-> "onInit")
+ 0000020C:........82030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x00000382 (-> ([B)I)
+ VMMethodSymbolicInfo sMethodSymbolicInfo[4]
+ 00000210:5C020000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x0000025C (-> "<init>")
+ 00000214:........7A030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x0000037A (-> (Ljava.lang.String;)V)
+ VMMethodSymbolicInfo sMethodSymbolicInfo[5]
+ 00000218:A8020000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x000002A8 (-> "append")
+ 0000021C:........60030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x00000360 (-> (I)Ljava.lang.StringBuffer;)
+ VMMethodSymbolicInfo sMethodSymbolicInfo[6]
+ 00000220:A8020000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x000002A8 (-> "append")
+ 00000224:........70030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x00000370 (-> (Ljava.lang.String;)Ljava.lang.StringBuffer;)
+ VMMethodSymbolicInfo sMethodSymbolicInfo[7]
+ 00000228:0C030000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x0000030C (-> "printBuffer")
+ 0000022C:........86030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x00000386 (-> ([B)V)
+ VMMethodSymbolicInfo sMethodSymbolicInfo[8]
+ 00000230:1A030000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x0000031A (-> "printString")
+ 00000234:........7A030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x0000037A (-> (Ljava.lang.String;)V)
+ VMMethodSymbolicInfo sMethodSymbolicInfo[9]
+ 00000238:28030000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x00000328 (-> "setResponse")
+ 0000023C:........8A030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x0000038A (-> ([BII)V)
+ VMMethodSymbolicInfo sMethodSymbolicInfo[10]
+ 00000240:36030000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x00000336 (-> "setResponseCode")
+ 00000244:........66030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x00000366 (-> (I)V)
+ VMMethodSymbolicInfo sMethodSymbolicInfo[11]
+ 00000248:48030000........  VMDOFFSET<VMConstUtf8> dofMethodName = 0x00000348 (-> "toString")
+ 0000024C:........56030000  VMDOFFSET<VMMethodDescriptor> dofMethodDescriptor = 0x00000356 (-> ()Ljava.lang.String;)
+VMConstantDataPool sConstantDataPool
+00000250:12000000........  TU4 nStringCount = 18
+00000254:........00000000  TU4 nDescriptorCount = 0
+00000258:0B000000........  TU4 nMethodDescriptorCount = 11
+ VMConstUtf8 strConstantString[0] ("<init>")
+ 0000025C:........0600....  TU2 nStringLength = 6
+ 0000025E:............3C69  TU1[] nStringValue
+          6E69743E........ 
+ VMConstUtf8 strConstantString[1] ("DebugPrint")
+ 00000264:........0A00....  TU2 nStringLength = 10
+ 00000266:............4465  TU1[] nStringValue
+          6275675072696E74 
+ VMConstUtf8 strConstantString[2] ("IntelApplet")
+ 00000270:0B00............  TU2 nStringLength = 11
+ 00000272:....496E74656C41  TU1[] nStringValue
+          70706C6574...... 
+0000027D:..........00....  <padding>
+ VMConstUtf8 strConstantString[3] ("SecureImageApplet")
+ 0000027E:............1100  TU2 nStringLength = 17
+ 00000280:536563757265496D  TU1[] nStringValue
+          6167654170706C65 
+          74.............. 
+00000291:..00............  <padding>
+ VMConstUtf8 strConstantString[4] ("String")
+ 00000292:....0600........  TU2 nStringLength = 6
+ 00000294:........53747269  TU1[] nStringValue
+          6E67............ 
+ VMConstUtf8 strConstantString[5] ("StringBuffer")
+ 0000029A:....0C00........  TU2 nStringLength = 12
+ 0000029C:........53747269  TU1[] nStringValue
+          6E67427566666572 
+ VMConstUtf8 strConstantString[6] ("append")
+ 000002A8:0600............  TU2 nStringLength = 6
+ 000002AA:....617070656E64  TU1[] nStringValue
+ VMConstUtf8 strConstantString[7] ("com.intel.util")
+ 000002B0:0E00............  TU2 nStringLength = 14
+ 000002B2:....636F6D2E696E  TU1[] nStringValue
+          74656C2E7574696C 
+ VMConstUtf8 strConstantString[8] ("com.trustedlogic.tf.Service")
+ 000002C0:1B00............  TU2 nStringLength = 27
+ 000002C2:....636F6D2E7472  TU1[] nStringValue
+          75737465646C6F67 
+          69632E74662E5365 
+          7276696365...... 
+000002DD:..........00....  <padding>
+ VMConstUtf8 strConstantString[9] ("invokeCommand")
+ 000002DE:............0D00  TU2 nStringLength = 13
+ 000002E0:696E766F6B65436F  TU1[] nStringValue
+          6D6D616E64...... 
+000002ED:..........00....  <padding>
+ VMConstUtf8 strConstantString[10] ("java.lang")
+ 000002EE:............0900  TU2 nStringLength = 9
+ 000002F0:6A6176612E6C616E  TU1[] nStringValue
+          67.............. 
+000002F9:..00............  <padding>
+ VMConstUtf8 strConstantString[11] ("onClose")
+ 000002FA:....0700........  TU2 nStringLength = 7
+ 000002FC:........6F6E436C  TU1[] nStringValue
+          6F7365.......... 
+00000303:......00........  <padding>
+ VMConstUtf8 strConstantString[12] ("onInit")
+ 00000304:........0600....  TU2 nStringLength = 6
+ 00000306:............6F6E  TU1[] nStringValue
+          496E6974........ 
+ VMConstUtf8 strConstantString[13] ("printBuffer")
+ 0000030C:........0B00....  TU2 nStringLength = 11
+ 0000030E:............7072  TU1[] nStringValue
+          696E744275666665 
+          72.............. 
+00000319:..00............  <padding>
+ VMConstUtf8 strConstantString[14] ("printString")
+ 0000031A:....0B00........  TU2 nStringLength = 11
+ 0000031C:........7072696E  TU1[] nStringValue
+          74537472696E67.. 
+00000327:..............00  <padding>
+ VMConstUtf8 strConstantString[15] ("setResponse")
+ 00000328:0B00............  TU2 nStringLength = 11
+ 0000032A:....736574526573  TU1[] nStringValue
+          706F6E7365...... 
+00000335:..........00....  <padding>
+ VMConstUtf8 strConstantString[16] ("setResponseCode")
+ 00000336:............0F00  TU2 nStringLength = 15
+ 00000338:736574526573706F  TU1[] nStringValue
+          6E7365436F6465.. 
+00000347:..............00  <padding>
+ VMConstUtf8 strConstantString[17] ("toString")
+ 00000348:0800............  TU2 nStringLength = 8
+ 0000034A:....746F53747269  TU1[] nStringValue
+          6E67............ 
+ VMMethodDescriptor sMethodDescriptor[0] (()I)
+ 00000352:....0000........  TU2 nArgCount = 0
+  VMDescriptor sReturnType (I)
+  00000354:........02......  VMTYPE tDataType = 0x02 (VM_TYPE_INT)
+00000355:..........00....  <padding>
+ VMMethodDescriptor sMethodDescriptor[1] (()Ljava.lang.String;)
+ 00000356:............0000  TU2 nArgCount = 0
+  VMDescriptor sReturnType (Ljava.lang.String;)
+  00000358:2A..............  VMTYPE tDataType = 0x2A (VM_TYPE_REF | VM_TYPE_OBJECT)
+  00000359:..00............  <padding>
+  0000035A:....0300........  VMCINDEX cidDataTypeIndex = 3 (java.lang.String)
+ VMMethodDescriptor sMethodDescriptor[2] (()V)
+ 0000035C:........0000....  TU2 nArgCount = 0
+  VMDescriptor sReturnType (V)
+  0000035E:............00..  VMTYPE tDataType = 0x00 (VM_TYPE_VOID)
+0000035F:..............00  <padding>
+ VMMethodDescriptor sMethodDescriptor[3] ((I)Ljava.lang.StringBuffer;)
+ 00000360:0100............  TU2 nArgCount = 1
+  VMDescriptor sArgumentType[0] (I)
+  00000362:....02..........  VMTYPE tDataType = 0x02 (VM_TYPE_INT)
+  VMDescriptor sReturnType (Ljava.lang.StringBuffer;)
+  00000363:......2A........  VMTYPE tDataType = 0x2A (VM_TYPE_REF | VM_TYPE_OBJECT)
+  00000364:........0400....  VMCINDEX cidDataTypeIndex = 4 (java.lang.StringBuffer)
+ VMMethodDescriptor sMethodDescriptor[4] ((I)V)
+ 00000366:............0100  TU2 nArgCount = 1
+  VMDescriptor sArgumentType[0] (I)
+  00000368:02..............  VMTYPE tDataType = 0x02 (VM_TYPE_INT)
+  VMDescriptor sReturnType (V)
+  00000369:..00............  VMTYPE tDataType = 0x00 (VM_TYPE_VOID)
+ VMMethodDescriptor sMethodDescriptor[5] ((I[B)I)
+ 0000036A:....0200........  TU2 nArgCount = 2
+  VMDescriptor sArgumentType[0] (I)
+  0000036C:........02......  VMTYPE tDataType = 0x02 (VM_TYPE_INT)
+  VMDescriptor sArgumentType[1] ([B)
+  0000036D:..........64....  VMTYPE tDataType = 0x64 (VM_TYPE_REF | VM_TYPE_MONO | VM_TYPE_BYTE)
+  VMDescriptor sReturnType (I)
+  0000036E:............02..  VMTYPE tDataType = 0x02 (VM_TYPE_INT)
+0000036F:..............00  <padding>
+ VMMethodDescriptor sMethodDescriptor[6] ((Ljava.lang.String;)Ljava.lang.StringBuffer;)
+ 00000370:0100............  TU2 nArgCount = 1
+  VMDescriptor sArgumentType[0] (Ljava.lang.String;)
+  00000372:....2A..........  VMTYPE tDataType = 0x2A (VM_TYPE_REF | VM_TYPE_OBJECT)
+  00000373:......00........  <padding>
+  00000374:........0300....  VMCINDEX cidDataTypeIndex = 3 (java.lang.String)
+  VMDescriptor sReturnType (Ljava.lang.StringBuffer;)
+  00000376:............2A..  VMTYPE tDataType = 0x2A (VM_TYPE_REF | VM_TYPE_OBJECT)
+  00000377:..............00  <padding>
+  00000378:0400............  VMCINDEX cidDataTypeIndex = 4 (java.lang.StringBuffer)
+ VMMethodDescriptor sMethodDescriptor[7] ((Ljava.lang.String;)V)
+ 0000037A:....0100........  TU2 nArgCount = 1
+  VMDescriptor sArgumentType[0] (Ljava.lang.String;)
+  0000037C:........2A......  VMTYPE tDataType = 0x2A (VM_TYPE_REF | VM_TYPE_OBJECT)
+  0000037D:..........00....  <padding>
+  0000037E:............0300  VMCINDEX cidDataTypeIndex = 3 (java.lang.String)
+  VMDescriptor sReturnType (V)
+  00000380:00..............  VMTYPE tDataType = 0x00 (VM_TYPE_VOID)
+00000381:..00............  <padding>
+ VMMethodDescriptor sMethodDescriptor[8] (([B)I)
+ 00000382:....0100........  TU2 nArgCount = 1
+  VMDescriptor sArgumentType[0] ([B)
+  00000384:........64......  VMTYPE tDataType = 0x64 (VM_TYPE_REF | VM_TYPE_MONO | VM_TYPE_BYTE)
+  VMDescriptor sReturnType (I)
+  00000385:..........02....  VMTYPE tDataType = 0x02 (VM_TYPE_INT)
+ VMMethodDescriptor sMethodDescriptor[9] (([B)V)
+ 00000386:............0100  TU2 nArgCount = 1
+  VMDescriptor sArgumentType[0] ([B)
+  00000388:64..............  VMTYPE tDataType = 0x64 (VM_TYPE_REF | VM_TYPE_MONO | VM_TYPE_BYTE)
+  VMDescriptor sReturnType (V)
+  00000389:..00............  VMTYPE tDataType = 0x00 (VM_TYPE_VOID)
+ VMMethodDescriptor sMethodDescriptor[10] (([BII)V)
+ 0000038A:....0300........  TU2 nArgCount = 3
+  VMDescriptor sArgumentType[0] ([B)
+  0000038C:........64......  VMTYPE tDataType = 0x64 (VM_TYPE_REF | VM_TYPE_MONO | VM_TYPE_BYTE)
+  VMDescriptor sArgumentType[1] (I)
+  0000038D:..........02....  VMTYPE tDataType = 0x02 (VM_TYPE_INT)
+  VMDescriptor sArgumentType[2] (I)
+  0000038E:............02..  VMTYPE tDataType = 0x02 (VM_TYPE_INT)
+  VMDescriptor sReturnType (V)
+  0000038F:..............00  VMTYPE tDataType = 0x00 (VM_TYPE_VOID)
