@@ -793,9 +793,15 @@ int SecureImage::GetS1Message(byte *s1Msg)
 	//perform a call to the Trusted Application in order to get S1 message
 	ret = JHI_SendAndRecv2(handle, session, CMD_INIT_AND_GET_S1, &commBuf, &responseCode);
 	if (ret != STATUS_SUCCEEDED)
+	{
+		cout << "ret failed" << endl;
 		return ret;
+	}
 	if (responseCode != STATUS_SUCCEEDED)
+	{
+		cout << "response failed" << endl;
 		return responseCode;
+	}
 	//copy the S1 message received from the trusted application to the client bytes array	
 	copy((byte*)commBuf.RxBuf->buffer, (byte*)(commBuf.RxBuf->buffer) + S1_MESSAGE_LEN, s1Msg);
 	return STATUS_SUCCEEDED;

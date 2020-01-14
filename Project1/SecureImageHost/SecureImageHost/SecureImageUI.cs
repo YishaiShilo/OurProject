@@ -94,6 +94,9 @@ namespace CSharpClientUI
             lblKeyStatus.Text = "Sending, this might take a minute or two...";
             lblKeyStatus.Refresh();
             StringBuilder builder = new StringBuilder(bufferSize);
+            AuthenticationHandler autHandler = new AuthenticationHandler(socket);
+            Console.WriteLine("click sigma");
+            autHandler.makeKeys();
             bool res = sendKeys(builder);
             if (res)
             {
