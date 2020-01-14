@@ -39,23 +39,7 @@ SecureImage::SecureImage(void)
 		taPath = "C:\\Project\\OurProject\\Project1\\SecureImageApplet\\bin\\SecureImageApplet.dalp";
 		taId = "33ad29312dd14387b073e9895fb9a5ef";
 		cout << "taPath" << endl;
-
-
-		metaDataPath=getenv("DALSDK");
-#if AMULET
-		metaDataPath.append("\\Samples\\ProtectedOutputSolution\\ProtectedOutputHost\\Data\\protected_output_metadata.bin");
-#else
-		metaDataPath.append("\\Samples\\ProtectedOutputSolution\\ProtectedOutputHost\\Data\\protected_output_metadata.bin");
-#endif
-
-		mod=NULL;
-		e=NULL;
-		d=NULL;
-		nonce=NULL;
-		signed_e=NULL;
-		signed_mod=NULL;
-		encryptedBitmap=NULL;
-		isAnyData=false;
+		
 
 		//Initialize the JHI
 		//Note: this is the first call to JHI function.
@@ -90,28 +74,6 @@ SecureImage::SecureImage(void)
 					initialized=false;
 					session=NULL;
 				}
-				//load metadata to the soltion and the Trusted Application
-
-				//Send and Receive
-				char* message = "Hallo";
-				char rcvBuf[500] = { 0 };
-				JVM_COMM_BUFFER commBuf;
-				INT32 cmdId = 1;
-				commBuf.TxBuf->buffer = message;
-				commBuf.TxBuf->length = strlen(message) + 1;
-				commBuf.RxBuf->buffer = rcvBuf;
-				commBuf.RxBuf->length = 500;
-				INT32 responseCode;
-				cout << "Performing send and receive." << endl;
-				ret = JHI_SendAndRecv2(handle, session, cmdId, &commBuf, &responseCode);
-				if (ret != JHI_SUCCESS)
-				{
-					strcpy(initializationError, "Failed to send and receive. Error: ");
-					strcat(initializationError, getJHIRet(ret));
-					initialized = false;
-				}
-				/*else if(!loadData())
-					initialized=false;*/
 			}
 		}
 	}

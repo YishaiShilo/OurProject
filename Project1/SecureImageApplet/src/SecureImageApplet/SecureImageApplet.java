@@ -56,8 +56,12 @@ public class SecureImageApplet extends IntelApplet {
 		try {
 			_sigmaAlgEx.initialize();
 		} catch (Throwable e) {
+			DebugPrint.printString(e.getMessage());
+			DebugPrint.printString("failed init sigma");
+
 			return FAILED_TO_INITIALIZE_SIGMA;
 		}
+		DebugPrint.printString("init sigma success");
 		return APPLET_SUCCESS;
 	}
 	
@@ -65,9 +69,12 @@ public class SecureImageApplet extends IntelApplet {
 	private int CreateS1Message() {
 		byte[] s1Msg = null;
 		int s1MsgLen;
-		
+		DebugPrint.printString("S1 start");
+
 		try {
 			s1MsgLen = _sigmaAlgEx.getS1MessageLength();
+			DebugPrint.printString("S1 2");
+
 			//Create S1 message bytes array
 			s1Msg = new byte[s1MsgLen];
 			/*
@@ -77,6 +84,8 @@ public class SecureImageApplet extends IntelApplet {
 			 	*OCSP request generated for this session
 			*/
 			int s1Len = _sigmaAlgEx.getS1Message(s1Msg, (short) ZERO_INDEX);
+			DebugPrint.printString("S1 3");
+
 			if (s1Len != s1MsgLen)
 				return FAILED_TO_GET_PUBLIC_KEY;
 		} catch (Throwable e) {
@@ -84,6 +93,8 @@ public class SecureImageApplet extends IntelApplet {
 		}
 
 		//Copy S1 message to the reply buffer
+		DebugPrint.printString("S1 after create!");
+
 		_sigmaReplyBuffer = new byte[s1MsgLen];
 		ArrayUtils.copyByteArray(s1Msg, ZERO_INDEX, _sigmaReplyBuffer, ZERO_INDEX, s1Msg.length);
 		
@@ -121,8 +132,12 @@ public class SecureImageApplet extends IntelApplet {
 			case CMD_INIT_AND_GET_S1:
 			{
 				result = InitializeSigmaInstance();
+				DebugPrint.printString("init inst");
+
 				if (result == APPLET_SUCCESS)
+				{
 					result = CreateS1Message();
+				}
 				break;
 			}
 			// we need to add here the next cases.

@@ -65,7 +65,11 @@ namespace CSharpClientUI
         private bool processS1()
         {
             IntPtr s1Msg = Marshal.AllocHGlobal(S1_MESSAGE_LEN);
+            Console.WriteLine("before s1");
             int status = SecureImageHostWrapper.GetS1Message(s1Msg);
+            Console.WriteLine(s1Msg);
+            Console.WriteLine("after s1");
+            Console.WriteLine(status);
             if (status != STATUS_SUCCEEDED)
             {
                 return false;
@@ -134,7 +138,7 @@ namespace CSharpClientUI
             }
         }
 
-        }
+        
 
         private bool processS3()
         {
