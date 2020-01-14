@@ -47,6 +47,8 @@ namespace CSharpClientUI
         const int EPID_NONCE_LEN = 32;
         const int EPID_SIGNATURE_LEN = 569;
 
+
+
         public SecureImageUI()
         {
             InitializeComponent();        

@@ -17,6 +17,8 @@ extern "C" {
 #endif
 
 #define DRM_EXPORT __declspec(dllexport) BOOL
+#define SIGMA_EXPORT __declspec(dllexport) int
+
 
 /*Parses the server data nad presents the image */
 DRM_EXPORT showImage(UINT8* ServerData, HWND targetControl, char* errorMsg);
@@ -48,6 +50,11 @@ DRM_EXPORT getGroupId(byte *groupId);
 
 /*Return the number of times the current image can be viewed. -1 for failure.*/
 __declspec(dllexport) int getRemainingTimes(); 
+
+
+// Sigma functions
+SIGMA_EXPORT GetS1Message(byte *s1Msg);
+
 
 #ifdef __cplusplus
 };

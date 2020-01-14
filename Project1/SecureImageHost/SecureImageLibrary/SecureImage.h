@@ -32,7 +32,20 @@ static int CMD_GET_TA_DATA					= 8;
 static int CMD_GET_REMAINING_TIMES			= 9;
 static int CMD_SET_NONCE					= 10;
 static int CMD_IS_PROVISIONED				= 11;
-static int CMD_RESET						= 12;
+static int CMD_RESET						= 12; 
+
+
+// Sigma command IDs
+static int CMD_INIT_AND_GET_S1 = 1;
+static int CMD_GET_S3_MESSAGE_LEN = 2;
+static int CMD_PROCESS_S2_AND_GET_S3 = 3;
+static int PROVISIONED = 1;
+static int NOT_PROVISIONED = 0;
+static int STATUS_SUCCEEDED = 0;
+static int STATUS_FAILED = -1;
+static int INITIALIZE_FAILED = -2;
+static int INSTALL_FAILED = -3;
+static int OPEN_SESSION_FAILED = -4;
 
 //convention definitions
 static int PROVISIONED = 0;
@@ -43,6 +56,8 @@ static int NOT_PROVISIONED = 1;
 #define EPID_SIGNATURE_LEN 569
 #define ERROR_MESSAGE_LEN 200
 #define GROUP_ID_LENGTH 4
+#define S1_MESSAGE_LEN 104
+#define INT_SIZE 4
 
 class SecureImage
 {
@@ -66,6 +81,10 @@ public:
 	bool resetAll(char* errorMsg);
 	//Get the EPID Group ID for this platform
 	bool getGroupId(byte *groupId);
+
+	// Sigma functions:
+	int GetS1Message(byte *s1Msg);
+
 private:
 	//functions:
 

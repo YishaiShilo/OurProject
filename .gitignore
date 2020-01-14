@@ -482,3 +482,11 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/eclipse,visualstudio
+Project1/SecureImageHost/temp/ProtectedOutputLibrary.exp
+Project1/Server/.vs/Server/v14/.suo
+Project1/Server/bin/Debug/DALSamplesServer.pdb
+Project1/Server/obj/x86/Debug/DALSamplesServer.pdb
+*.pdb
+Project1/Server/.vs/Server/v14/.suo
+Project1/Server/bin/Debug/DALSamplesServer.pdb
+Project1/Server/obj/x86/Debug/DALSamplesServer.pdb

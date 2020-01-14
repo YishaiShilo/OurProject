@@ -398,6 +398,9 @@ bool SecureImage::resetAll(char* errorMsg)
 	return true;
 }
 
+
+
+
 //private functions:
 
 bool SecureImage::getGroupId(byte *groupId)
@@ -762,4 +765,38 @@ bool SecureImage::generateKeys(char* errorMsg)
 SecureImage::~SecureImage(void)
 {
 	
+}
+
+
+
+// Sigma functions
+
+//This function fills the S1 message byte array with the S1 message it gets from the trusted application
+//S1 message contains: Ga (The prover's ephemeral DH public key) || EPID GID || OCSPRequest(An (optional) OCSP Request from the prover(the ME))
+//Returns STATUS_SUCCEEDED in case of success, and specific error code otherwise
+int SecureImage::GetS1Message(byte *s1Msg)
+{
+	char* message = "";
+
+	//rcvBuf - byte array that contains the S1 message
+	char rcvBuf[S1_MESSAGE_LEN] = { 0 };
+
+	JHI_RET ret;
+
+	//Send and Receive
+	JVM_COMM_BUFFER commBuf;
+	commBuf.TxBuf->buffer = message;
+	commBuf.TxBuf->length = strlen(message) + 1;
+	commBuf.RxBuf->buffer = rcvBuf;
+	commBuf.RxBuf->length = S1_MESSAGE_LEN;
+	INT32 responseCode;
+	//perform a call to the Trusted Application in order to get S1 message
+	ret = JHI_SendAndRecv2(handle, session, CMD_INIT_AND_GET_S1, &commBuf, &responseCode);
+	if (ret != STATUS_SUCCEEDED)
+		return ret;
+	if (responseCode != STATUS_SUCCEEDED)
+		return responseCode;
+	//copy the S1 message received from the trusted application to the client bytes array	
+	copy((byte*)commBuf.RxBuf->buffer, (byte*)(commBuf.RxBuf->buffer) + S1_MESSAGE_LEN, s1Msg);
+	return STATUS_SUCCEEDED;
 }

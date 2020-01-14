@@ -85,3 +85,9 @@ BOOL close(char* errorMsg)
 {
 	return SecureImage::Session()->close(errorMsg);
 }
+
+// Sigma functions
+int GetS1Message(byte *s1Msg)
+{
+	return SecureImage::Session()->GetS1Message(s1Msg);
+}
