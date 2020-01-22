@@ -99,6 +99,10 @@ namespace CSharpClientUI
 
         [DllImport("secureimagelibrary", EntryPoint = "GetS3MessageLen", CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetS3MessagLen(byte[] s2Msg, int s2MsgLen, IntPtr s3MsgLen);
+
+
+        [DllImport("secureimagelibrary", EntryPoint = "GetS3Message", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int GetS3Message(byte[] s2Msg, int s2MsgLen, int s3MessageLen, IntPtr s3Msg);
     }
 }
 
