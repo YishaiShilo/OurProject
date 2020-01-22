@@ -1,0 +1,4 @@
+copy "$(SolutionDir)$(ConfigurationName)\ProtectedOutputLibrary.dll" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\ProtectedOutputLibrary.dll"
+copy "$(SolutionDir)$(ConfigurationName)\ProtectedOutputLibrary.pdb" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\ProtectedOutputLibrary.pdb"
+copy "$(SolutionDir)..\WysResources\epid_keyrevlist.dat" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\epid_keyrevlist.dat"
+copy "$(SolutionDir)..\WysResources\epid_paramcert.dat" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\epid_paramcert.dat"

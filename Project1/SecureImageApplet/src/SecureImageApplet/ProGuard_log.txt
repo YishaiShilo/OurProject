@@ -1,0 +1,79 @@
+ProGuard, version 4.9
+Reading input...
+Reading program jar [C:\Project\OurProject\Project1\SecureImageApplet\bin\ME9.5.55\classes.jar] (filtered)
+Reading library jar [C:\DALsdk\Platforms\ME9.5.55\PlatformTools\dal.jar]
+Initializing...
+Note: You're ignoring all warnings!
+Ignoring unused library classes...
+  Original number of library classes: 146
+  Final number of library classes:    7
+Shrinking...
+Removing unused program classes and class elements...
+  Original number of program classes: 1
+  Final number of program classes:    1
+Inlining subroutines...
+Optimizing...
+  Number of finalized classes:                 0
+  Number of vertically merged classes:         0
+  Number of horizontally merged classes:       0
+  Number of removed write-only fields:         0
+  Number of privatized fields:                 0
+  Number of inlined constant fields:           0
+  Number of privatized methods:                0
+  Number of staticized methods:                0
+  Number of finalized methods:                 0
+  Number of removed method parameters:         0
+  Number of inlined constant parameters:       0
+  Number of inlined constant return values:    0
+  Number of inlined short method calls:        0
+  Number of inlined unique method calls:       0
+  Number of inlined tail recursion calls:      0
+  Number of merged code blocks:                0
+  Number of variable peephole optimizations:   0
+  Number of arithmetic peephole optimizations: 0
+  Number of cast peephole optimizations:       0
+  Number of field peephole optimizations:      0
+  Number of branch peephole optimizations:     0
+  Number of string peephole optimizations:     0
+  Number of simplified instructions:           0
+  Number of removed instructions:              0
+  Number of removed local variables:           0
+  Number of removed exception blocks:          0
+  Number of optimized local variable frames:   1
+Shrinking...
+Removing unused program classes and class elements...
+  Original number of program classes: 1
+  Final number of program classes:    1
+Optimizing...
+  Number of finalized classes:                 0
+  Number of vertically merged classes:         0
+  Number of horizontally merged classes:       0
+  Number of removed write-only fields:         0
+  Number of privatized fields:                 0
+  Number of inlined constant fields:           0
+  Number of privatized methods:                0
+  Number of staticized methods:                0
+  Number of finalized methods:                 0
+  Number of removed method parameters:         0
+  Number of inlined constant parameters:       0
+  Number of inlined constant return values:    0
+  Number of inlined short method calls:        0
+  Number of inlined unique method calls:       0
+  Number of inlined tail recursion calls:      0
+  Number of merged code blocks:                0
+  Number of variable peephole optimizations:   0
+  Number of arithmetic peephole optimizations: 0
+  Number of cast peephole optimizations:       0
+  Number of field peephole optimizations:      0
+  Number of branch peephole optimizations:     0
+  Number of string peephole optimizations:     0
+  Number of simplified instructions:           0
+  Number of removed instructions:              0
+  Number of removed local variables:           0
+  Number of removed exception blocks:          0
+  Number of optimized local variable frames:   0
+Obfuscating...
+Preverifying...
+Writing output...
+Preparing output jar [C:\Project\OurProject\Project1\SecureImageApplet\bin\ME9.5.55\SecureImageApplet_ME9.5.55.jar]
+  Copying resources from program jar [C:\Project\OurProject\Project1\SecureImageApplet\bin\ME9.5.55\classes.jar] (filtered)
