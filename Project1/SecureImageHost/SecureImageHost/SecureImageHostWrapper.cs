@@ -96,6 +96,9 @@ namespace CSharpClientUI
         // Sigma functions
         [DllImport("secureimagelibrary", EntryPoint = "GetS1Message", CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetS1Message(IntPtr s1Msg);
+
+        [DllImport("secureimagelibrary", EntryPoint = "GetS3MessageLen", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int GetS3MessagLen(byte[] s2Msg, int s2MsgLen, IntPtr s3MsgLen);
     }
 }
 

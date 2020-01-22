@@ -363,6 +363,66 @@ bool SecureImage::resetAll(char* errorMsg)
 	return true;
 }
 
+int SecureImage::GetS3MessagLen(byte *s2Msg, int s2MsgLen, byte *s3MsgLen)
+{
+	byte* message = s2Msg;
+
+	//rcvBuf four bytes are INT32 representing the S3 message length
+	byte rcvBuf[INT_SIZE] = { 0 };
+
+	//Send and Receive
+	JHI_RET ret;
+	JVM_COMM_BUFFER commBuf;
+	//place inside sendBuff the buffer containing S2 message
+	commBuf.TxBuf->buffer = message;
+	commBuf.TxBuf->length = s2MsgLen;
+	commBuf.RxBuf->buffer = rcvBuf;
+	commBuf.RxBuf->length = INT_SIZE;
+	INT32 responseCode;
+	//perform call to the Trusted Application to get S3 message length
+	ret = JHI_SendAndRecv2(handle, session, CMD_GET_S3_MESSAGE_LEN, &commBuf, &responseCode);
+	if (ret != STATUS_SUCCEEDED)
+		return STATUS_FAILED;
+	if (responseCode != STATUS_SUCCEEDED)
+		return responseCode;
+	//copy the S3 message length received from the trusted application to the client bytes array	
+	copy((byte*)commBuf.RxBuf->buffer, (byte*)(commBuf.RxBuf->buffer) + INT_SIZE, s3MsgLen);
+	return STATUS_SUCCEEDED;
+}
+
+
+//This function fills the S3 message byte array with the S3 message it gets from the trusted application
+//S2 message contains: [EPIDCERTprover || TaskInfo || Ga(The prover's ephemeral DH public key) || EPIDSIG(Ga || Gb)]SMK
+//Returns STATUS_SUCCEEDED in case of success, and specific error code otherwise
+int SecureImage::GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte *s3Msg)
+{
+	byte* message = s2Msg;
+	//rcvBuf represents the S3 message
+	char *rcvBuf = new char[s3MessageLen];
+
+	//Send and Receive
+	JHI_RET ret;
+	JVM_COMM_BUFFER commBuf;
+	//place inside sendBuff the buffer containing S2 message
+	commBuf.TxBuf->buffer = message;
+	commBuf.TxBuf->length = s2MsgLen;
+	commBuf.RxBuf->buffer = rcvBuf;
+	commBuf.RxBuf->length = s3MessageLen;
+	INT32 responseCode;
+	//perform call to the Trusted Application to get S3 message
+	ret = JHI_SendAndRecv2(handle, session, CMD_PROCESS_S2_AND_GET_S3, &commBuf, &responseCode);
+	if (ret != STATUS_SUCCEEDED)
+		return STATUS_FAILED;
+	if (responseCode != STATUS_SUCCEEDED)
+		return responseCode;
+	//copy the S3 message received from the trusted application to the client bytes array	
+	copy((byte*)commBuf.RxBuf->buffer, (byte*)(commBuf.RxBuf->buffer) + s3MessageLen, s3Msg);
+	delete[]rcvBuf;
+	return STATUS_SUCCEEDED;
+}
+
+
+
 
 
 
