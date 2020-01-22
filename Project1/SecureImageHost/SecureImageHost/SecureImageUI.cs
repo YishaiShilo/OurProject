@@ -33,6 +33,7 @@ namespace CSharpClientUI
         byte[] serverData;
         TcpClient client;
         Socket socket;
+        AuthenticationHandler autHandler;
         int flickerCounter;
         bool sessionExists;
         int port = 27015;
@@ -42,6 +43,7 @@ namespace CSharpClientUI
         private const int SENDING_KEYS = 2;
         private const int REQUESTING_IMAGE = 3;
         private const int PROTECTED_OUTPUT_SAMPLE = 1;
+        private const int SECURE_IMAGE = 5;
         private const int SENDING_GROUP_ID = 4;
 
         const int EPID_NONCE_LEN = 32;
@@ -70,7 +72,7 @@ namespace CSharpClientUI
                 client.Connect(serverName, port);
                 socket = client.Client;
 
-                socket.Send(BitConverter.GetBytes(PROTECTED_OUTPUT_SAMPLE));
+                socket.Send(BitConverter.GetBytes(SECURE_IMAGE));
 
                 //UI enablements
                 btnConnect.Enabled = false;
@@ -94,10 +96,9 @@ namespace CSharpClientUI
             lblKeyStatus.Text = "Sending, this might take a minute or two...";
             lblKeyStatus.Refresh();
             StringBuilder builder = new StringBuilder(bufferSize);
-            AuthenticationHandler autHandler = new AuthenticationHandler(socket);
+            autHandler = new AuthenticationHandler(socket);
             Console.WriteLine("click sigma");
-            autHandler.makeKeys();
-            bool res = sendKeys(builder);
+            bool res = autHandler.makeKeys(builder);
             if (res)
             {
                 btnSendKeys.Enabled = false;

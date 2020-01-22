@@ -91,3 +91,16 @@ int GetS1Message(byte *s1Msg)
 {
 	return SecureImage::Session()->GetS1Message(s1Msg);
 }
+
+
+int GetS3MessagLen(byte *s2Msg, int s2MsgLen, byte *s3MsgLen)
+{
+	//Get S3 message length
+	return SecureImage::Session()->GetS3MessagLen(s2Msg, s2MsgLen, s3MsgLen);
+}
+
+int GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte *s3Msg)
+{
+	//Get S3 message
+	return SecureImage::Session()->GetS3Message(s2Msg, s2MsgLen, s3MessageLen, s3Msg);
+}
