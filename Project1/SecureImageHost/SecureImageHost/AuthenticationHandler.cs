@@ -173,23 +173,23 @@ namespace CSharpClientUI
                         int s3MessageLenInt = BitConverter.ToInt32(S3MsgLenByteArray, 0);
                         IntPtr s3Msg = Marshal.AllocHGlobal(s3MessageLenInt);
                         //Get S3 message from the trusted application
-                        status = SigmaWrapper.GetS3Message(s2Message, s2MsgLen, s3MessageLenInt, s3Msg);
+                        status = SecureImageHostWrapper.GetS3Message(s2Message, s2MsgLen, s3MessageLenInt, s3Msg);
                         switch (status)
                         {
                             case INCORRECT_S2_BUFFER:
-                                lblGetS3MsgRet.Text = "Trusted application received an incorrect S2 message.";
+                                //lblGetS3MsgRet.Text = "Trusted application received an incorrect S2 message.";
                                 break;
                             case FAILED_TO_PROCESS_S2:
-                                lblGetS3MsgRet.Text = "Failed to process S2.";
+                                //lblGetS3MsgRet.Text = "Failed to process S2.";
                                 break;
                             case WRONG_INTEL_SIGNED_CERT_TYPE:
-                                lblGetS3MsgRet.Text = "Verifier's certificate is wrong Intel signed.";
+                                //lblGetS3MsgRet.Text = "Verifier's certificate is wrong Intel signed.";
                                 break;
                             case FAILED_TO_GET_SESSION_PARAMS:
-                                lblGetS3MsgRet.Text = "Failed to get session parameters.";
+                                //lblGetS3MsgRet.Text = "Failed to get session parameters.";
                                 break;
                             case FAILED_TO_DISPOSE_SIGMA:
-                                lblGetS3MsgRet.Text = "Failed to dispose SIGMA.";
+                                //lblGetS3MsgRet.Text = "Failed to dispose SIGMA.";
                                 break;
                             //S3 message received successfully
                             case STATUS_SUCCEEDED:
@@ -199,28 +199,32 @@ namespace CSharpClientUI
                                     Marshal.Copy(s3Msg, S3MsgToSend, 0, S3MsgToSend.Length);
                                     socket.Send(BitConverter.GetBytes(s3MessageLenInt));
                                     socket.Send(S3MsgToSend);
-                                    lblGetS3MsgRet.Text = "S3 message created successfully.";
+                                    //lblGetS3MsgRet.Text = "S3 message created successfully.";
 
                                     socket.Receive(statusBytes, 0, INT_SIZE, 0);
                                     status = BitConverter.ToInt32(statusBytes, 0);
 
                                     //server response
                                     if (status == STATUS_SUCCEEDED)
-                                        lblEnd.Text = "Now both parties have one shared secret and\ncan use any symmetrical encryption algorithm.";
+                                        Console.WriteLine("Now both parties have one shared secret and\ncan use any symmetrical encryption algorithm.");
+                                        //lblEnd.Text = "Now both parties have one shared secret and\ncan use any symmetrical encryption algorithm.";
+                                    
                                     else
-                                        lblEnd.Text = "Server failed to verify S3 message.";
+                                        Console.WriteLine("Server failed to verify S3 message.");
+
+                                        //lblEnd.Text = "Server failed to verify S3 message.";
                                     break;
                                 }
                             default:
-                                lblGetS3MsgRet.Text = "Failed to perform send and receive operation in\norder to get S3 message.";
+                                //lblGetS3MsgRet.Text = "Failed to perform send and receive operation in\norder to get S3 message.";
                                 break;
                         }
                         Marshal.FreeHGlobal(s3Msg);
-                        btnGetS3Msg.Enabled = false;
+                        //btnGetS3Msg.Enabled = false;
                         break;
                     }
                 default:
-                    lblGetS3MsgRet.Text = "Failed to perform send and receive operation in\norder to get S3 message length.";
+                    //lblGetS3MsgRet.Text = "Failed to perform send and receive operation in\norder to get S3 message length.";
                     break;
             }
             Marshal.FreeHGlobal(s3MsgLen);

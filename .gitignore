@@ -495,5 +495,8 @@ Project1/Server/.vs/Server/v14/.suo
 Project1/Server/bin/Debug/DALSamplesServer.pdb
 Project1/Server/obj/x86/Debug/DALSamplesServer.pdb
 Project1/Server/.vs/Server/v14/.suo
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 *.exp
