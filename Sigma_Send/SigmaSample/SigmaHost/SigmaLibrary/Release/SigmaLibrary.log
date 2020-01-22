@@ -1,8 +1,0 @@
-﻿  DelayLoader.cpp
-  Interface.cpp
-  Sigma.cpp
-  SignatureVerifier.cpp
-  Generating Code...
-     Creating library C:\DALsdk\Samples\SigmaSample\SigmaHost\Release\SigmaLibrary.lib and object C:\DALsdk\Samples\SigmaSample\SigmaHost\Release\SigmaLibrary.exp
-  SigmaLibrary.vcxproj -> C:\DALsdk\Samples\SigmaSample\SigmaHost\Release\SigmaLibrary.dll
-  SigmaLibrary.vcxproj -> C:\DALsdk\Samples\SigmaSample\SigmaHost\Release\SigmaLibrary.pdb (Full PDB)

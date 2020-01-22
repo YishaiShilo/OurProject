@@ -1,4 +1,0 @@
-C:\DALsdk\Samples\DALSamplesServer\bin\Release\DALSamplesServer.exe
-C:\DALsdk\Samples\DALSamplesServer\bin\Release\DALSamplesServer.pdb
-C:\DALsdk\Samples\DALSamplesServer\obj\x86\Release\DALSamplesServer.exe
-C:\DALsdk\Samples\DALSamplesServer\obj\x86\Release\DALSamplesServer.pdb

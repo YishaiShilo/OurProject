@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="Applet1/src"/>
-	<classpathentry kind="lib" path="Applet1/bin/ME12.0/Applet1_ME12.0.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>

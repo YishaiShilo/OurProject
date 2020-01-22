@@ -1,8 +1,0 @@
-C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\bin\Release\SigmaHostGUI.exe
-C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\bin\Release\SigmaHostGUI.pdb
-C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\obj\x86\Release\SigmaHost.csprojResolveAssemblyReference.cache
-C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\obj\x86\Release\SigmaHostGUI.Properties.Resources.resources
-C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\obj\x86\Release\SigmaHostGUI.Form1.resources
-C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\obj\x86\Release\SigmaHost.csproj.GenerateResource.Cache
-C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\obj\x86\Release\SigmaHostGUI.exe
-C:\DALsdk\Samples\SigmaSample\SigmaHost\SigmaHost\obj\x86\Release\SigmaHostGUI.pdb

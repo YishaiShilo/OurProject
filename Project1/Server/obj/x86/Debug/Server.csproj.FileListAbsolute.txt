@@ -1,5 +1,0 @@
-C:\Project\OurProject\Project1\Server\obj\x86\Debug\DALSamplesServer.exe
-C:\Project\OurProject\Project1\Server\obj\x86\Debug\DALSamplesServer.pdb
-C:\Project\OurProject\Project1\Server\bin\Debug\DALSamplesServer.exe
-C:\Project\OurProject\Project1\Server\bin\Debug\DALSamplesServer.pdb
-C:\Project\OurProject\Project1\Server\obj\x86\Debug\Server.csprojResolveAssemblyReference.cache
