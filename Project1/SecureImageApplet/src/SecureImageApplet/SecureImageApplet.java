@@ -37,19 +37,19 @@ public class SecureImageApplet extends IntelApplet {
 	
 	// Commands
 	private static final int CMD_INIT_AND_GET_S1 		= 1;
-	private static final int CMD_GET_S3_MESSAGE_LEN 		= 2;
+	private static final int CMD_GET_S3_MESSAGE_LEN 	= 2;
 	private static final int CMD_PROCESS_S2_AND_GET_S3 	= 3;
 
 	//Error codes
-	private static final int UNRECOGNIZED_COMMAND				= -10;	
-	private static final int FAILED_TO_GET_PUBLIC_KEY			= -20;
+	private static final int UNRECOGNIZED_COMMAND			= -10;	
+	private static final int FAILED_TO_GET_PUBLIC_KEY		= -20;
 	private static final int FAILED_TO_INITIALIZE_SIGMA		= -30;
-	private static final int INCORRECT_S2_BUFFER				= -40;
-	private static final int FAILED_TO_DISPOSE_SIGMA			= -50;
-	private static final int WRONG_INTEL_SIGNED_CERT_TYPE		= -60;
-	private static final int FAILED_TO_GET_S3_LEN				= -70;
-	private static final int FAILED_TO_PROCESS_S2				= -80;
-	private static final int FAILED_TO_GET_SESSION_PARAMS		= -90;
+	private static final int INCORRECT_S2_BUFFER			= -40;
+	private static final int FAILED_TO_DISPOSE_SIGMA		= -50;
+	private static final int WRONG_INTEL_SIGNED_CERT_TYPE	= -60;
+	private static final int FAILED_TO_GET_S3_LEN			= -70;
+	private static final int FAILED_TO_PROCESS_S2			= -80;
+	private static final int FAILED_TO_GET_SESSION_PARAMS	= -90;
 	
 	
 	private int InitializeSigmaInstance() {
@@ -102,6 +102,65 @@ public class SecureImageApplet extends IntelApplet {
 	}
 	
 	
+	
+	
+	
+	// need to continue write this function. after getting s2:
+	
+	
+	
+	
+	
+	
+	//Verify received S2 message and create S3 message
+	private int VerifyS2AndCreateS3(byte[] s2Message) {
+		
+		//Received an empty message
+		if (s2Message == null)
+			return INCORRECT_S2_BUFFER;
+				
+//		//Create S3 message array
+//		byte[] s3Data = new byte[s3DataLen];
+//		
+//		/*
+//		 Process S2 message and get S3 message - This message contains: 
+//			*Task information that identifies the initiator of this Sigma session inside the firmware, including the specific trusted application that created this session (accordig to UUID) 
+//			*Prover's EPID certificate 
+//			*Prover's public part of the Diffie-Hellman key (g^a) (equal to the one sent in S1) 
+//			*HMAC computed using the session MAC key on several fields in the message, as required by the protocol 
+//			*Prover's EPID signature on several fields in the message, as required by the protocol 
+//			*Non-Revoked proofs created by the prover based on the Signature Revocation List from S2 
+//		 */
+//		try {
+//			int res = _sigmaAlgEx.processS2Message(s2Message, ZERO_INDEX, s2Message.length, s3Data, ZERO_INDEX);
+//			if (res != s3DataLen) {
+//				return FAILED_TO_PROCESS_S2;
+//			}
+//
+//		} catch (Throwable e) {
+//			return FAILED_TO_PROCESS_S2;
+//		}
+//		
+//		//Get Session Parameters
+//		int ret = GetSessionParameters();
+//		if(ret != APPLET_SUCCESS)
+//			return ret;
+//		
+//		//Copy S3 message to the reply buffer
+//		_sigmaReplyBuffer = new byte[s3Data.length];									
+//		ArrayUtils.copyByteArray(s3Data, ZERO_INDEX, _sigmaReplyBuffer, ZERO_INDEX, s3DataLen);
+//
+//		//Once the SigmaAlgEx instance usage is finished, we have to clean and free the resource
+//		return CleanSigmaInstance();
+		return 1; // need to  delete this line
+	}
+	
+	
+	
+	
+	
+	
+	
 	public int onInit(byte[] request) {
 		DebugPrint.printString("Hello, DAL!");
 		return APPLET_SUCCESS;
@@ -140,7 +199,15 @@ public class SecureImageApplet extends IntelApplet {
 				}
 				break;
 			}
-			// we need to add here the next cases.
+			
+			
+			
+			// we are here. need to write the function: "VerifyS2AndCreateS3".
+			case CMD_PROCESS_S2_AND_GET_S3:
+			{
+				result = VerifyS2AndCreateS3(request);	
+				break;
+			}
 			
 			
 			
@@ -151,6 +218,8 @@ public class SecureImageApplet extends IntelApplet {
 			}
 		}
 
+		
+		
 		/*
 		 * To return the response data to the command, call the setResponse
 		 * method before returning from this method. Note that calling this
