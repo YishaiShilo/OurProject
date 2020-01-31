@@ -121,7 +121,8 @@ namespace DALSamplesServer
                 ocspRequest.issuerName = DataStructs.EPID_ROOT_SIGNING_FILE;
                 ocspRequest.ocspResponderCertName = DataStructs.SIGNED_OCSP_CERT_FILE;
                 ocspRequest.ocspNonce = ocspNonce;
-                ocspRequest.proxyHostName = "proxy-us.intel.com:911";//Resource.OcspProxy;
+                // proxy to operate inside intel network
+                ocspRequest.proxyHostName = "";// "proxy-us.intel.com:911";//Resource.OcspProxy;
                 //Get the compatible OCSP response
                 uint status = OCSPWrapper.GetOCSPResponse(ref ocspRequest, OCSP_CER_FILE);
 
