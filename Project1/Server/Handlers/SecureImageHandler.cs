@@ -360,6 +360,8 @@ namespace DALSamplesServer
 
                         if (GetS2Message(out s2Message))
                         {
+                            Console.WriteLine("generate s2 success");
+                            Console.WriteLine("s2: " + BitConverter.ToString(s2Message));
                             socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));
 
                             //Send the S2 message to the client

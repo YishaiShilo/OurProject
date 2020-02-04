@@ -118,6 +118,7 @@ namespace CSharpClientUI
                     byte[] datasize = new byte[INT_SIZE];
                     int recv = socket.Receive(datasize, 0, INT_SIZE, 0);
                     s2MsgLen = BitConverter.ToInt32(datasize, 0);
+                    
                     int total = 0;
                     int dataleft = s2MsgLen;
                     serverData = new byte[s2MsgLen];
@@ -141,8 +142,6 @@ namespace CSharpClientUI
             }
         }
 
-        
-
         private bool processS3(StringBuilder bulider)
         {
             //lblGetS3MsgRet.Text = String.Empty;
@@ -151,10 +150,13 @@ namespace CSharpClientUI
             IntPtr s3MsgLen = Marshal.AllocHGlobal(INT_SIZE);
             //Get S3 message length from the trusted application
             status = SecureImageHostWrapper.GetS3MessageLen(s2Message, s2MsgLen, s3MsgLen);
+            Console.WriteLine("S3 Len: " + s3MsgLen);
+            Console.WriteLine("status: " + status);
             switch (status)
             {
                 case FAILED_TO_GET_S3_LEN:
                     //lblGetS3MsgRet.Text = "Error: Failed to get S3 message length.";
+                    Console.WriteLine("Error: Failed to get S3 message length.");
                     break;
                 case STATUS_SUCCEEDED:
                     {
@@ -173,27 +175,33 @@ namespace CSharpClientUI
                         int s3MessageLenInt = BitConverter.ToInt32(S3MsgLenByteArray, 0);
                         IntPtr s3Msg = Marshal.AllocHGlobal(s3MessageLenInt);
                         //Get S3 message from the trusted application
-                        status = SecureImageHostWrapper.GetS3Message(s2Message, s2MsgLen, s3MessageLenInt, s3Msg);
+                        status = SecureImageHostWrapper.GetS3Message(s2Message, s2MsgLen, s3MessageLenInt, s3Msg);                  
                         switch (status)
                         {
                             case INCORRECT_S2_BUFFER:
                                 //lblGetS3MsgRet.Text = "Trusted application received an incorrect S2 message.";
+                                Console.WriteLine("Trusted application received an incorrect S2 message.");
                                 break;
                             case FAILED_TO_PROCESS_S2:
                                 //lblGetS3MsgRet.Text = "Failed to process S2.";
+                                Console.WriteLine("Failed to process S2.");
                                 break;
                             case WRONG_INTEL_SIGNED_CERT_TYPE:
                                 //lblGetS3MsgRet.Text = "Verifier's certificate is wrong Intel signed.";
+                                Console.WriteLine("Verifier's certificate is wrong Intel signed.");
                                 break;
                             case FAILED_TO_GET_SESSION_PARAMS:
                                 //lblGetS3MsgRet.Text = "Failed to get session parameters.";
+                                Console.WriteLine("Failed to get session parameters.");
                                 break;
                             case FAILED_TO_DISPOSE_SIGMA:
                                 //lblGetS3MsgRet.Text = "Failed to dispose SIGMA.";
+                                Console.WriteLine("Failed to dispose SIGMA.");
                                 break;
                             //S3 message received successfully
                             case STATUS_SUCCEEDED:
                                 {
+                                    Console.WriteLine("getS3 Success from applet");
                                     //Send S3 message to server for processing and verification
                                     byte[] S3MsgToSend = new byte[s3MessageLenInt];
                                     Marshal.Copy(s3Msg, S3MsgToSend, 0, S3MsgToSend.Length);
@@ -211,11 +219,11 @@ namespace CSharpClientUI
                                     
                                     else
                                         Console.WriteLine("Server failed to verify S3 message.");
-
                                         //lblEnd.Text = "Server failed to verify S3 message.";
                                     break;
                                 }
                             default:
+                                Console.WriteLine("Failed to perform send and receive operation in\norder to get S3 message.");
                                 //lblGetS3MsgRet.Text = "Failed to perform send and receive operation in\norder to get S3 message.";
                                 break;
                         }
@@ -225,6 +233,7 @@ namespace CSharpClientUI
                     }
                 default:
                     //lblGetS3MsgRet.Text = "Failed to perform send and receive operation in\norder to get S3 message length.";
+                    Console.WriteLine("Failed to perform send and receive operation in\norder to get S3 message length.");
                     break;
             }
             Marshal.FreeHGlobal(s3MsgLen);
