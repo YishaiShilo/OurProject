@@ -63,6 +63,9 @@ namespace DALSamplesServer
             set { value = _gagb; }
         }
 
+        public byte[] BK;
+
+
 
         //Process S1 message
         public CdgStatus ProcessS1Message(byte[] s1Msg)
@@ -257,6 +260,77 @@ namespace DALSamplesServer
         }
 
 
+        //Check whther BK exists in the signed message, as a p ert of the S3 message validation
+        bool DoesBKExist(DataStructs.SIGMA_S3_MESSAGE S3Message, ref byte[] GaGbSig)
+        {
+            //Process certificate header in order to get cert length
+            byte[] header = new byte[DataStructs.VLR_HEADER_LEN];
+            Array.Copy(S3Message.data, header, header.Length);
+            object certHeader = new DataStructs.VLRHeader();
+            Utils.ByteArrayToStructure(header, ref certHeader);
+            int certLen = ((DataStructs.VLRHeader)certHeader).VLRLength;
+
+            //Extract GaGb from the signed message data
+            Array.Copy(S3Message.data, certLen + DataStructs.VLR_HEADER_LEN, GaGbSig, 0, GaGbSig.Length);
+            BK = Utils.GetBKValuesFromSignedMessage(GaGbSig);
+            return BK != null;
+        }
+
+
+
+        //Verify S3 message
+        public bool VerifyS3Message(byte[] s3Message)
+        {
+            //Convert S3 message from byte array into the compatible structure
+            object S3MessageObj = new DataStructs.SIGMA_S3_MESSAGE();
+            Utils.ByteArrayToStructure(s3Message, ref S3MessageObj);
+            DataStructs.SIGMA_S3_MESSAGE S3Message = (DataStructs.SIGMA_S3_MESSAGE)S3MessageObj;
+
+            //Locate the data index in the message
+            int dataInd = Marshal.SizeOf(typeof(DataStructs.SIGMA_S3_MESSAGE)) - 1 + 32;
+
+            //Copy S3 message data from the received message into the S3 strucure data field
+            S3Message.data = new byte[s3Message.Length - dataInd];
+            Array.Copy(s3Message, dataInd, S3Message.data, 0, S3Message.data.Length);
+
+            //Prepare data for HMAC
+            byte[] dataForHmac = new byte[s3Message.Length - S3Message.S3Icv.Length];
+            Array.Copy(s3Message, S3Message.S3Icv.Length, dataForHmac, 0, dataForHmac.Length);
+
+            //Verify HMAC
+            CdgResult retStat = CdgResult.CdgValid;
+            CdgStatus status;
+            status = CryptoDataGenWrapper_1_1.VerifyHmac(dataForHmac, dataForHmac.Length, S3Message.S3Icv, DataStructs.SIGMA_MAC_LEN, SMK, DataStructs.SIGMA_SMK_LENGTH, ref retStat);
+            if (status != CdgStatus.CdgStsOk || retStat != CdgResult.CdgValid)
+            {
+                return false;
+            }
+
+
+            //Check whether BK exists in the signed message, as a part of the S3 message validation
+            byte[] GaGbSig = new byte[DataStructs.EPID_SIG_LEN];
+            if (!DoesBKExist(S3Message, ref GaGbSig))
+                return false;
+
+
+            //groupCert contains the SIGMA1_0 certificate for the specific EPID group ID
+            byte[] groupCert = Utils.GetSpecificEpidCertificate_SIGMA_1_0((uint)groupID);
+            //epidParamsCert contains the mathematic parameters
+            byte[] epidParamsData = File.ReadAllBytes(DataStructs.PRODUCTION_SIGNED_BIN_PARAMS_CERT_FILE);
+
+
+            //Verify message. In case that a revocation list is used - the dll function will also check that the platform was not revoked.
+            status = CryptoDataGenWrapper_1_1.MessageVerifyPch(groupCert, groupCert.Length, epidParamsData, GaGb, GaGb.Length, null, 0, GaGbSig, GaGbSig.Length, out retStat, null);
+
+            if (status != CdgStatus.CdgStsOk || retStat != CdgResult.CdgValid)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
         public void handleClientComm(object client)
         {
             //SIGMAHandler sigHan = new SIGMAHandler();
@@ -305,45 +379,37 @@ namespace DALSamplesServer
                             }
 
 
+                            //Receive S3 message length from client
+                            byte[] s3MsgLen = new byte[DataStructs.INT_SIZE];
+                            socket.Receive(s3MsgLen, 0, DataStructs.INT_SIZE, 0);
+                            int s3MessageLen = Utils.ByteArrayToInt(s3MsgLen);
+
+                            //Receive S3 message from client
+                            byte[] s3Msg = new byte[s3MessageLen];
+                            int bytesNeeded = s3MessageLen;
+                            int bytesReceived = 0;
+                            while (bytesNeeded > 0)
+                            {
+                                bytesReceived = socket.Receive(s3Msg, s3MessageLen - bytesNeeded, bytesNeeded, 0);
+                                bytesNeeded -= bytesReceived;
+                            }
 
 
-                            // we are here. we sent the s2 message to the applet. need to continue.
-
-
-
-
-
-                            //        //Receive S3 message length from client
-                            //        byte[] s3MsgLen = new byte[DataStructs.INT_SIZE];
-                            //        socket.Receive(s3MsgLen, 0, DataStructs.INT_SIZE, 0);
-                            //        int s3MessageLen = Utils.ByteArrayToInt(s3MsgLen);
-
-                            //        //Receive S3 message from client
-                            //        byte[] s3Msg = new byte[s3MessageLen];
-                            //        int bytesNeeded = s3MessageLen;
-                            //        int bytesReceived = 0;
-                            //        while (bytesNeeded > 0)
-                            //        {
-                            //            bytesReceived = socket.Receive(s3Msg, s3MessageLen - bytesNeeded, bytesNeeded, 0);
-                            //            bytesNeeded -= bytesReceived;
-                            //        }
-
-
-                            //        //Send S3 verification status to client                            
-                            //        if (VerifyS3Message(s3Msg))
-                            //        {
-                            //            socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));
-                            //            return;
-                            //        }
-                            //        else
-                            //        {
-                            //            socket.Send(BitConverter.GetBytes(STATUS_FAILED));
-                            //        }
+                            //Send S3 verification status to client                            
+                            if (VerifyS3Message(s3Msg))
+                            {
+                                socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));
+                                return;
+                            }
+                            else
+                            {
+                                socket.Send(BitConverter.GetBytes(STATUS_FAILED));
+                            }
                         }
-                        //    else
-                        //    {
-                        //        socket.Send(BitConverter.GetBytes(STATUS_FAILED));
-                        //    }
+                        else
+                        {
+                            socket.Send(BitConverter.GetBytes(STATUS_FAILED));
+                        }
 
                     }
                     else
