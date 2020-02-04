@@ -55,7 +55,7 @@ __declspec(dllexport) int getRemainingTimes();
 // Sigma functions
 SIGMA_EXPORT GetS1Message(byte *s1Msg);
 
-SIGMA_EXPORT GetS3MessagLen(byte *s2Msg, int s2MsgLen, byte *s3MsgLen);
+SIGMA_EXPORT GetS3MessageLen(byte *s2Msg, int s2MsgLen, byte *s3MsgLen);
 
 SIGMA_EXPORT GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte *s3Msg);
 

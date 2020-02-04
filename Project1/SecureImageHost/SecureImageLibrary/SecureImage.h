@@ -83,7 +83,7 @@ public:
 	// Sigma functions:
 	int GetS1Message(byte *s1Msg);
 
-	int GetS3MessagLen(byte *s2Msg, int s2MsgLen, byte *s3MsgLen);
+	int GetS3MessageLen(byte *s2Msg, int s2MsgLen, byte *s3MsgLen);
 
 	int GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte *s3Msg);
 

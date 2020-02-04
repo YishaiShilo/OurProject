@@ -150,7 +150,7 @@ namespace CSharpClientUI
 
             IntPtr s3MsgLen = Marshal.AllocHGlobal(INT_SIZE);
             //Get S3 message length from the trusted application
-            status = SecureImageHostWrapper.GetS3MessagLen(s2Message, s2MsgLen, s3MsgLen);
+            status = SecureImageHostWrapper.GetS3MessageLen(s2Message, s2MsgLen, s3MsgLen);
             switch (status)
             {
                 case FAILED_TO_GET_S3_LEN:

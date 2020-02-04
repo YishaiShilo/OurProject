@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureImageHost", "SecureImageHost\SecureImageHost.csproj", "{1632E556-785E-4A48-926C-A8227AD99964}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B33C60FB-3AEC-47AE-8071-C60B6973C8F9} = {B33C60FB-3AEC-47AE-8071-C60B6973C8F9}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureImageLibrary", "SecureImageLibrary\ProtectedOutputLibrary.vcxproj", "{B33C60FB-3AEC-47AE-8071-C60B6973C8F9}"
 EndProject

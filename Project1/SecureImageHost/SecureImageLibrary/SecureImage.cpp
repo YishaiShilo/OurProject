@@ -36,8 +36,8 @@ SecureImage::SecureImage(void)
 		initialized=true;
 
 		//This is the path to the Intel DAL Trusted Application that was created in Eclipse.
-		//taPath = "C:\\Project\\OurProject\\Project1\\SecureImageApplet\\bin\\SecureImageApplet.dalp";
-		taPath = "C:\\Users\\USER\\Desktop\\project\\OurProject\\OurProject\\Project1\\SecureImageApplet\\bin\\SecureImageApplet.dalp";
+		taPath = "C:\\Project\\OurProject\\Project1\\SecureImageApplet\\bin\\SecureImageApplet.dalp";
+		//taPath = "C:\\Users\\USER\\Desktop\\project\\OurProject\\OurProject\\Project1\\SecureImageApplet\\bin\\SecureImageApplet.dalp";
 
 		taId = "33ad29312dd14387b073e9895fb9a5ef";
 
@@ -363,7 +363,7 @@ bool SecureImage::resetAll(char* errorMsg)
 	return true;
 }
 
-int SecureImage::GetS3MessagLen(byte *s2Msg, int s2MsgLen, byte *s3MsgLen)
+int SecureImage::GetS3MessageLen(byte *s2Msg, int s2MsgLen, byte *s3MsgLen)
 {
 	byte* message = s2Msg;
 
