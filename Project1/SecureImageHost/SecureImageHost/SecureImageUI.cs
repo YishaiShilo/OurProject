@@ -77,6 +77,7 @@ namespace CSharpClientUI
                 //UI enablements
                 btnConnect.Enabled = false;
                 btnSendKeys.Enabled = true;
+                rbLoad.Enabled = false;
                 lblServerStatus.Text = "Connected";
                 lblServerStatus.ForeColor = Color.Green;
             }
@@ -245,6 +246,31 @@ namespace CSharpClientUI
             }
         }
 
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            resetUI();
+            //open file dialog
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "All files (*.*)| *.*";
+            dialog.Multiselect = false;
+            DialogResult result = dialog.ShowDialog();
+            if (result == DialogResult.Cancel)
+            {
+                return;
+            }
+            //read the image file
+            string path = dialog.FileName;
+            serverData = File.ReadAllBytes(path);
+
+            //UI code
+            btnShow.Enabled = true;
+            btnSave.Enabled = true;
+            lblLocalPictureStatus.Text = path.ToString() + " image is loaded. Click Show Image button!";
+            lblLocalPictureStatus.ForeColor = Color.Green;
+            flickerTimer.Enabled = true;
+
+        }
+
         private void btnShow_Click(object sender, EventArgs e)
         {
             //disable the button flickering
@@ -267,11 +293,18 @@ namespace CSharpClientUI
             {
                 //get number of times  presented image can be shown again
                 sessionExists = true;
+                lblNumViews.Text = SecureImageHostWrapper.getRemainingTimes().ToString();
                 //start a refresh thred to refresh the view periodically
                 refreshThread = new Thread(new ThreadStart(refresh));
                 refreshThread.Start();
                 //UI code
                 btnShow.Enabled = false;
+                rbLoad.Enabled = true;
+                rbNew.Enabled = true;
+                if (rbLoad.Checked)
+                    rbLoad_CheckedChanged(null, null);
+                else
+                    rbNew_CheckedChanged(null, null);
             }
             else
             {
@@ -322,11 +355,13 @@ namespace CSharpClientUI
 
         private void rbNew_CheckedChanged(object sender, EventArgs e)
         {
+            btnLoad.Enabled = false;
             btnConnect.Enabled = true;
         }
 
         private void rbLoad_CheckedChanged(object sender, EventArgs e)
         {
+            btnLoad.Enabled = true;
             btnConnect.Enabled = false;
         }
 
@@ -379,27 +414,20 @@ namespace CSharpClientUI
 
             lblGetPicStatus.Text="";
             lblKeyStatus.Text="";
+            lblNumViews.Text="?";
             lblServerStatus.Text="Disconnected";
+            lblLocalPictureStatus.Text="No image is loaded";
 
             Color color=Color.FromArgb(0, 66, 129);
             lblGetPicStatus.ForeColor = color;
             lblKeyStatus.ForeColor = color;
             lblServerStatus.ForeColor = color;
+            lblLocalPictureStatus.ForeColor = color;           
         }
 
         private void install_Click(object sender, EventArgs e)
         {
             SecureImageHostWrapper.installApplet();
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
