@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Net.Sockets;
 
 
 
 using System.IO;
+using System.Security.Cryptography;
+using System.Threading;
 using System.Runtime.InteropServices;
-using System.Text;
+using System.ComponentModel;
 
 namespace DALSamplesServer
 {
@@ -74,7 +82,6 @@ namespace DALSamplesServer
 
             //Derive SK(Session Confidentiality Key: 128 bit), MK(Session Integrity Key: 128bit) and SMK(Session Message Key)
             CdgStatus status = CryptoDataGenWrapper_1_1.DeriveSigmaKeys(Ga, Ga.Length, Gb, Gb.Length, Sk, Sk.Length, Mk, Mk.Length, SMK, SMK.Length);
-            
             return status;
         }
 
@@ -326,15 +333,9 @@ namespace DALSamplesServer
 
         public void handleClientComm(object client)
         {
-
-            Encryption e = new Encryption();
-            if (!e.handleClientComm(client))
-            {
-                System.Console.WriteLine("fail to make key");
-            }
-            System.Console.WriteLine("make key successfuly");
-
-            /*
+            //SIGMAHandler sigHan = new SIGMAHandler();
+            //sigHan.handleClientComm(client);
+            //var g = sigHan.GaGb;
             try
             {
                 TcpClient tcpClient = (TcpClient)client;
@@ -360,6 +361,7 @@ namespace DALSamplesServer
                         if (GetS2Message(out s2Message))
                         {
                             Console.WriteLine("generate s2 success");
+                            Console.WriteLine("s2: " + BitConverter.ToString(s2Message));
                             socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));
 
                             //Send the S2 message to the client
@@ -399,8 +401,6 @@ namespace DALSamplesServer
                             if (VerifyS3Message(s3Msg))
                             {
                                 socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));
-                                System.Console.WriteLine("SK: " + BitConverter.ToString(Sk));
-                                System.Console.WriteLine("MK: " + BitConverter.ToString(Mk));
                                 return;
                             }
                             else
@@ -426,7 +426,6 @@ namespace DALSamplesServer
             {
                 Console.WriteLine(ex.Message);
             }
-            */
 
 
         }

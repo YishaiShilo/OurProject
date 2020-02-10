@@ -17,9 +17,9 @@
 	<!-- The fully qualified package name of the main class  -->
 	<property name="app_package_and_class_name" 		value="SecureImageApplet.SecureImageApplet"/>
 	<!-- The build directory - note that the .jeff and .pack files of this directory will be deleted -->
-	<property name="bin_dir" 							location="C:\Project\OurProject\Project1\SecureImageApplet\bin\ME9.0"/>
+	<property name="bin_dir" 							location="C:\Users\USER\Desktop\project\OurProject\OurProject\Project1\SecureImageApplet\bin\ME9.0"/>
 	<!-- Project directory -->
-	<property name="project_dir" 						value="C:/Project/OurProject/Project1/SecureImageApplet"/>
+	<property name="project_dir" 						value="C:/Users/USER/Desktop/project/OurProject/OurProject/Project1/SecureImageApplet"/>
 	<!-- DAL SDK directory -->
 	<property name="sdk_dir" 							value="C:\DALsdk"/> 
 	<!-- value indicating if this is a compilation for signing -->
