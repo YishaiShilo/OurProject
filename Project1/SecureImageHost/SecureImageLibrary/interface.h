@@ -59,6 +59,9 @@ SIGMA_EXPORT GetS3MessageLen(byte *s2Msg, int s2MsgLen, byte *s3MsgLen);
 
 SIGMA_EXPORT GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte *s3Msg);
 
+// Authentication function:  
+SIGMA_EXPORT sendAuthenticationId(byte *AuthenticationId, int Len);
+
 #ifdef __cplusplus
 };
 #endif

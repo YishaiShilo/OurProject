@@ -35,6 +35,8 @@ public class SecureImageApplet extends IntelApplet {
 	private byte[]      _sigmaReplyBuffer;
 	private int 		s3DataLen;
 	
+	private byte[] userAuthenticationId = null;                      // added this for authentication stage
+	
 	private static final int INTEL_SIGNED_CERT_TYPE	= 4;
 	private static final int ZERO_INDEX				= 0;
 	
@@ -42,6 +44,8 @@ public class SecureImageApplet extends IntelApplet {
 	private static final int CMD_INIT_AND_GET_S1 		= 1;
 	private static final int CMD_GET_S3_MESSAGE_LEN 	= 2;
 	private static final int CMD_PROCESS_S2_AND_GET_S3 	= 3;
+	
+	private static final int CMD_GET_AUTHENTICATION_ID = 5;         // added this for authentication stage
 
 	//Error codes
 	private static final int UNRECOGNIZED_COMMAND			= -10;	
@@ -173,6 +177,13 @@ public class SecureImageApplet extends IntelApplet {
 		return CleanSigmaInstance();
 	}
 	
+	private int GetAuthenticationId(byte[] IdCode)                   // added this for authentication stage:
+	{
+		userAuthenticationId = IdCode;
+		return APPLET_SUCCESS;
+	}
+	
+	
 	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 	public static String bytesToHex(byte[] bytes) {
 	    char[] hexChars = new char[bytes.length * 2];
@@ -303,7 +314,15 @@ public class SecureImageApplet extends IntelApplet {
 			{
 				result = VerifyS2AndCreateS3(request);	
 				break;
-			}					
+			}		
+			
+			case CMD_GET_AUTHENTICATION_ID:                 // added this for authentication stage:
+			{
+				result = GetAuthenticationId(request);
+				break;
+			}
+			
+			
 			default:
 			{
 				result = UNRECOGNIZED_COMMAND;

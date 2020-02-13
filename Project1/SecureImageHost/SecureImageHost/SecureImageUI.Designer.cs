@@ -42,7 +42,6 @@
             this.lblLocalPictureStatus = new System.Windows.Forms.Label();
             this.lblNumViews = new System.Windows.Forms.Label();
             this.lblKeyStatus = new System.Windows.Forms.Label();
-            this.lblGetPicStatus = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -65,6 +64,10 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.resetToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.button1 = new System.Windows.Forms.Button();
+            this.passwordBox = new System.Windows.Forms.TextBox();
+            this.sendPasswordbtn = new System.Windows.Forms.Button();
+            this.passwordLabel = new System.Windows.Forms.Label();
+            this.lblGetPicStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
@@ -97,7 +100,7 @@
             // 
             this.btnGetPicture.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.btnGetPicture.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.btnGetPicture.Location = new System.Drawing.Point(333, 331);
+            this.btnGetPicture.Location = new System.Drawing.Point(333, 394);
             this.btnGetPicture.Name = "btnGetPicture";
             this.btnGetPicture.Size = new System.Drawing.Size(100, 28);
             this.btnGetPicture.TabIndex = 2;
@@ -109,7 +112,7 @@
             // 
             this.btnSave.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.btnSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.btnSave.Location = new System.Drawing.Point(332, 390);
+            this.btnSave.Location = new System.Drawing.Point(333, 449);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 3;
@@ -134,7 +137,7 @@
             this.btnLoad.Enabled = false;
             this.btnLoad.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.btnLoad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.btnLoad.Location = new System.Drawing.Point(332, 452);
+            this.btnLoad.Location = new System.Drawing.Point(332, 492);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(100, 28);
             this.btnLoad.TabIndex = 5;
@@ -178,7 +181,7 @@
             this.lblLocalPictureStatus.AutoSize = true;
             this.lblLocalPictureStatus.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.lblLocalPictureStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.lblLocalPictureStatus.Location = new System.Drawing.Point(106, 486);
+            this.lblLocalPictureStatus.Location = new System.Drawing.Point(112, 517);
             this.lblLocalPictureStatus.MaximumSize = new System.Drawing.Size(300, 0);
             this.lblLocalPictureStatus.Name = "lblLocalPictureStatus";
             this.lblLocalPictureStatus.Size = new System.Drawing.Size(131, 16);
@@ -206,17 +209,6 @@
             this.lblKeyStatus.Name = "lblKeyStatus";
             this.lblKeyStatus.Size = new System.Drawing.Size(0, 16);
             this.lblKeyStatus.TabIndex = 19;
-            // 
-            // lblGetPicStatus
-            // 
-            this.lblGetPicStatus.AutoSize = true;
-            this.lblGetPicStatus.Font = new System.Drawing.Font("Verdana", 9.75F);
-            this.lblGetPicStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.lblGetPicStatus.Location = new System.Drawing.Point(125, 363);
-            this.lblGetPicStatus.MaximumSize = new System.Drawing.Size(300, 0);
-            this.lblGetPicStatus.Name = "lblGetPicStatus";
-            this.lblGetPicStatus.Size = new System.Drawing.Size(0, 16);
-            this.lblGetPicStatus.TabIndex = 20;
             // 
             // label4
             // 
@@ -256,7 +248,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.label7.Location = new System.Drawing.Point(48, 337);
+            this.label7.Location = new System.Drawing.Point(21, 394);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(271, 16);
             this.label7.TabIndex = 25;
@@ -267,7 +259,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.label8.Location = new System.Drawing.Point(48, 486);
+            this.label8.Location = new System.Drawing.Point(48, 517);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(58, 16);
             this.label8.TabIndex = 26;
@@ -278,7 +270,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.label9.Location = new System.Drawing.Point(48, 458);
+            this.label9.Location = new System.Drawing.Point(48, 498);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(204, 16);
             this.label9.TabIndex = 27;
@@ -289,7 +281,7 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.label10.Location = new System.Drawing.Point(48, 396);
+            this.label10.Location = new System.Drawing.Point(41, 434);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(180, 16);
             this.label10.TabIndex = 28;
@@ -343,7 +335,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.label2.Location = new System.Drawing.Point(67, 363);
+            this.label2.Location = new System.Drawing.Point(67, 418);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 16);
             this.label2.TabIndex = 33;
@@ -398,7 +390,7 @@
             this.rbLoad.AutoSize = true;
             this.rbLoad.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.rbLoad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.rbLoad.Location = new System.Drawing.Point(19, 428);
+            this.rbLoad.Location = new System.Drawing.Point(24, 453);
             this.rbLoad.Name = "rbLoad";
             this.rbLoad.Size = new System.Drawing.Size(144, 20);
             this.rbLoad.TabIndex = 37;
@@ -455,12 +447,52 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.install_Click);
             // 
+            // passwordBox
+            // 
+            this.passwordBox.Location = new System.Drawing.Point(273, 339);
+            this.passwordBox.Name = "passwordBox";
+            this.passwordBox.Size = new System.Drawing.Size(160, 20);
+            this.passwordBox.TabIndex = 43;
+            // 
+            // sendPasswordbtn
+            // 
+            this.sendPasswordbtn.Location = new System.Drawing.Point(64, 339);
+            this.sendPasswordbtn.Name = "sendPasswordbtn";
+            this.sendPasswordbtn.Size = new System.Drawing.Size(136, 23);
+            this.sendPasswordbtn.TabIndex = 45;
+            this.sendPasswordbtn.Text = "send password";
+            this.sendPasswordbtn.UseVisualStyleBackColor = true;
+            this.sendPasswordbtn.Click += new System.EventHandler(this.passwordButtonClick);
+            // 
+            // passwordLabel
+            // 
+            this.passwordLabel.AutoSize = true;
+            this.passwordLabel.Location = new System.Drawing.Point(76, 366);
+            this.passwordLabel.Name = "passwordLabel";
+            this.passwordLabel.Size = new System.Drawing.Size(83, 13);
+            this.passwordLabel.TabIndex = 46;
+            this.passwordLabel.Text = "password status";
+            // 
+            // lblGetPicStatus
+            // 
+            this.lblGetPicStatus.AutoSize = true;
+            this.lblGetPicStatus.Font = new System.Drawing.Font("Verdana", 9.75F);
+            this.lblGetPicStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
+            this.lblGetPicStatus.Location = new System.Drawing.Point(125, 363);
+            this.lblGetPicStatus.MaximumSize = new System.Drawing.Size(300, 0);
+            this.lblGetPicStatus.Name = "lblGetPicStatus";
+            this.lblGetPicStatus.Size = new System.Drawing.Size(0, 16);
+            this.lblGetPicStatus.TabIndex = 20;
+            // 
             // SecureImageUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(875, 594);
+            this.Controls.Add(this.passwordLabel);
+            this.Controls.Add(this.sendPasswordbtn);
+            this.Controls.Add(this.passwordBox);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.label13);
@@ -520,7 +552,6 @@
         private System.Windows.Forms.Label lblLocalPictureStatus;
         private System.Windows.Forms.Label lblNumViews;
         private System.Windows.Forms.Label lblKeyStatus;
-        private System.Windows.Forms.Label lblGetPicStatus;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
@@ -546,6 +577,10 @@
         //private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
         private System.Windows.Forms.ToolTip resetToolTip;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox passwordBox;
+        private System.Windows.Forms.Button sendPasswordbtn;
+        private System.Windows.Forms.Label passwordLabel;
+        private System.Windows.Forms.Label lblGetPicStatus;
     }
 }
 

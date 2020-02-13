@@ -45,6 +45,9 @@ static int INITIALIZE_FAILED = -2;
 static int INSTALL_FAILED = -3;
 static int OPEN_SESSION_FAILED = -4;
 
+//Authentication command IDs:
+static int CMD_SEND_AUTHENTICATION_ID = 5;
+
 //convention definitions
 static int PROVISIONED = 0;
 static int NOT_PROVISIONED = 1;
@@ -86,6 +89,10 @@ public:
 	int GetS3MessageLen(byte *s2Msg, int s2MsgLen, byte *s3MsgLen);
 
 	int GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte *s3Msg);
+
+
+	//Authentication function:
+	int sendAuthenticationId(byte *AuthenticationId, int Len);
 
 private:
 	//functions:
