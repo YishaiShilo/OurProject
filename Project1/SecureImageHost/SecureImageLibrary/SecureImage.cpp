@@ -36,8 +36,8 @@ SecureImage::SecureImage(void)
 		initialized=true;
 
 		//This is the path to the Intel DAL Trusted Application that was created in Eclipse.
-		//taPath = "C:\\Project\\OurProject\\Project1\\SecureImageApplet\\bin\\SecureImageApplet.dalp";
-		taPath = "C:\\Users\\USER\\Desktop\\project\\OurProject\\OurProject\\Project1\\SecureImageApplet\\bin\\SecureImageApplet.dalp";
+		taPath = "C:\\Project\\OurProject\\Project1\\SecureImageApplet\\bin\\SecureImageApplet.dalp";
+		//taPath = "C:\\Users\\USER\\Desktop\\project\\OurProject\\OurProject\\Project1\\SecureImageApplet\\bin\\SecureImageApplet.dalp";
 
 		taId = "33ad29312dd14387b073e9895fb9a5ef";
 
@@ -428,7 +428,7 @@ int SecureImage::GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte 
 int SecureImage::sendAuthenticationId(byte *AuthenticationId, int Len)
 {
 	byte* message = AuthenticationId;
-	//rcvBuf represents the S3 message
+	//rcvBuf represents the encrypted Id to deliver to server
 	char *rcvBuf = new char[Len];
 
 	//Send and Receive
@@ -436,7 +436,7 @@ int SecureImage::sendAuthenticationId(byte *AuthenticationId, int Len)
 	JVM_COMM_BUFFER commBuf;
 	//place inside sendBuff the buffer containing S2 message
 	commBuf.TxBuf->buffer = message;
-	commBuf.TxBuf->length = 8;
+	commBuf.TxBuf->length = Len;
 	commBuf.RxBuf->buffer = rcvBuf;
 	commBuf.RxBuf->length = Len;
 	INT32 responseCode;

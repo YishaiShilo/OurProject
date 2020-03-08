@@ -3,7 +3,6 @@ package SecureImageApplet;
 import com.intel.util.*;
 
 import java.io.UnsupportedEncodingException;
-
 import com.intel.crypto.*;
 import com.intel.langutil.ArrayUtils;
 import com.intel.langutil.TypeConverter;
@@ -35,6 +34,8 @@ public class SecureImageApplet extends IntelApplet {
 	private byte[]      _sigmaReplyBuffer;
 	private int 		s3DataLen;
 	
+	private byte[]     skey;
+	private byte[]     mkey;
 	private byte[] userAuthenticationId = null;                      // added this for authentication stage
 	
 	private static final int INTEL_SIGNED_CERT_TYPE	= 4;
@@ -180,6 +181,8 @@ public class SecureImageApplet extends IntelApplet {
 	private int GetAuthenticationId(byte[] IdCode)                   // added this for authentication stage:
 	{
 		userAuthenticationId = IdCode;
+		DebugPrint.printString("IdCode: " + new String(userAuthenticationId));
+		// TODO: need to return the encrypted Id to send to server
 		return APPLET_SUCCESS;
 	}
 	
@@ -286,7 +289,7 @@ public class SecureImageApplet extends IntelApplet {
 		int result = APPLET_SUCCESS;
 		
 		//Check what is the wanted action
-		DebugPrint.printString("command: " + Integer.toString(commandId));
+		DebugPrint.printString("command:" + Integer.toString(commandId));
 
 		switch(commandId)
 		{						
@@ -318,6 +321,7 @@ public class SecureImageApplet extends IntelApplet {
 			
 			case CMD_GET_AUTHENTICATION_ID:                 // added this for authentication stage:
 			{
+				DebugPrint.printString("in aut id");
 				result = GetAuthenticationId(request);
 				break;
 			}

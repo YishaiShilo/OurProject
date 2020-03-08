@@ -433,8 +433,10 @@ namespace CSharpClientUI
         private void passwordButtonClick(object sender, EventArgs e)
         {
             //textBox2.Text
+            
             byte[] AuthenticationId = Encoding.ASCII.GetBytes(this.passwordBox.Text);
-            SecureImageHostWrapper.sendAuthenticationId(AuthenticationId, 4);
+            Console.WriteLine(this.passwordBox.Text);
+            SecureImageHostWrapper.sendAuthenticationId(AuthenticationId, AuthenticationId.Length);
             this.passwordLabel.Text = "password was sent successfully";
         }
     }
