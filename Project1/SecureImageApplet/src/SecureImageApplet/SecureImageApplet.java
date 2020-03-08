@@ -36,6 +36,11 @@ public class SecureImageApplet extends IntelApplet {
 	
 	private byte[]     skey;
 	private byte[]     mkey;
+	
+	/*
+	 * This is the object that encrypt and decrypt data.
+	 */
+	private SymmetricBlockCipherAlg cryptoObject;
 	private byte[] userAuthenticationId = null;                      // added this for authentication stage
 	
 	private static final int INTEL_SIGNED_CERT_TYPE	= 4;
@@ -60,6 +65,8 @@ public class SecureImageApplet extends IntelApplet {
 	private static final int FAILED_TO_GET_SESSION_PARAMS	= -90;
 	
 	
+	
+			
 	private int InitializeSigmaInstance() {
 		try {
 			_sigmaAlgEx.initialize();
@@ -169,10 +176,11 @@ public class SecureImageApplet extends IntelApplet {
 		short secretKeyLen = _sigmaAlgEx.getSecretKeySize();
 		byte[] secretKey = new byte[secretKeyLen];
 		_sigmaAlgEx.getSecretKey(secretKey, (short) 0);
+		skey = secretKey;
 		DebugPrint.printString("key Len: " + Integer.toString(secretKeyLen));
 		DebugPrint.printString("key: " + bytesToHex(secretKey));
+		initialyzeCryptoObject();
 		
-
 
 		//Once the SigmaAlgEx instance usage is finished, we have to clean and free the resource
 		return CleanSigmaInstance();
@@ -267,8 +275,49 @@ public class SecureImageApplet extends IntelApplet {
 		return APPLET_SUCCESS;
 	}
 	
+	
+	
+	private void initialyzeCryptoObject() {
+		/*
+		 * A function that initialize cryptoObject, which is 
+		 * an object that we use for encryption and decryption.
+		 * we need to call it somewhere! 
+		 */
+		cryptoObject = SymmetricBlockCipherAlg.create(SymmetricBlockCipherAlg.ALG_TYPE_AES_CTR);
+		byte[] ivArray = {0, 0};
+		cryptoObject.setIV(ivArray, (short)0, (short)16);               // the iv is set to 0 by default so this function 
+																		// doesn't really important
+		cryptoObject.setKey(skey, (short)0, (short)128);                //the key here is 128 bit long!
+	}
+	
+	
+	
+	private byte[] encrypt(byte[] data, int dataLength) {
+		/*
+		 * A function that encrypt the given data with our public key.
+		 * dataLength is the length of the data to be encrypted in bytes.
+		 */
+		byte [] output = new byte[dataLength];
+		cryptoObject.encryptComplete(data, (short)0, (short)dataLength, output, (short)0);
+		return output;
+	}
+	
+	
+	private byte[] decrypt(byte[] data, int dataLength) {
+		/*
+		 * A function that decrypt the given data with our public key.
+		 * dataLength is the length of the data to be crypted in bytes.
+		 */
+		byte [] output = new byte[dataLength];
+		cryptoObject.decryptComplete(data, (short)0, (short)dataLength, output, (short)0);
+		return output;
+	}
+	
+	
+	
 	public int onInit(byte[] request) {
 		DebugPrint.printString("Hello, DAL!");
+		
 		return APPLET_SUCCESS;
 	}
 	
