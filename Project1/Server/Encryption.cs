@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net.Sockets;
-
-
-
 using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
@@ -28,6 +25,7 @@ namespace DALSamplesServer
 
         private byte[] Sk = new byte[DataStructs.SIGMA_SESSION_KEY_LEN];//Session Confidentiality Key: 128 bit key derived from SMK
         private byte[] Mk = new byte[DataStructs.SIGMA_MAC_KEY_LEN];//Session Integrity Key: 128bit key derived from SMK.  
+        private Aes aesIns = null;
 
         private DataStructs.OCSP_REQ OCSPReq;//An (optional) OCSP Request from the prover(the ME)
         private byte[] OCSPResp = null;//Online Certificate Status Protocol response
@@ -262,8 +260,6 @@ namespace DALSamplesServer
             return BK != null;
         }
 
-
-
         //Verify S3 message
         private bool VerifyS3Message(byte[] s3Message)
         {
@@ -316,6 +312,34 @@ namespace DALSamplesServer
             return true;
         }
 
+
+        public byte[] EncryptBytes(byte[] plainInput)
+        {
+            using (var encryptor = aesIns.CreateEncryptor())
+            {
+                return PerformCryptography(plainInput, encryptor);
+            }
+        }
+
+        private byte[] PerformCryptography(byte[] data, ICryptoTransform cryptoTransform)
+        {
+            using (var ms = new MemoryStream())
+            using (var cryptoStream = new CryptoStream(ms, cryptoTransform, CryptoStreamMode.Write))
+            {
+                cryptoStream.Write(data, 0, data.Length);
+                cryptoStream.FlushFinalBlock();
+
+                return ms.ToArray();
+            }
+        }
+
+        public byte[] DecryptBytes(byte[] encryptedInput)
+        {
+            using (var encryptor = aesIns.CreateDecryptor())
+            {
+                return PerformCryptography(encryptedInput, encryptor);
+            }
+        }
 
         public bool handleClientComm(object client)
         {
@@ -384,8 +408,24 @@ namespace DALSamplesServer
                             if (VerifyS3Message(s3Msg))
                             {
                                 socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));
-                                System.Console.WriteLine("SK: " + BitConverter.ToString(Sk));
-                                System.Console.WriteLine("MK: " + BitConverter.ToString(Mk));
+                                Console.WriteLine("SK: " + BitConverter.ToString(Sk));
+                                Console.WriteLine("MK: " + BitConverter.ToString(Mk));
+                                aesIns = AesManaged.Create();
+                                aesIns.KeySize = 128;
+                                aesIns.Key = Sk;
+                                aesIns.IV = new byte[16];
+
+                                Random rnd = new Random();
+                                Byte[] b = new Byte[16];
+                                rnd.NextBytes(b);
+                                Console.Write("data: ");
+                                Console.WriteLine(BitConverter.ToString(b));
+                                byte[] e = EncryptBytes(b);
+                                Console.WriteLine("encrypted: ");
+                                Console.WriteLine(BitConverter.ToString(e));
+                                byte[] d = DecryptBytes(e);
+                                Console.WriteLine("decrypted: ");
+                                Console.WriteLine(BitConverter.ToString(d));
                                 return true;
                             }
                             else
