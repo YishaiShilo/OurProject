@@ -360,6 +360,36 @@ namespace DALSamplesServer
             }
         }
 
+        /*
+         * A function that reads an image.                                //added this.
+         * gets the path to the image as a string,
+         * returnsa byte[].   
+         */
+        private byte[] readImage(String path)
+        {
+            FileInfo fileInfo = new FileInfo(path);
+
+            // The byte[] to save the data in
+            byte[] data = new byte[fileInfo.Length];
+
+            // Load a filestream and put its content into the byte[]
+            using (FileStream fs = fileInfo.OpenRead())
+            {
+                fs.Read(data, 0, data.Length);
+            }
+            return data;
+        }
+
+        private byte[] encryptImage(byte[] image)
+        {
+            return EncryptBytes(image);
+        }
+
+        private byte[] decryptImage(byte[] encryptImage)
+        {
+            return DecryptBytes(encryptImage);
+        }
+
         public bool handleClientComm(object client)
         {
             try
@@ -441,9 +471,11 @@ namespace DALSamplesServer
                                 Console.WriteLine(Encoding.UTF8.GetString(encryptedId));
                                if (getAutKey(encryptedId))
                                 {
-                                    socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));
+                                    socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));                                            //added this. 
+                                    byte[] imageInBytes = readImage("C:\\Users\\USER\\Desktop\\project\\OurProject\\OurProject\\Project1\\Server\\Images\\Image.bmp");
+                                    byte[] decryptedImage = encryptImage(imageInBytes);
+                                    socket.Send(decryptedImage);
                                     return true;
-
                                 }
                                else
                                 {
