@@ -62,6 +62,34 @@ namespace CSharpClientUI
             return true;
         }
 
+        public bool sendAutKey(byte[] AutId)
+        {
+            byte[] encryptedId = new byte[16];
+
+            int status = SecureImageHostWrapper.sendAuthenticationId(AutId, AutId.Length, encryptedId);
+            if (status != STATUS_SUCCEEDED)
+            {
+                return false;
+            }
+            Console.WriteLine(Encoding.UTF8.GetString(encryptedId));
+            socket.Send(encryptedId);
+            socket.Receive(statusBytes, 0, INT_SIZE, 0);
+            status = BitConverter.ToInt32(statusBytes, 0);
+
+            if (status == STATUS_FAILED)
+            {
+                //lblGetS2MsgRet.Text = "Server failed to verify S1 message.";
+                Console.WriteLine("Server failed to decrypt autId");
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("Server decrypt autId");
+                return true;
+            }
+            
+        }
+
         private bool processS1(StringBuilder bulider)
         {
             IntPtr s1Msg = Marshal.AllocHGlobal(S1_MESSAGE_LEN);
@@ -175,7 +203,8 @@ namespace CSharpClientUI
                         int s3MessageLenInt = BitConverter.ToInt32(S3MsgLenByteArray, 0);
                         IntPtr s3Msg = Marshal.AllocHGlobal(s3MessageLenInt);
                         //Get S3 message from the trusted application
-                        status = SecureImageHostWrapper.GetS3Message(s2Message, s2MsgLen, s3MessageLenInt, s3Msg);                  
+                        status = SecureImageHostWrapper.GetS3Message(s2Message, s2MsgLen, s3MessageLenInt, s3Msg);
+                        Console.WriteLine("status after getS3: " + status);               
                         switch (status)
                         {
                             case INCORRECT_S2_BUFFER:

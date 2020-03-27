@@ -400,7 +400,7 @@ namespace CSharpClientUI
             //close session
             SecureImageHostWrapper.closePavpSession();
             resetUI();
-            //reset library
+            //et library
             StringBuilder builder = new StringBuilder(bufferSize);
             if (SecureImageHostWrapper.resetSolution(builder))
                 MessageBox.Show("Reset was successful!");
@@ -436,8 +436,15 @@ namespace CSharpClientUI
             
             byte[] AuthenticationId = Encoding.ASCII.GetBytes(this.passwordBox.Text);
             Console.WriteLine(this.passwordBox.Text);
-            SecureImageHostWrapper.sendAuthenticationId(AuthenticationId, AuthenticationId.Length);
-            this.passwordLabel.Text = "password was sent successfully";
+            bool res = autHandler.sendAutKey(AuthenticationId);
+            if (res)
+            {
+                this.passwordLabel.Text = "password was sent successfully";
+            }
+            else
+            {
+                this.passwordLabel.Text = "password failed to be sent";
+            }
         }
     }
 }

@@ -92,7 +92,7 @@ public:
 
 
 	//Authentication function:
-	int sendAuthenticationId(byte *AuthenticationId, int Len);
+	int sendAuthenticationId(byte *AuthenticationId, int Len, byte *encryptedId);
 
 private:
 	//functions:

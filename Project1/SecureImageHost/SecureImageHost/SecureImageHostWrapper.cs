@@ -107,7 +107,7 @@ namespace CSharpClientUI
 
         // Authentication function:
         [DllImport("secureimagelibrary", EntryPoint = "sendAuthenticationId", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int sendAuthenticationId(byte[] AuthenticationId, int Len);
+        public static extern int sendAuthenticationId(byte[] AuthenticationId, int Len, byte[] encryptedId);
 
     }
 }

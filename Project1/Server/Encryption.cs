@@ -313,6 +313,25 @@ namespace DALSamplesServer
         }
 
 
+        private bool getAutKey(byte[] encryptedId)
+        {
+            byte[] decryptedId = new byte[16];
+
+            try
+            {
+                decryptedId = DecryptBytes(encryptedId);
+                Console.WriteLine("decryptedId: " + Encoding.UTF8.GetString(decryptedId));
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("exception at decryption");
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.GetType());
+                return false;
+            }
+        }
+
         public byte[] EncryptBytes(byte[] plainInput)
         {
             using (var encryptor = aesIns.CreateEncryptor())
@@ -410,23 +429,42 @@ namespace DALSamplesServer
                                 socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));
                                 Console.WriteLine("SK: " + BitConverter.ToString(Sk));
                                 Console.WriteLine("MK: " + BitConverter.ToString(Mk));
+
                                 aesIns = AesManaged.Create();
                                 aesIns.KeySize = 128;
                                 aesIns.Key = Sk;
+                                aesIns.BlockSize = 128;
                                 aesIns.IV = new byte[16];
 
-                                Random rnd = new Random();
-                                Byte[] b = new Byte[16];
-                                rnd.NextBytes(b);
-                                Console.Write("data: ");
-                                Console.WriteLine(BitConverter.ToString(b));
-                                byte[] e = EncryptBytes(b);
-                                Console.WriteLine("encrypted: ");
-                                Console.WriteLine(BitConverter.ToString(e));
-                                byte[] d = DecryptBytes(e);
-                                Console.WriteLine("decrypted: ");
-                                Console.WriteLine(BitConverter.ToString(d));
-                                return true;
+                                byte[] encryptedId = new byte[16];
+                                socket.Receive(encryptedId, 0, 16, 0);
+                                Console.WriteLine(Encoding.UTF8.GetString(encryptedId));
+                               if (getAutKey(encryptedId))
+                                {
+                                    socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));
+                                    return true;
+
+                                }
+                               else
+                                {
+                                    return false;
+                                }
+
+                                //Random rnd = new Random();
+                                //Byte[] b = new Byte[16];
+                                //rnd.NextBytes(b);
+                                //Console.Write("data: ");
+                                //Console.WriteLine(BitConverter.ToString(b));
+                                //byte[] en = EncryptBytes(b);
+                                //Console.WriteLine("encrypted: ");
+                                //Console.WriteLine(BitConverter.ToString(en));
+
+                                //byte[] de = DecryptBytes(en);
+                                //Console.Write("decrypted: ");
+                                //Console.WriteLine(BitConverter.ToString(de));
+                                
+
+
                             }
                             else
                             {

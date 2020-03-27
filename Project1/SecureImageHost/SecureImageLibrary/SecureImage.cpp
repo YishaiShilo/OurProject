@@ -412,7 +412,10 @@ int SecureImage::GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte 
 	//perform call to the Trusted Application to get S3 message
 	ret = JHI_SendAndRecv2(handle, session, CMD_PROCESS_S2_AND_GET_S3, &commBuf, &responseCode);
 	if (ret != STATUS_SUCCEEDED)
+	{
+		cout << "ret:"  <<  ret << endl;
 		return STATUS_FAILED;
+	}
 	if (responseCode != STATUS_SUCCEEDED)
 		return responseCode;
 	//copy the S3 message received from the trusted application to the client bytes array	
@@ -425,12 +428,12 @@ int SecureImage::GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte 
 //A function that sends a pin to the applet. the pin's length is 8 bytes, which is
 //4 string digits.
 // there are Unnecessary things here that needs to be deleted.
-int SecureImage::sendAuthenticationId(byte *AuthenticationId, int Len)
+int SecureImage::sendAuthenticationId(byte *AuthenticationId, int Len, byte *encryptedId)
 {
+	// represents id the host send to applet
 	byte* message = AuthenticationId;
-	//rcvBuf represents the encrypted Id to deliver to server
-	char *rcvBuf = new char[Len];
-
+	//rcvBuf represents the encrypted Id from applet to deliver to server
+	char *rcvBuf = new char[16];
 	//Send and Receive
 	JHI_RET ret;
 	JVM_COMM_BUFFER commBuf;
@@ -438,7 +441,7 @@ int SecureImage::sendAuthenticationId(byte *AuthenticationId, int Len)
 	commBuf.TxBuf->buffer = message;
 	commBuf.TxBuf->length = Len;
 	commBuf.RxBuf->buffer = rcvBuf;
-	commBuf.RxBuf->length = Len;
+	commBuf.RxBuf->length = 16;
 	INT32 responseCode;
 	//perform call to the Trusted Application to give it the authentication code
 	ret = JHI_SendAndRecv2(handle, session, CMD_SEND_AUTHENTICATION_ID, &commBuf, &responseCode);
@@ -446,8 +449,7 @@ int SecureImage::sendAuthenticationId(byte *AuthenticationId, int Len)
 		return STATUS_FAILED;
 	if (responseCode != STATUS_SUCCEEDED)
 		return responseCode;
-
-	
+	copy((byte*)commBuf.RxBuf->buffer, (byte*)(commBuf.RxBuf->buffer) + 16, encryptedId);
 
 
 

@@ -2,7 +2,6 @@ package SecureImageApplet;
 
 import com.intel.util.*;
 
-import java.io.UnsupportedEncodingException;
 import com.intel.crypto.*;
 import com.intel.langutil.ArrayUtils;
 import com.intel.langutil.TypeConverter;
@@ -35,6 +34,7 @@ public class SecureImageApplet extends IntelApplet {
 	private int 		s3DataLen;
 	
 	private byte[]     skey;
+	
 	private byte[]     mkey;
 	
 	/*
@@ -63,7 +63,8 @@ public class SecureImageApplet extends IntelApplet {
 	private static final int FAILED_TO_GET_S3_LEN			= -70;
 	private static final int FAILED_TO_PROCESS_S2			= -80;
 	private static final int FAILED_TO_GET_SESSION_PARAMS	= -90;
-	
+	private static final int FAILED_TO_ENCRYPT_DATA	        = -100;
+
 	
 	
 			
@@ -115,6 +116,32 @@ public class SecureImageApplet extends IntelApplet {
 		
 		return APPLET_SUCCESS;
 	}
+	
+		public static byte[] padding (byte[] input) {
+			int len = input.length;
+			int padding = 16 - (len % 16);
+			int padLen = 16 - (len % 16);
+			byte[] pad = new byte[padLen];
+			ArrayUtils.fillByteArray(pad, 0, padLen, (byte) padding );
+			byte[] padded = new byte[padLen + len];
+
+			System.arraycopy(input, 0, padded, 0, len);
+		    System.arraycopy(pad, 0, padded, len, padLen)  ;
+			return padded;
+		}
+		
+		public static byte[] unpadding (byte[] input) {
+			int padLen = input[input.length -1] / 8;
+			//System.out.println(padLen);
+			int dataLen = input.length - padLen;
+            //System.out.println(dataLen);
+
+			byte[] output = new byte[dataLen];
+			System.arraycopy(input, 0, output, 0, dataLen);
+			return output;
+		}
+		
+	
 	
 	private int GetS3MessageLen(byte[] s2Message){
 		
@@ -178,8 +205,16 @@ public class SecureImageApplet extends IntelApplet {
 		_sigmaAlgEx.getSecretKey(secretKey, (short) 0);
 		skey = secretKey;
 		DebugPrint.printString("key Len: " + Integer.toString(secretKeyLen));
-		DebugPrint.printString("key: " + bytesToHex(secretKey));
+		DebugPrint.printString("key : " + bytesToHex(secretKey));
+		try
+		{
 		initialyzeCryptoObject();
+		}
+		catch (Exception e)
+		{
+			DebugPrint.printString("fail init crypto");
+			return -110;
+		}
 		
 
 		//Once the SigmaAlgEx instance usage is finished, we have to clean and free the resource
@@ -189,9 +224,31 @@ public class SecureImageApplet extends IntelApplet {
 	private int GetAuthenticationId(byte[] IdCode)                   // added this for authentication stage:
 	{
 		userAuthenticationId = IdCode;
-		DebugPrint.printString("IdCode: " + new String(userAuthenticationId));
+		DebugPrint.printString("IdCode : " + new String(userAuthenticationId));
 		// TODO: need to return the encrypted Id to send to server
-		return APPLET_SUCCESS;
+		try 
+		{
+			byte[] padded = padding(userAuthenticationId);
+			DebugPrint.printString("padded: " + new String(padded));
+			DebugPrint.printString("padded: " +bytesToHex(padded));
+
+			byte [] encryptedId = encrypt(padded, padded.length);
+			
+			_sigmaReplyBuffer = new byte[encryptedId.length];
+			DebugPrint.printString("encryptedId: " + new String(encryptedId));
+			ArrayUtils.copyByteArray(encryptedId, ZERO_INDEX, _sigmaReplyBuffer, ZERO_INDEX, encryptedId.length);			
+			return APPLET_SUCCESS;
+		}
+		catch (Exception e)
+		{
+			DebugPrint.printString("exception");
+			DebugPrint.printString(e.toString());
+			DebugPrint.printString(e.getMessage());
+
+			return FAILED_TO_ENCRYPT_DATA;
+		}
+		
+		
 	}
 	
 	
@@ -283,11 +340,17 @@ public class SecureImageApplet extends IntelApplet {
 		 * an object that we use for encryption and decryption.
 		 * we need to call it somewhere! 
 		 */
-		cryptoObject = SymmetricBlockCipherAlg.create(SymmetricBlockCipherAlg.ALG_TYPE_AES_CTR);
-		byte[] ivArray = {0, 0};
+		DebugPrint.printString("before create cipher");
+		cryptoObject = SymmetricBlockCipherAlg.create(SymmetricBlockCipherAlg.ALG_TYPE_AES_CBC);
+		DebugPrint.printString("after create cipher");
+
+		byte[] ivArray = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		// TODO: set random IV and send to server.
+		cryptoObject.setKey(skey, (short)0, (short)16);                //the key here is 128 bit long!
+		DebugPrint.printString("after set key");
 		cryptoObject.setIV(ivArray, (short)0, (short)16);               // the iv is set to 0 by default so this function 
 																		// doesn't really important
-		cryptoObject.setKey(skey, (short)0, (short)128);                //the key here is 128 bit long!
+		DebugPrint.printString("after set iv");
 	}
 	
 	
@@ -370,7 +433,7 @@ public class SecureImageApplet extends IntelApplet {
 			
 			case CMD_GET_AUTHENTICATION_ID:                 // added this for authentication stage:
 			{
-				DebugPrint.printString("in aut id");
+				DebugPrint.printString("in-aut id");
 				result = GetAuthenticationId(request);
 				break;
 			}

@@ -158,8 +158,9 @@ namespace DALSamplesServer
             byte[] xrgbStream = convertToXRGB(bitstream);
             bitstream = xrgbStream;
             //encrypt the bitmap using the symetric key
-            //return ProtectedOutputHostWrapper.encryptBitmap(bitstream, symmetric_key); TODO
-            return bitstream;
+
+
+            return ProtectedOutputHostWrapper.encryptBitmap(bitstream, symmetric_key);
         }
         
         private byte[] convertToXRGB(byte[] bitstream)

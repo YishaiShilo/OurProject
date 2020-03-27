@@ -107,8 +107,8 @@ int GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte *s3Msg)
 
 
 // Authentication function
-int sendAuthenticationId(byte *AuthenticationId, int Len) 
+int sendAuthenticationId(byte *AuthenticationId, int Len, byte *encryptedId) 
 {
 	//Get S3 message
-	return SecureImage::Session()->sendAuthenticationId(AuthenticationId, Len);
+	return SecureImage::Session()->sendAuthenticationId(AuthenticationId, Len, encryptedId);
 }
