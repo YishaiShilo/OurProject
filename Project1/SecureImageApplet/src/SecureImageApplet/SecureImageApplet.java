@@ -2,9 +2,14 @@ package SecureImageApplet;
 
 import com.intel.util.*;
 
+import java.util.Hashtable;
+
 import com.intel.crypto.*;
+import com.intel.crypto.IllegalParameterException;
+import com.intel.crypto.NotInitializedException;
 import com.intel.langutil.ArrayUtils;
 import com.intel.langutil.TypeConverter;
+import com.intel.ui.ProtectedOutput;
 
 //
 // Implementation of DAL Trusted Application: SecureImageApplet 
@@ -47,12 +52,20 @@ public class SecureImageApplet extends IntelApplet {
 	private static final int ZERO_INDEX				= 0;
 	
 	// Commands
+	private static final int CMD_GET_GROUP_ID = 0;
 	private static final int CMD_INIT_AND_GET_S1 		= 1;
 	private static final int CMD_GET_S3_MESSAGE_LEN 	= 2;
 	private static final int CMD_PROCESS_S2_AND_GET_S3 	= 3;
-	
-	private static final int CMD_GET_AUTHENTICATION_ID = 5;         // added this for authentication stage
+	private static final int CMD_DECRYPT_SYMETRIC_KEY = 5;
 
+	private static final int CMD_GET_AUTHENTICATION_ID = 13;         // added this for authentication stage
+	private static final int CMD_GENERATE_PAVP_SESSION_KEY = 6;
+	private static final int CMD_SET_NONCE = 10;
+	private static final int CMD_IS_PROVISIONED = 11;
+
+	private static final int CMD_RESET = 12;
+
+	
 	//Error codes
 	private static final int UNRECOGNIZED_COMMAND			= -10;	
 	private static final int FAILED_TO_GET_PUBLIC_KEY		= -20;
@@ -64,8 +77,20 @@ public class SecureImageApplet extends IntelApplet {
 	private static final int FAILED_TO_PROCESS_S2			= -80;
 	private static final int FAILED_TO_GET_SESSION_PARAMS	= -90;
 	private static final int FAILED_TO_ENCRYPT_DATA	        = -100;
+	
+	private static final int ERROR_REPLAY = -2;
+	private static final int ERROR_EXCEED = -3;
 
 	
+	final static int PROVISIONED = 0;
+	final static int NOT_PROVISIONED = 1;
+	
+	byte[] DecryptedSymmetricKey = null;
+	boolean dataLoaded;
+	boolean shouldSave;
+	int limitation, imageId;
+	Hashtable map;
+
 	
 			
 	private int InitializeSigmaInstance() {
@@ -117,7 +142,7 @@ public class SecureImageApplet extends IntelApplet {
 		return APPLET_SUCCESS;
 	}
 	
-		public static byte[] padding (byte[] input) {
+	public static byte[] padding (byte[] input) {
 			int len = input.length;
 			int padding = 16 - (len % 16);
 			int padLen = 16 - (len % 16);
@@ -130,7 +155,8 @@ public class SecureImageApplet extends IntelApplet {
 			return padded;
 		}
 		
-		public static byte[] unpadding (byte[] input) {
+	public static byte[] unpadding (byte[] input) {
+			// TODO: add padding check
 			int padLen = input[input.length -1] / 8;
 			//System.out.println(padLen);
 			int dataLen = input.length - padLen;
@@ -352,8 +378,7 @@ public class SecureImageApplet extends IntelApplet {
 																		// doesn't really important
 		DebugPrint.printString("after set iv");
 	}
-	
-	
+		
 	
 	private byte[] encrypt(byte[] data, int dataLength) {
 		/*
@@ -376,11 +401,186 @@ public class SecureImageApplet extends IntelApplet {
 		return output;
 	}
 	
+	private int decryptSymetricKey(byte[] commandData)
+	{
+		int status = IntelApplet.APPLET_ERROR_GENERIC;
+		DebugPrint.printString("Decrypting symetric key...");
+
+		try
+		{
+			// validate the data was loaded
+			if (!dataLoaded)
+			{
+				status = ERROR_REPLAY;
+				throw new Exception("Data replay.");
+			}
+			
+			DecryptedSymmetricKey = new byte[256];
+			byte DecryptedBuffer[] = new byte[256];
+			byte Times[] = new byte[4];
+
+			
+
+			short count;
+			try
+			{
+				// TODO: is need to be in length of 24 bytes (4 times, 4 id, 16 key)?. or 
+				count = cryptoObject.decryptComplete(commandData, (short) 0, (short) 32, DecryptedBuffer, (short) 0);
+			}
+			catch (IllegalParameterException ex)
+			{
+				DebugPrint.printString("0");
+				throw new Exception("illegalParameterException");
+			}
+			catch (ComputationException ex)
+			{
+				DebugPrint.printString("1");
+				throw new Exception("computationException, error returned from the crypto engine.");
+			}
+			catch (NotInitializedException ex)
+			{
+				DebugPrint.printString("2");
+				throw new Exception("notInitializedException");
+			}
+			catch (CryptoException ex)
+			{
+				DebugPrint.printString("3");
+
+				throw new Exception("an internal error occurred");
+			}
+			DebugPrint.printString("after decrypt");
+			ArrayUtils.copyByteArray(DecryptedBuffer, 0, Times, 0, 4);
+			limitation = TypeConverter.bytesToInt(Times, 0);
+			DebugPrint.printString("limit:");
+
+			DebugPrint.printInt(limitation);
+			ArrayUtils.copyByteArray(DecryptedBuffer, 4, Times, 0, 4);
+			// get image Id
+			imageId = TypeConverter.bytesToInt(Times, 0);
+			DebugPrint.printString("iamge id:");
+			DebugPrint.printInt(imageId);
+			// get the times the picture was viewed, the image Id is the key in
+			// the map
+			Object key = new Integer(imageId);
+			Integer timesViewed = (Integer) map.get(key);
+			if (timesViewed == null)
+			{
+				// this is a new picture, there is still no key and value for it
+				timesViewed = new Integer(0);
+			}
+			// check that the times were not exceeded
+			if (timesViewed.intValue() >= limitation)
+			{
+				status = ERROR_EXCEED;
+				throw new Exception("Error: Cannot decrypt key. Times exceeded");
+			}
+			// everything is OK, can save the decrypted key
+			ArrayUtils.copyByteArray(DecryptedBuffer, 8, DecryptedSymmetricKey, 0, 248);
+			// //////////////
+			DebugPrint.printString("Key size (count):" + count);
+			DebugPrint.printString("Decrypted Symmetric Key:");
+			byte[] debugKey = new byte[16];
+			ArrayUtils.copyByteArray(DecryptedSymmetricKey, 0, debugKey, 0, 16);
+			DebugPrint.printBuffer(debugKey);
+			
+			// //////////////
+
+			status = IntelApplet.APPLET_SUCCESS;
+		}
+		catch (Exception ex)
+		{
+			byte[] errorResponse = ("Error: failed to decrypt symetric key - " + ex.getMessage()).getBytes();
+			setResponse(errorResponse, 0, errorResponse.length);
+			DebugPrint.printString("Error: failed to decrypt symetric key\n"
+					+ ex.getMessage() + ex.toString());
+			return status;
+		}
+
+		DebugPrint.printString("Decrypting symetric key Succeeded!");
+		return status;
+	}
+	
+	private int generatePavpKey(byte[] commandData)
+	{
+		int status = IntelApplet.APPLET_ERROR_GENERIC;
+		DebugPrint.printString("Generating PAVP key...");
+
+		try
+		{
+			// validate the data was loaded
+			if (!dataLoaded)
+			{
+				status = ERROR_REPLAY;
+				throw new Exception("Data replay.");
+			}
+			// get the times the picture was viewed
+			Object key = new Integer(imageId);
+			Integer timesViewed = (Integer) map.get(key);
+			if (timesViewed == null)
+			{
+				// this is a new picture, there is still no key and value for it
+				timesViewed = new Integer(0);
+			}
+			// check that the times were not exceeded
+			if (timesViewed.intValue() >= limitation)
+			{
+				status = ERROR_EXCEED;
+				throw new Exception("Error: Cannot create key. Times exceeded");
+			}
+			// increment the times the picture was viewed
+			timesViewed = new Integer(timesViewed.intValue() + 1);
+			// update the map with the new value
+			map.put(key, (Object) timesViewed);
+			// flag that the data should be saved
+			shouldSave = true;
+
+			// get the ME Handle
+			int slotHandle = TypeConverter.bytesToInt(commandData, 0);
+
+			// Create the session key
+			ProtectedOutput pOutput = ProtectedOutput.getInstance(slotHandle, DecryptedSymmetricKey, (short) 0, (short) 16);
+
+			byte response[] = new byte[16];
+
+			// retrieve encrypted key record to be provided to GFX driver for
+			// key injection
+			pOutput.getEncryptedKeyRecord(response, (short) 0);
+
+			setResponse(response, 0, response.length);
+
+			status = IntelApplet.APPLET_SUCCESS;
+		}
+		catch (Exception ex)
+		{
+			byte[] errorResponse = ("Error: failed to generate PAVP session key - " + ex.getMessage()).getBytes();
+			setResponse(errorResponse, 0, errorResponse.length);
+			DebugPrint.printString("Error: failed to generate PAVP Session key\n"
+					+ ex.getMessage());
+			return status;
+		}
+
+		DebugPrint.printString("Generating PAVP Session key Succeeded!");
+		return status;
+	}
+
 	
 	
 	public int onInit(byte[] request) {
-		DebugPrint.printString("Hello, DAL!");
-		
+		DebugPrint.printString("Protected Output Usage Applet: onInit");
+		map = new Hashtable();
+		shouldSave = false;
+		limitation = 0;
+		imageId = 0;
+		if (MTC.getMTC() == 0)
+		{
+			// first usage of this Trusted Application, no data to load
+			dataLoaded = true;
+		}
+		else
+		{
+			// there is data to load
+			dataLoaded = false;
+		}
 		return APPLET_SUCCESS;
 	}
 	
@@ -437,6 +637,15 @@ public class SecureImageApplet extends IntelApplet {
 				result = GetAuthenticationId(request);
 				break;
 			}
+			
+			case CMD_DECRYPT_SYMETRIC_KEY:
+			{
+				result = decryptSymetricKey(request);
+				break;
+			}	
+			case CMD_GENERATE_PAVP_SESSION_KEY:
+				result = generatePavpKey(request);
+				break;
 			
 			
 			default:

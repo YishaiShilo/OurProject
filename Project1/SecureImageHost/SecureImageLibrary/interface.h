@@ -27,7 +27,7 @@ DRM_EXPORT showImage(UINT8* ServerData, HWND targetControl, char* errorMsg);
 DRM_EXPORT refresh();
 
 /*Return the TA public key abd signature, at first run or after reset- will generate a new pair of keys*/
-DRM_EXPORT getPublicKey(byte* modulus,byte* exponent, byte* signed_modulus, byte* signed_exponent, byte* signature_nonce,  char* errorMsg);
+//DRM_EXPORT getPublicKey(byte* modulus,byte* exponent, byte* signed_modulus, byte* signed_exponent, byte* signature_nonce,  char* errorMsg);
 
 /*Encrypt a bitmap*/
 DRM_EXPORT encryptBitmap(UINT8* plainBitmap,UINT32 plainBitmapSize,UINT8* encryptedBitmap,UINT8* key);

@@ -97,43 +97,43 @@ SecureImage* SecureImage::Session()
 
 //public functions:
 
-bool SecureImage::getPublicKey(byte* modulus,byte* exponent, byte* signed_modulus, byte* signed_exponent, byte* signature_nonce, char* errorMsg)
-{
-	//if initialization error occured - return failure with matching error
-	if(!initialized)
-	{
-		strcpy(errorMsg,initializationError);
-		return false;
-	}
-
-	//check if metadata file exists
-	ifstream test(metaDataPath,std::ios::binary);
-	if(!test.good())
-	{
-		//file not exist - check if there are keys in the solution memory from this run
-		if(!isAnyData)
-		{
-			//no keys in memory or in the file - need to generate a pair
-			if(!generateKeys(errorMsg))
-			{
-				return false;
-			}
-			//load generated keys to the TA
-			if(!loadKeys(errorMsg))
-			{
-				return false;
-			}
-		}
-	}
-	//copy the mode,exponent, sinatures and nonce to the output buffer
-	memcpy(modulus,mod,mod_size);
-	memcpy(exponent,e,e_size);
-	memcpy(signed_modulus,signed_mod,signed_mod_size);
-	memcpy(signed_exponent,signed_e,signed_e_size);
-	memcpy(signature_nonce,nonce,EPID_NONCE_LEN);
-
-	return true;
-}
+//bool SecureImage::getPublicKey(byte* modulus,byte* exponent, byte* signed_modulus, byte* signed_exponent, byte* signature_nonce, char* errorMsg)
+//{
+//	//if initialization error occured - return failure with matching error
+//	if(!initialized)
+//	{
+//		strcpy(errorMsg,initializationError);
+//		return false;
+//	}
+//
+//	//check if metadata file exists
+//	ifstream test(metaDataPath,std::ios::binary);
+//	if(!test.good())
+//	{
+//		//file not exist - check if there are keys in the solution memory from this run
+//		if(!isAnyData)
+//		{
+//			//no keys in memory or in the file - need to generate a pair
+//			if(!generateKeys(errorMsg))
+//			{
+//				return false;
+//			}
+//			//load generated keys to the TA
+//			if(!loadKeys(errorMsg))
+//			{
+//				return false;
+//			}
+//		}
+//	}
+//	//copy the mode,exponent, sinatures and nonce to the output buffer
+//	memcpy(modulus,mod,mod_size);
+//	memcpy(exponent,e,e_size);
+//	memcpy(signed_modulus,signed_mod,signed_mod_size);
+//	memcpy(signed_exponent,signed_e,signed_e_size);
+//	memcpy(signature_nonce,nonce,EPID_NONCE_LEN);
+//
+//	return true;
+//}
 
 bool SecureImage::showImage(UINT8* ServerData, HWND targetControl,char* errorMsg)
 {
@@ -605,58 +605,58 @@ const char* SecureImage::getJHIRet(JHI_RET ret)
 	return codes[ret];
 }
 
-bool SecureImage::loadData()
-{
-	bool res=true;
-	//open the file at the end
-	ifstream file(metaDataPath,ios::binary |ios::in|ios::ate);
-	if(file.good())
-	{
-		//get the size of the file
-		ifstream::pos_type size=file.tellg();
-		byte* dataBuf=new byte[size];
-		//move to the begining of the file
-		file.seekg(0,ios::beg);
-		//read all the data from the file
-		file.read(reinterpret_cast<char*>(dataBuf), size);
-		file.close();
-		
-		//parse keys part
-		int index=parseMetaData(dataBuf);
-		//save it in the keyData buffer
-		memcpy(keysData,dataBuf,1664);
-		//there are keys in the memory - set flag to true
-		isAnyData=true;
-		//parse nonce part
-		nonce=new byte[EPID_NONCE_LEN];
-		memcpy(nonce,dataBuf+index,EPID_NONCE_LEN);
-		//the rest is TA metadata - copy it to a new buffer
-		int newSize=(int)(size)-index-EPID_NONCE_LEN;
-		//load the keys to the trusted application
-		if(!loadKeys(initializationError))
-		{
-			res = false;
-		}
-		//check if there is a TA metadata
-		if(newSize!=0)
-		{
-			byte* TAMetaData=new byte[newSize];
-			memcpy(TAMetaData,dataBuf+index+EPID_NONCE_LEN,newSize);
-
-			JVM_COMM_BUFFER commBuf;
-			commBuf.TxBuf->buffer = TAMetaData;
-			commBuf.TxBuf->length = newSize;
-			commBuf.RxBuf->buffer = NULL;
-			commBuf.RxBuf->length = 0;
-			//load the data injto the trusted application
-			if(!callJHI(&commBuf,CMD_LOAD_METADATA,initializationError))
-				res=  false;
-			delete[] TAMetaData;		
-		}
-		delete[] dataBuf;
-	}
-	return res;
-}
+//bool SecureImage::loadData()
+//{
+//	bool res=true;
+//	//open the file at the end
+//	ifstream file(metaDataPath,ios::binary |ios::in|ios::ate);
+//	if(file.good())
+//	{
+//		//get the size of the file
+//		ifstream::pos_type size=file.tellg();
+//		byte* dataBuf=new byte[size];
+//		//move to the begining of the file
+//		file.seekg(0,ios::beg);
+//		//read all the data from the file
+//		file.read(reinterpret_cast<char*>(dataBuf), size);
+//		file.close();
+//		
+//		//parse keys part
+//		int index=parseMetaData(dataBuf);
+//		//save it in the keyData buffer
+//		memcpy(keysData,dataBuf,1664);
+//		//there are keys in the memory - set flag to true
+//		isAnyData=true;
+//		//parse nonce part
+//		nonce=new byte[EPID_NONCE_LEN];
+//		memcpy(nonce,dataBuf+index,EPID_NONCE_LEN);
+//		//the rest is TA metadata - copy it to a new buffer
+//		int newSize=(int)(size)-index-EPID_NONCE_LEN;
+//		//load the keys to the trusted application
+//		if(!loadKeys(initializationError))
+//		{
+//			res = false;
+//		}
+//		//check if there is a TA metadata
+//		if(newSize!=0)
+//		{
+//			byte* TAMetaData=new byte[newSize];
+//			memcpy(TAMetaData,dataBuf+index+EPID_NONCE_LEN,newSize);
+//
+//			JVM_COMM_BUFFER commBuf;
+//			commBuf.TxBuf->buffer = TAMetaData;
+//			commBuf.TxBuf->length = newSize;
+//			commBuf.RxBuf->buffer = NULL;
+//			commBuf.RxBuf->length = 0;
+//			//load the data injto the trusted application
+//			if(!callJHI(&commBuf,CMD_LOAD_METADATA,initializationError))
+//				res=  false;
+//			delete[] TAMetaData;		
+//		}
+//		delete[] dataBuf;
+//	}
+//	return res;
+//}
 
 bool SecureImage::saveData(char* errorMsg)
 {
@@ -749,88 +749,88 @@ int SecureImage::parseMetaData(byte *rawData)
 	currInd+=d_size;
 	return currInd;
 }
+//
+//bool SecureImage::loadKeys(char* errorMsg)
+//{
+//	//if initialization error occured - return failure
+//	if(!initialized)
+//		return false;
+//	INT32 responseCode;
+//	byte rcvBuf[524] = {0};
+//	JVM_COMM_BUFFER commBuf;
+//	//load the private key (encrypted with pbind algorithm) to the Trusted Application
+//	commBuf.TxBuf->buffer = d;
+//	commBuf.TxBuf->length = d_size;
+//	commBuf.RxBuf->buffer = NULL;
+//	commBuf.RxBuf->length = 0;
+//	if(!callJHI(&commBuf,CMD_LOAD_PRIVATE_KEY,errorMsg))
+//	{
+//		return false;
+//	}
+//
+//	//load the exponent to the Trusted Application
+//	commBuf.TxBuf->buffer = e;
+//	commBuf.TxBuf->length = e_size;
+//	JHI_RET ret= JHI_SendAndRecv2(handle,session,CMD_LOAD_PUBLIC_KEY_EXPONENT,&commBuf,&responseCode);
+//	if(ret != JHI_SUCCESS || responseCode!=0)
+//	{
+//		strcpy(errorMsg,"Failed loading public key exponent.");
+//		return false;
+//	}
+//
+//	//load the modulu to the Trusted Application
+//	commBuf.TxBuf->buffer = mod;
+//	commBuf.TxBuf->length = mod_size;
+//	ret = JHI_SendAndRecv2(handle,session,CMD_LOAD_PUBLIC_KEY_MODULUS,&commBuf,&responseCode);
+//	if(ret != JHI_SUCCESS || responseCode!=0)
+//	{
+//		strcpy(errorMsg,"Failed loading public key moduls.");
+//		return false;
+//	}  
+//	return true;
+//}
 
-bool SecureImage::loadKeys(char* errorMsg)
-{
-	//if initialization error occured - return failure
-	if(!initialized)
-		return false;
-	INT32 responseCode;
-	byte rcvBuf[524] = {0};
-	JVM_COMM_BUFFER commBuf;
-	//load the private key (encrypted with pbind algorithm) to the Trusted Application
-	commBuf.TxBuf->buffer = d;
-	commBuf.TxBuf->length = d_size;
-	commBuf.RxBuf->buffer = NULL;
-	commBuf.RxBuf->length = 0;
-	if(!callJHI(&commBuf,CMD_LOAD_PRIVATE_KEY,errorMsg))
-	{
-		return false;
-	}
-
-	//load the exponent to the Trusted Application
-	commBuf.TxBuf->buffer = e;
-	commBuf.TxBuf->length = e_size;
-	JHI_RET ret= JHI_SendAndRecv2(handle,session,CMD_LOAD_PUBLIC_KEY_EXPONENT,&commBuf,&responseCode);
-	if(ret != JHI_SUCCESS || responseCode!=0)
-	{
-		strcpy(errorMsg,"Failed loading public key exponent.");
-		return false;
-	}
-
-	//load the modulu to the Trusted Application
-	commBuf.TxBuf->buffer = mod;
-	commBuf.TxBuf->length = mod_size;
-	ret = JHI_SendAndRecv2(handle,session,CMD_LOAD_PUBLIC_KEY_MODULUS,&commBuf,&responseCode);
-	if(ret != JHI_SUCCESS || responseCode!=0)
-	{
-		strcpy(errorMsg,"Failed loading public key moduls.");
-		return false;
-	}  
-	return true;
-}
-
-bool SecureImage::generateKeys(char* errorMsg)
-{
-	//if initialization error occured - return failure
-	if(!initialized)
-		return false;
-	if(!isProvisioned(errorMsg))
-		return false;
-	
-	//create and set the nonce that will be signed as a part of the signature
-	nonce=new byte[EPID_NONCE_LEN];
-	for(int i=0; i<EPID_NONCE_LEN; i++)
-	{
-		nonce[i] = rand();
-	}
-	//Send and Receive
-	JVM_COMM_BUFFER commBuf;
-	commBuf.TxBuf->buffer = nonce;
-	commBuf.TxBuf->length = EPID_NONCE_LEN;
-	commBuf.RxBuf->buffer = NULL;
-	commBuf.RxBuf->length = 0;
-	if(!callJHI(&commBuf,CMD_SET_NONCE,errorMsg))
-		return false;
-
-	byte rcvBuf[1664] = {0};
-	commBuf.TxBuf->buffer = NULL;
-	commBuf.TxBuf->length = 0;
-	commBuf.RxBuf->buffer = rcvBuf;
-	commBuf.RxBuf->length = 1664;
-	//ask the Trusted Application to generate keys, note: this is a very long operation
-	if(!callJHI(&commBuf,CMD_GENERATE_KEYS,errorMsg))
-	{
-		return false;
-	}
-
-	memcpy(keysData,rcvBuf,1664);
-	isAnyData=true;
-
-	parseMetaData(rcvBuf);
-
-	return true;
-}
+//bool SecureImage::generateKeys(char* errorMsg)
+//{
+//	//if initialization error occured - return failure
+//	if(!initialized)
+//		return false;
+//	if(!isProvisioned(errorMsg))
+//		return false;
+//	
+//	//create and set the nonce that will be signed as a part of the signature
+//	nonce=new byte[EPID_NONCE_LEN];
+//	for(int i=0; i<EPID_NONCE_LEN; i++)
+//	{
+//		nonce[i] = rand();
+//	}
+//	//Send and Receive
+//	JVM_COMM_BUFFER commBuf;
+//	commBuf.TxBuf->buffer = nonce;
+//	commBuf.TxBuf->length = EPID_NONCE_LEN;
+//	commBuf.RxBuf->buffer = NULL;
+//	commBuf.RxBuf->length = 0;
+//	if(!callJHI(&commBuf,CMD_SET_NONCE,errorMsg))
+//		return false;
+//
+//	byte rcvBuf[1664] = {0};
+//	commBuf.TxBuf->buffer = NULL;
+//	commBuf.TxBuf->length = 0;
+//	commBuf.RxBuf->buffer = rcvBuf;
+//	commBuf.RxBuf->length = 1664;
+//	//ask the Trusted Application to generate keys, note: this is a very long operation
+//	if(!callJHI(&commBuf,CMD_GENERATE_KEYS,errorMsg))
+//	{
+//		return false;
+//	}
+//
+//	memcpy(keysData,rcvBuf,1664);
+//	isAnyData=true;
+//
+//	parseMetaData(rcvBuf);
+//
+//	return true;
+//}
 
 SecureImage::~SecureImage(void)
 {

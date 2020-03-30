@@ -21,10 +21,10 @@ using namespace std;
 
 //TA command IDs
 static int CMD_GET_GROUP_ID = 0;
-static int CMD_GENERATE_KEYS				= 1;
-static int CMD_LOAD_PRIVATE_KEY				= 2;
-static int CMD_LOAD_PUBLIC_KEY_EXPONENT		= 3;
-static int CMD_LOAD_PUBLIC_KEY_MODULUS		= 4;
+//static int CMD_GENERATE_KEYS				= 1;
+//static int CMD_LOAD_PRIVATE_KEY				= 2;
+//static int CMD_LOAD_PUBLIC_KEY_EXPONENT		= 3;
+//static int CMD_LOAD_PUBLIC_KEY_MODULUS		= 4;
 static int CMD_DECRYPT_SYMETRIC_KEY			= 5;
 static int CMD_GENERATE_PAVP_SESSION_KEY	= 6;
 static int CMD_LOAD_METADATA				= 7;
@@ -34,6 +34,8 @@ static int CMD_SET_NONCE					= 10;
 static int CMD_IS_PROVISIONED				= 11;
 static int CMD_RESET						= 12; 
 
+//Authentication command IDs:
+static int CMD_SEND_AUTHENTICATION_ID = 13;
 
 // Sigma command IDs
 static int CMD_INIT_AND_GET_S1 = 1;
@@ -45,8 +47,7 @@ static int INITIALIZE_FAILED = -2;
 static int INSTALL_FAILED = -3;
 static int OPEN_SESSION_FAILED = -4;
 
-//Authentication command IDs:
-static int CMD_SEND_AUTHENTICATION_ID = 5;
+
 
 //convention definitions
 static int PROVISIONED = 0;
@@ -102,9 +103,9 @@ private:
 	//helper function to perform JHI calls and return errors
 	bool callJHI(JVM_COMM_BUFFER* buff, int command, char* errorMsg);
 	//load the RSA key pair to the TA
-	bool loadKeys(char* errorMsg);
+	//bool loadKeys(char* errorMsg);
 	//Ask the TA to generate a new RSA key pair
-	bool generateKeys(char* errorMsg);
+	//bool generateKeys(char* errorMsg);
 	//load solution and TA metadata
 	bool loadData();
 	//Save solution and TA metadata

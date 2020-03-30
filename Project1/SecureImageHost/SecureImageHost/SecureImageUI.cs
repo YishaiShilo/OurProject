@@ -113,60 +113,60 @@ namespace CSharpClientUI
             }
         }
 
-        private bool sendKeys(StringBuilder builder)
-        {
-            try
-            {
-                //send group ID - needed by the server to verify the key
-                sendEPIDGroupID();
+        //private bool sendKeys(StringBuilder builder)
+        //{
+        //    try
+        //    {
+        //        //send group ID - needed by the server to verify the key
+        //        sendEPIDGroupID();
 
-                //sent keys notification
-                byte[] cmdSendKeys = BitConverter.GetBytes(SENDING_KEYS);
-                socket.Send(cmdSendKeys);
+        //        //sent keys notification
+        //        byte[] cmdSendKeys = BitConverter.GetBytes(SENDING_KEYS);
+        //        socket.Send(cmdSendKeys);
 
-                byte[] mod = new byte[256];
-                byte[] exponent = new byte[4];
-                byte[] signed_mod = new byte[EPID_SIGNATURE_LEN];
-                byte[] signed_exponent = new byte[EPID_SIGNATURE_LEN];
-                byte[] nonce = new byte[EPID_NONCE_LEN];
+        //        byte[] mod = new byte[256];
+        //        byte[] exponent = new byte[4];
+        //        byte[] signed_mod = new byte[EPID_SIGNATURE_LEN];
+        //        byte[] signed_exponent = new byte[EPID_SIGNATURE_LEN];
+        //        byte[] nonce = new byte[EPID_NONCE_LEN];
                 
-                //get keys from the library
-                if (!SecureImageHostWrapper.getPublicKey(mod, exponent, signed_mod, signed_exponent, nonce, builder))
-                    return false;
+        //        //get keys from the library
+        //        if (!SecureImageHostWrapper.getPublicKey(mod, exponent, signed_mod, signed_exponent, nonce, builder))
+        //            return false;
 
-                //prepare the send data buffer
-                byte[] sendData = new byte[260 + EPID_SIGNATURE_LEN * 2 + EPID_NONCE_LEN];
-                exponent.CopyTo(sendData, 0);
-                mod.CopyTo(sendData, 4);
-                signed_exponent.CopyTo(sendData, 260);
-                signed_mod.CopyTo(sendData, 260 + EPID_SIGNATURE_LEN);
-                nonce.CopyTo(sendData, 260 + EPID_SIGNATURE_LEN*2);
+        //        //prepare the send data buffer
+        //        byte[] sendData = new byte[260 + EPID_SIGNATURE_LEN * 2 + EPID_NONCE_LEN];
+        //        exponent.CopyTo(sendData, 0);
+        //        mod.CopyTo(sendData, 4);
+        //        signed_exponent.CopyTo(sendData, 260);
+        //        signed_mod.CopyTo(sendData, 260 + EPID_SIGNATURE_LEN);
+        //        nonce.CopyTo(sendData, 260 + EPID_SIGNATURE_LEN*2);
 
 
-                int total = 0;
-                int size = sendData.Length;
-                int dataleft = size;
-                int sent;
+        //        int total = 0;
+        //        int size = sendData.Length;
+        //        int dataleft = size;
+        //        int sent;
 
-                //dend the data to the server
-                byte[] datasize = new byte[4];
-                datasize = BitConverter.GetBytes(size);
-                sent = socket.Send(datasize);
+        //        //dend the data to the server
+        //        byte[] datasize = new byte[4];
+        //        datasize = BitConverter.GetBytes(size);
+        //        sent = socket.Send(datasize);
 
-                while (total < size)
-                {
-                    sent = socket.Send(sendData, total, dataleft, SocketFlags.None);
-                    total += sent;
-                    dataleft -= sent;
-                }
+        //        while (total < size)
+        //        {
+        //            sent = socket.Send(sendData, total, dataleft, SocketFlags.None);
+        //            total += sent;
+        //            dataleft -= sent;
+        //        }
 
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+        //        return true;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return false;
+        //    }
+        //}
 
         private bool sendEPIDGroupID()
         {
@@ -394,18 +394,18 @@ namespace CSharpClientUI
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            //stop refresh
-            if (refreshThread != null)
-                refreshThread.Abort();
-            //close session
-            SecureImageHostWrapper.closePavpSession();
-            resetUI();
-            //et library
-            StringBuilder builder = new StringBuilder(bufferSize);
-            if (SecureImageHostWrapper.resetSolution(builder))
-                MessageBox.Show("Reset was successful!");
-            else
-                MessageBox.Show("Failed to reset solution. " + builder.ToString());
+            ////stop refresh
+            //if (refreshThread != null)
+            //    refreshThread.Abort();
+            ////close session
+            //SecureImageHostWrapper.closePavpSession();
+            //resetUI();
+            ////et library
+            //StringBuilder builder = new StringBuilder(bufferSize);
+            //if (SecureImageHostWrapper.resetSolution(builder))
+            //    MessageBox.Show("Reset was successful!");
+            //else
+            //    MessageBox.Show("Failed to reset solution. " + builder.ToString());
         }
 
         private void resetUI()
