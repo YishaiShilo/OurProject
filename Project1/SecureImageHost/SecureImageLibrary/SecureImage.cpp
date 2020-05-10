@@ -186,7 +186,7 @@ bool SecureImage::showImage(UINT8* ServerData, HWND targetControl,char* errorMsg
 	byte pavpKey[16];
 	commBuf.TxBuf->buffer = PAVPKeyRequest;
 	commBuf.TxBuf->length = 4;
-	commBuf.RxBuf->buffer = pavpKey;
+	commBuf.RxBuf->buffer = pavpKey; // we get (S1)Kb
 	commBuf.RxBuf->length = 16;
 	//perform call to the Trusted Application to re-encrypt the symetric key with PAVP key
 	if(!callJHI(&commBuf,CMD_GENERATE_PAVP_SESSION_KEY,errorMsg))
@@ -194,9 +194,14 @@ bool SecureImage::showImage(UINT8* ServerData, HWND targetControl,char* errorMsg
 		PavpHandler::Session()->ClosePAVPSession();
 		return false;
 	}
-
+	// for print in hexa
+	char buffer[33];
+	buffer[32] = 0;
+	for (int j = 0; j < 16; j++)
+		sprintf(&buffer[2 * j], "%02X", pavpKey[j]);
+	std::cout << "pavpKey: " << buffer << std::endl;
 	//set the new key we got from the Trusted Application
-	PavpHandler::Session()->SetNewKey(pavpKey);
+	PavpHandler::Session()->SetNewKey(pavpKey);  // set (S1)Kb as pavpKey
 	//next four bytes are UINT32 representing siz of the encrypted bitmap buffer size
 	memcpy(&encryptedBitmapSize, &ServerData[12+keySize], 4);
 	//allocate buffer for the encrypted bitmap

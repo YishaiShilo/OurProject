@@ -65,7 +65,7 @@ public class SecureImageApplet extends IntelApplet {
 
 	private static final int CMD_RESET = 12;
 
-	
+
 	//Error codes
 	private static final int UNRECOGNIZED_COMMAND			= -10;	
 	private static final int FAILED_TO_GET_PUBLIC_KEY		= -20;
@@ -449,6 +449,9 @@ public class SecureImageApplet extends IntelApplet {
 				throw new Exception("an internal error occurred");
 			}
 			DebugPrint.printString("after decrypt");
+			DebugPrint.printString("decrypt buffer: ");
+			DebugPrint.printBuffer(DecryptedBuffer);
+			
 			ArrayUtils.copyByteArray(DecryptedBuffer, 0, Times, 0, 4);
 			limitation = TypeConverter.bytesToInt(Times, 0);
 			DebugPrint.printString("limit:");
@@ -457,7 +460,7 @@ public class SecureImageApplet extends IntelApplet {
 			ArrayUtils.copyByteArray(DecryptedBuffer, 4, Times, 0, 4);
 			// get image Id
 			imageId = TypeConverter.bytesToInt(Times, 0);
-			DebugPrint.printString("iamge id:");
+			DebugPrint.printString("image id:");
 			DebugPrint.printInt(imageId);
 			// get the times the picture was viewed, the image Id is the key in
 			// the map
@@ -537,15 +540,20 @@ public class SecureImageApplet extends IntelApplet {
 			// get the ME Handle
 			int slotHandle = TypeConverter.bytesToInt(commandData, 0);
 
-			// Create the session key
-			ProtectedOutput pOutput = ProtectedOutput.getInstance(slotHandle, DecryptedSymmetricKey, (short) 0, (short) 16);
-
 			byte response[] = new byte[16];
-
-			// retrieve encrypted key record to be provided to GFX driver for
-			// key injection
-			pOutput.getEncryptedKeyRecord(response, (short) 0);
-
+			// Create the session key
+			// commented for fit amulet, uncomment for hardware
+			ProtectedOutput pOutput = ProtectedOutput.getInstance(slotHandle, DecryptedSymmetricKey, (short) 0, (short) 16);
+			// retrieve encrypted key record to be provided to GFX driver for key injection
+			pOutput.getEncryptedKeyRecord(response, (short) 0); // we get (S1)Kb (s1 encrypted with Kb)
+			
+			// workaround to fit amulet TODO: delete or use host+server workaround
+			//ArrayUtils.copyByteArray(DecryptedSymmetricKey, 0, response, 0, 16);
+			DebugPrint.printString("decrypted key in generate: ");
+			DebugPrint.printBuffer(DecryptedSymmetricKey);
+			DebugPrint.printString("encrypted key from gfx: ");
+			DebugPrint.printBuffer(response);
+			DebugPrint.printString("if encrypted key = decrypted, Workaround for amulet, delete on hardware");
 			setResponse(response, 0, response.length);
 
 			status = IntelApplet.APPLET_SUCCESS;

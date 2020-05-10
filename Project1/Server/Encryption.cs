@@ -385,7 +385,8 @@ namespace DALSamplesServer
             //encrypt the bitmap using the symetric key
 
             symmetric_key = generateAESkey();
-            Console.WriteLine(BitConverter.ToString(symmetric_key));
+            // change for decryption problem, TODO: delete
+            Console.WriteLine("Key for image: " + BitConverter.ToString(symmetric_key));
             return ProtectedOutputHostWrapper.encryptBitmap(bitstream, symmetric_key);
         }
 
@@ -396,6 +397,10 @@ namespace DALSamplesServer
             aes.Mode = CipherMode.ECB;
             aes.KeySize = 128;
             aes.GenerateKey();
+            // change for decryption problem, TODO: delete
+
+            byte[] e = { 0xa8, 0xda, 0xc6, 0x2f, 0x1c, 0x25, 0x81, 0xe2, 0xdf, 0x45, 0x8e, 0x21, 0x67, 0x3e, 0x55, 0x30 };
+            return e;
             return aes.Key;
         }
 
@@ -520,7 +525,7 @@ namespace DALSamplesServer
 
             //encrypt the data using the AES key from sigma session
             byte[] encrypted_symetric_key = EncryptBytes(keyAndTimes);
-
+            Console.WriteLine("Key and times: " + keyAndTimes);
             byte[] data = new byte[sizeof(uint) * 3/*width,height,symmetricKeyLength 32 bit each*/+ encrypted_symetric_key.Length + sizeof(uint)/*encryptedBitmapSize*/+ encrypted_image.Length];
 
             uint width = 960;
@@ -675,12 +680,15 @@ namespace DALSamplesServer
                             else
                             {
                                 socket.Send(BitConverter.GetBytes(STATUS_FAILED));
+
                                 return false;
                             }
                         }
                         else
                         {
                             socket.Send(BitConverter.GetBytes(STATUS_FAILED));
+                            Console.WriteLine("fail generate s2");
+
                             return false;
                         }
 

@@ -84,7 +84,7 @@ HRESULT PavpHandler::SetNewKey(UINT8* NewKey)
 {
 #ifndef AMULET
 	//PAVP_SET_KEY_WYSIWYS: update Sn_d then enable heavy mode
-	PavpEpidStatus stat=m_PavpDevice.SetNewKey(PAVP_SET_KEY_WYSIWYS,(StreamKey *)NewKey);
+	PavpEpidStatus stat = m_PavpDevice.SetNewKey(PAVP_SET_KEY_WYSIWYS, (StreamKey *)NewKey);
 #else
 	S1Kb = new UINT8[KEY_RECORD_SIZE];
 	memcpy(S1Kb, NewKey, KEY_RECORD_SIZE);
