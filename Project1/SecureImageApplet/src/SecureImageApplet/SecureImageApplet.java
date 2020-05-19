@@ -40,9 +40,6 @@ public class SecureImageApplet extends IntelApplet {
 	private byte[] _sigmaReplyBuffer;
 	private Sigma sigma;
 
-	private byte[] skey;
-
-	private byte[] mkey;
 
 	/*
 	 * This is the object that encrypt and decrypt data.
@@ -324,8 +321,6 @@ public class SecureImageApplet extends IntelApplet {
 	 */
 	public int invokeCommand(int commandId, byte[] request) {
 		
-
-	
 		// Reset the reply buffer and result code
 		_sigmaReplyBuffer = null;
 		int result = APPLET_SUCCESS;

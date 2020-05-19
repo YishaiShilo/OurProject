@@ -1,6 +1,5 @@
 package SecureImageApplet;
 
-import com.intel.util.IntelApplet;
 import com.intel.crypto.SigmaAlgEx;
 import com.intel.crypto.SymmetricBlockCipherAlg;
 import com.intel.langutil.ArrayUtils;
@@ -72,7 +71,7 @@ public class Sigma {
 	public byte[] decrypt(byte[] data, int dataLength) {
 		/*
 		 * A function that decrypt the given data with our public key. dataLength is the
-		 * length of the data to be crypted in bytes.
+		 * length of the data to be decrypted in bytes.
 		 */
 		byte[] output = new byte[dataLength];
 		cryptoObject.decryptComplete(data, (short) 0, (short) dataLength, output, (short) 0);

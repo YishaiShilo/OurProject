@@ -187,6 +187,83 @@ bool SecureImage::closePavpSession()
 	return res;
 }
 
+bool SecureImage::close(char* errorMsg)
+{
+	//save metadata
+	//bool res = saveData(errorMsg);
+	bool res = true;
+	//close PAVP session
+	if (!PavpHandler::Session()->ClosePAVPSession())
+	{
+		if (res)
+			strcpy(errorMsg, "Failed to close PAVP session");
+		res = false;
+	}
+	if (handle != NULL)
+	{
+		JHI_RET ret;
+		//Close Trusted Application session
+		if (session != NULL)
+		{
+			ret = JHI_CloseSession(handle, &session);
+			if (ret != JHI_SUCCESS)
+			{
+				if (res)
+				{
+					strcpy(errorMsg, "Failed to close session. Error: ");
+					strcat(errorMsg, getJHIRet(ret));
+				}
+				res = false;
+			}
+		}
+
+		//Uninstall the Trusted Application
+		ret = JHI_Uninstall(handle, const_cast<char*>(taId.c_str()));
+		if (ret != JHI_SUCCESS)
+		{
+			if (res)
+			{
+				strcpy(errorMsg, "Failed to uninstall TA. Error: ");
+				strcat(errorMsg, getJHIRet(ret));
+			}
+			res = false;
+		}
+
+		//Deinit the JHI handle
+		ret = JHI_Deinit(handle);
+		if (ret != JHI_SUCCESS)
+		{
+			if (res)
+			{
+				strcpy(errorMsg, "Failed to de-init JHI. Error: ");
+				strcat(errorMsg, getJHIRet(ret));
+			}
+			res = false;
+		}
+	}
+	////release all memory allocated
+	//if (mod != NULL)
+	//	delete[] mod;
+	//if (e != NULL)
+	//	delete[] e;
+	//if (signed_mod != NULL)
+	//	delete[] signed_mod;
+	//if (signed_e != NULL)
+	//	delete[] signed_e;
+	//if (d != NULL)
+	//	delete[] d;
+	//if (nonce != NULL)
+	//	delete[] nonce;
+	//if (encryptedBitmap != NULL)
+	//	delete[] encryptedBitmap;
+
+	//set initializations flag to false
+	initialized = false;
+	isAnyData = false;
+
+	return res;
+}
+
 int SecureImage::getRemainingTimes()
 {
 	//if initialization error occured - return failure
@@ -558,36 +635,36 @@ bool SecureImage::isProvisioned(char* errorMsg)
 	return false;
 }
 
-int SecureImage::parseMetaData(byte *rawData)
-{
-	//extract the size of the encrypted private key, mod and exponent
-	mod_size = (short)((rawData[0] << 8) | rawData[1]); // should be 256
-	signed_mod_size = (short)((rawData[2] << 8) | rawData[3]); 
-	e_size = (short)((rawData[4] << 8) | rawData[5]); // should be 4
-	signed_e_size = (short)((rawData[6] << 8) | rawData[7]); 
-	d_size = (short)((rawData[8] << 8) | rawData[9]); // should be 256
-
-	//allocate buffers for encrypted private key, mod and exponent
-	signed_mod = new byte[signed_mod_size];
-	signed_e = new byte[signed_e_size];
-	mod = new byte[mod_size];
-	e = new byte[e_size];
-	d = new byte[d_size];
-
-	//init the data members of encrypted private key, mod and exponent
-	int currInd=10;
-	memcpy(mod,rawData+currInd,mod_size);
-	currInd+=mod_size;
-	memcpy(signed_mod,rawData+currInd,signed_mod_size);
-	currInd+=signed_mod_size;
-	memcpy(e,rawData+currInd,e_size);
-	currInd+=e_size;
-	memcpy(signed_e,rawData+currInd,signed_e_size);
-	currInd+=signed_e_size;
-	memcpy(d,rawData+currInd,d_size);
-	currInd+=d_size;
-	return currInd;
-}
+//int secureimage::parsemetadata(byte *rawdata)
+//{
+//	//extract the size of the encrypted private key, mod and exponent
+//	mod_size = (short)((rawdata[0] << 8) | rawdata[1]); // should be 256
+//	signed_mod_size = (short)((rawdata[2] << 8) | rawdata[3]); 
+//	e_size = (short)((rawdata[4] << 8) | rawdata[5]); // should be 4
+//	signed_e_size = (short)((rawdata[6] << 8) | rawdata[7]); 
+//	d_size = (short)((rawdata[8] << 8) | rawdata[9]); // should be 256
+//
+//	//allocate buffers for encrypted private key, mod and exponent
+//	signed_mod = new byte[signed_mod_size];
+//	signed_e = new byte[signed_e_size];
+//	mod = new byte[mod_size];
+//	e = new byte[e_size];
+//	d = new byte[d_size];
+//
+//	//init the data members of encrypted private key, mod and exponent
+//	int currind=10;
+//	memcpy(mod,rawdata+currind,mod_size);
+//	currind+=mod_size;
+//	memcpy(signed_mod,rawdata+currind,signed_mod_size);
+//	currind+=signed_mod_size;
+//	memcpy(e,rawdata+currind,e_size);
+//	currind+=e_size;
+//	memcpy(signed_e,rawdata+currind,signed_e_size);
+//	currind+=signed_e_size;
+//	memcpy(d,rawdata+currind,d_size);
+//	currind+=d_size;
+//	return currind;
+//}
 
 
 SecureImage::~SecureImage(void)
