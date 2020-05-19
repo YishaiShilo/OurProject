@@ -33,6 +33,7 @@ namespace CSharpClientUI
         byte[] serverData;
         TcpClient client;
         Socket socket;
+        EncryptionHandler encryptionHandler;
         AuthenticationHandler autHandler;
         int flickerCounter;
         bool sessionExists;
@@ -96,9 +97,9 @@ namespace CSharpClientUI
             lblKeyStatus.Text = "Sending, this might take a minute or two...";
             lblKeyStatus.Refresh();
             StringBuilder builder = new StringBuilder(bufferSize);
-            autHandler = new AuthenticationHandler(socket);
+            encryptionHandler = new EncryptionHandler(socket);
             Console.WriteLine("click sigma");
-            bool res = autHandler.makeKeys(builder);
+            bool res = encryptionHandler.makeKeys(builder);
             if (res)
             {
                 btnSendKeys.Enabled = false;
@@ -111,79 +112,6 @@ namespace CSharpClientUI
                 lblKeyStatus.Text = "Failed to send key. " +builder.ToString();
                 lblKeyStatus.ForeColor = Color.Red;
             }
-        }
-
-        //private bool sendKeys(StringBuilder builder)
-        //{
-        //    try
-        //    {
-        //        //send group ID - needed by the server to verify the key
-        //        sendEPIDGroupID();
-
-        //        //sent keys notification
-        //        byte[] cmdSendKeys = BitConverter.GetBytes(SENDING_KEYS);
-        //        socket.Send(cmdSendKeys);
-
-        //        byte[] mod = new byte[256];
-        //        byte[] exponent = new byte[4];
-        //        byte[] signed_mod = new byte[EPID_SIGNATURE_LEN];
-        //        byte[] signed_exponent = new byte[EPID_SIGNATURE_LEN];
-        //        byte[] nonce = new byte[EPID_NONCE_LEN];
-                
-        //        //get keys from the library
-        //        if (!SecureImageHostWrapper.getPublicKey(mod, exponent, signed_mod, signed_exponent, nonce, builder))
-        //            return false;
-
-        //        //prepare the send data buffer
-        //        byte[] sendData = new byte[260 + EPID_SIGNATURE_LEN * 2 + EPID_NONCE_LEN];
-        //        exponent.CopyTo(sendData, 0);
-        //        mod.CopyTo(sendData, 4);
-        //        signed_exponent.CopyTo(sendData, 260);
-        //        signed_mod.CopyTo(sendData, 260 + EPID_SIGNATURE_LEN);
-        //        nonce.CopyTo(sendData, 260 + EPID_SIGNATURE_LEN*2);
-
-
-        //        int total = 0;
-        //        int size = sendData.Length;
-        //        int dataleft = size;
-        //        int sent;
-
-        //        //dend the data to the server
-        //        byte[] datasize = new byte[4];
-        //        datasize = BitConverter.GetBytes(size);
-        //        sent = socket.Send(datasize);
-
-        //        while (total < size)
-        //        {
-        //            sent = socket.Send(sendData, total, dataleft, SocketFlags.None);
-        //            total += sent;
-        //            dataleft -= sent;
-        //        }
-
-        //        return true;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        private bool sendEPIDGroupID()
-        {
-             //get the current platform EPID group Id
-            IntPtr groupId = Marshal.AllocHGlobal(4);
-            bool res = SecureImageHostWrapper.getGroupId(groupId);
-            if (res)
-            {
-                byte[] cmdSendG = BitConverter.GetBytes(SENDING_GROUP_ID);
-                socket.Send(cmdSendG);
-
-                //send the current platform EPID group Id to the server
-                byte[] groupIdToSend = new byte[4];
-                Marshal.Copy(groupId, groupIdToSend, 0, groupIdToSend.Length);
-                socket.Send(groupIdToSend);
-            }
-            return true;
         }
 
         private void btnGetPicture_Click(object sender, EventArgs e)
@@ -436,6 +364,7 @@ namespace CSharpClientUI
             
             byte[] AuthenticationId = Encoding.ASCII.GetBytes(this.passwordBox.Text);
             Console.WriteLine(this.passwordBox.Text);
+            autHandler = new AuthenticationHandler(socket);
             bool res = autHandler.sendAutKey(AuthenticationId);
             if (res)
             {

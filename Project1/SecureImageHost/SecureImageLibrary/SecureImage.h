@@ -21,10 +21,6 @@ using namespace std;
 
 //TA command IDs
 static int CMD_GET_GROUP_ID = 0;
-//static int CMD_GENERATE_KEYS				= 1;
-//static int CMD_LOAD_PRIVATE_KEY				= 2;
-//static int CMD_LOAD_PUBLIC_KEY_EXPONENT		= 3;
-//static int CMD_LOAD_PUBLIC_KEY_MODULUS		= 4;
 static int CMD_DECRYPT_SYMETRIC_KEY			= 5;
 static int CMD_GENERATE_PAVP_SESSION_KEY	= 6;
 static int CMD_LOAD_METADATA				= 7;
@@ -66,21 +62,29 @@ class SecureImage
 public:
 	//return current instance of the SecureImage class
 	static SecureImage* Session();
+
 	/*Return the TA public key abd signature, at first run or after reset- will generate a new pair of keys*/
 	bool getPublicKey(byte* modulus,byte* exponent, byte* signed_modulus, byte* signed_exponent, byte* signature_nonce, char* errorMsg);
+
 	/*Parses the server data nad presents the image */
 	bool showImage(UINT8* ServerData, HWND targetControl,char* errorMsg);	
+
 	/*Refereshes the view of the image. should be called periodically while image is displayed*/
 	bool refresh();
+
 	/*Close the soltion - will close PAVP session, save metadata and deinit TA and JHI*/
 	bool close(char* errorMsg);
+
 	/*Close the PAVP session*/
 	bool closePavpSession();
+
 	/*Return the number of times the current image can be viewed, -1 for failure.*/
 	int getRemainingTimes();
+
 	/*Reset the solution - will clean the TA keys and metadata and will reset the TA MTC.
 	Note that in real use cases - this option should not be exposed so easily, as it is a potential security hole.*/
 	bool resetAll(char* errorMsg);
+
 	//Get the EPID Group ID for this platform
 	bool getGroupId(byte *groupId);
 
@@ -100,25 +104,26 @@ private:
 
 	SecureImage(void);
 	~SecureImage(void);
+
 	//helper function to perform JHI calls and return errors
 	bool callJHI(JVM_COMM_BUFFER* buff, int command, char* errorMsg);
-	//load the RSA key pair to the TA
-	//bool loadKeys(char* errorMsg);
-	//Ask the TA to generate a new RSA key pair
-	//bool generateKeys(char* errorMsg);
+
 	//load solution and TA metadata
 	bool loadData();
+
 	//Save solution and TA metadata
 	bool saveData(char* errorMsg);
+
 	//Check if current platform is EPID provisioned
 	bool isProvisioned(char* errorMsg);
+
 	//helper function to parse the meta data
 	int parseMetaData(byte *rawData);
+
 	//helper function to translate JHI error codes to string
 	const char* getJHIRet(JHI_RET ret);
 
-	//data members:
-
+	//**data members**
 	//path to the Intel DAL trusted application 
 	string taPath;
 	//UUID of the trusted application.
@@ -140,30 +145,7 @@ private:
 	//current displayed encrypted bitmap
 	UINT8* encryptedBitmap;
 
-	//exponent
-	byte* e;
-	//encrypted private key
-	byte* d;
-	//mod
-	byte* mod;
-	//exponent signature
-	byte* signed_e;
-	//mod signature
-	byte* signed_mod;
-	//signature none
-	byte* nonce;
 	//buffer that stores the keys as they are recieved from the TA
 	byte keysData[1664];
-
-	//size of the key mod
-	short mod_size;// should be 256
-	//size of the key exponent
-    short e_size;// should be 4
-	//size of the encrypted private key
-    short d_size;// should be 256
-	//size of the signature of the key mod
-	short signed_mod_size;
-	//size of the signature of the key exponent
-    short signed_e_size;
 };
 

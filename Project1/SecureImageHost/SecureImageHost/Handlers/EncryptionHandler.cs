@@ -16,22 +16,22 @@ using System.Runtime.InteropServices;
 
 namespace CSharpClientUI
 {
-    class AuthenticationHandler
+    class EncryptionHandler
     {
         //Error codes
-        public const int UNRECOGNIZED_COMMAND = -10;
-        public const int FAILED_TO_GET_PUBLIC_KEY = -20;
-        public const int FAILED_TO_INITIALIZE_SIGMA = -30;
-        public const int INCORRECT_S2_BUFFER = -40;
-        public const int FAILED_TO_DISPOSE_SIGMA = -50;
+        public const int UNRECOGNIZED_COMMAND         = -10;
+        public const int FAILED_TO_GET_PUBLIC_KEY     = -20;
+        public const int FAILED_TO_INITIALIZE_SIGMA   = -30;
+        public const int INCORRECT_S2_BUFFER          = -40;
+        public const int FAILED_TO_DISPOSE_SIGMA      = -50;
         public const int WRONG_INTEL_SIGNED_CERT_TYPE = -60;
-        public const int FAILED_TO_GET_S3_LEN = -70;
-        public const int FAILED_TO_PROCESS_S2 = -80;
+        public const int FAILED_TO_GET_S3_LEN         = -70;
+        public const int FAILED_TO_PROCESS_S2         = -80;
         public const int FAILED_TO_GET_SESSION_PARAMS = -90;
-        private const int STATUS_SUCCEEDED = 0;
-        private const int STATUS_FAILED = -1;
-        private const int INITIALIZE_FAILED = -2;
-        private const int INSTALL_FAILED = -3;
+        private const int STATUS_SUCCEEDED            = 0;
+        private const int STATUS_FAILED               = -1;
+        private const int INITIALIZE_FAILED           = -2;
+        private const int INSTALL_FAILED              = -3;
         private const int OPEN_SESSION_FAILED = -4;
 
         private const int INT_SIZE = 4;
@@ -46,7 +46,7 @@ namespace CSharpClientUI
 
 
         private Socket socket;
-        public AuthenticationHandler(Socket socket)
+        public EncryptionHandler(Socket socket)
         {
             this.socket = socket;
         }
@@ -60,34 +60,6 @@ namespace CSharpClientUI
             if (!processS3(bulider))
                 return false;
             return true;
-        }
-
-        public bool sendAutKey(byte[] AutId)
-        {
-            byte[] encryptedId = new byte[16];
-
-            int status = SecureImageHostWrapper.sendAuthenticationId(AutId, AutId.Length, encryptedId);
-            if (status != STATUS_SUCCEEDED)
-            {
-                return false;
-            }
-            Console.WriteLine(Encoding.UTF8.GetString(encryptedId));
-            socket.Send(encryptedId);
-            socket.Receive(statusBytes, 0, INT_SIZE, 0);
-            status = BitConverter.ToInt32(statusBytes, 0);
-
-            if (status == STATUS_FAILED)
-            {
-                //lblGetS2MsgRet.Text = "Server failed to verify S1 message.";
-                Console.WriteLine("Server failed to decrypt autId");
-                return false;
-            }
-            else
-            {
-                Console.WriteLine("Server decrypt autId");
-                return true;
-            }
-            
         }
 
         private bool processS1(StringBuilder bulider)

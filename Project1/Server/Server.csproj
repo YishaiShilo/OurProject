@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageHandler.cs" />
+    <Compile Include="Authentication.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="Handlers\SecureImageHandler.cs" />
     <Compile Include="Handlers\SIGMAHandler.cs" />

@@ -24,11 +24,6 @@ BOOL showImage(UINT8* ServerData, HWND targetControl,char* errorMsg)
 	return SecureImage::Session()->showImage(ServerData,targetControl,errorMsg);
 }
 
-//BOOL getPublicKey(UINT8* mod,UINT8* exponent,UINT8* signed_modulus, UINT8* signed_exponent, UINT8* signature_nonce, char* errorMsg)
-//{
-//	BOOL res = SecureImage::Session()->getPublicKey(mod,exponent,signed_modulus, signed_exponent, signature_nonce, errorMsg);
-//	return res;
-//}
 
 BOOL installApplet()
 {
