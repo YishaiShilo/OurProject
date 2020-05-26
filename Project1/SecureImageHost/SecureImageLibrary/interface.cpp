@@ -107,3 +107,47 @@ int sendAuthenticationId(byte *AuthenticationId, int Len, byte *encryptedId)
 	//Get S3 message
 	return SecureImage::Session()->sendAuthenticationId(AuthenticationId, Len, encryptedId);
 }
+
+
+
+// WYS functions
+WYSRESULT doWysSequence(HWND windowHandle, unsigned char wysImageType)
+{
+	return SecureImage::Session()->doWysSequence(windowHandle, wysImageType);
+}
+
+
+bool onMouseDown(HWND windowHandle, UINT16 x, UINT16 y)
+{
+	return SecureImage::Session()->onMouseDown(windowHandle, x, y);
+}
+
+bool onMouseUp(UINT16 x, UINT16 y)
+{
+	return SecureImage::Session()->onMouseUp(x, y);
+}
+
+bool onClickSubmit(wchar_t* userInput, UINT16 inputLength)
+{
+	return SecureImage::Session()->onClickSubmit(userInput, inputLength) == 0;
+}
+
+bool onClickClear()
+{
+	return SecureImage::Session()->onClickClear();
+}
+
+bool getOtp(void* outArr, int arrLength)
+{
+	return SecureImage::Session()->getOtp(outArr, arrLength);
+}
+
+bool closePavpWysSession()
+{
+	return SecureImage::Session()->closePavpWysSession();
+}
+//
+//bool close()
+//{
+//	return SecureImage::Session()->close();
+//}

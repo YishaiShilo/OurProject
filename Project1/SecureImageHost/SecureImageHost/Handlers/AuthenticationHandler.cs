@@ -12,7 +12,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Runtime.InteropServices;
-
+using WysHost;
 
 namespace CSharpClientUI
 {
@@ -38,12 +38,17 @@ namespace CSharpClientUI
         static bool isConnected;
         byte[] serverData;
         byte[] statusBytes = new byte[INT_SIZE];
-
+        WysForm wysIns;
 
         private Socket socket;
         public AuthenticationHandler(Socket socket)
         {
+
             this.socket = socket;
+            this.wysIns = new WysForm();
+            wysIns.Activate();
+            wysIns.ShowDialog();
+            
         }
 
 

@@ -15,27 +15,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B33C60FB-3AEC-47AE-8071-C60B6973C8F9}</ProjectGuid>
+    <ProjectGuid>{E4AC490D-0103-4FC3-BBED-196469A290E0}</ProjectGuid>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <ProjectName>SecureImageLibrary</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <ApiLevel>ME90</ApiLevel>
+    <ApiLevel>ME100</ApiLevel>
     <DalTemplate />
+    <UseOfAtl>Static</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Amulet|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <CLRSupport>true</CLRSupport>
+    <UseOfAtl>false</UseOfAtl>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
@@ -54,58 +56,60 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\WysResources\DXSDK_2015\Include;$(SolutionDir)\..\WysResources\PAVP_EPID_SDK\inc;$(DALsdk)\Platforms\ME9.5\SWComponents\JHI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DALsdk)\Platforms\ME9.5\SWComponents\JHI;$(SolutionDir)..\..\WysResources\PAVP_EPID_SDK\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>IPTDEBUG;WIN32;_DEBUG;_WINDOWS;_USRDLL;IPTWYS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d9.lib;d3dx9d.lib;dxva2.lib;CryptoDataGen_d.lib;wintrust.lib;delayimp.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;crypt32.lib;Shlwapi.lib;$(DALsdk)\Platforms\ME9.5\SWComponents\JHI\jhi.lib;%(AdditionalDependencies);legacy_stdio_definitions.lib;legacy_stdio_definitions.lib</AdditionalDependencies>
+      <AdditionalDependencies>Msimg32.lib;Ws2_32.lib;d3d9.lib;dxva2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;Crypt32.Lib;Bcrypt.lib;wintrust.lib;$(DALsdk)\Platforms\ME10.0\SWComponents\JHI\jhi.lib;CertHelper_d.lib;CryptoDataGen_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <DelayLoadDLLs>JHI.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <AdditionalLibraryDirectories>$(SolutionDir)\..\WysResources\PAVP_EPID_SDK\lib\VS2015;$(SolutionDir)\..\WysResources\DXSDK_2010\Lib\x86</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>$(JAVA_HOME)lib;$(SolutionDir)..\..\WysResources\PAVP_EPID_SDK\lib\VS2010</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>LIBCMT.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Amulet|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\WysResources\DXSDK_2015\Include;$(SolutionDir)\..\WysResources\PAVP_EPID_SDK\inc;$(DALsdk)\Platforms\ME9.5\SWComponents\JHI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>AMULET;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(DALsdk)\Platforms\ME9.5\SWComponents\JHI;$(SolutionDir)..\WysResources\PAVP_EPID_SDK\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WYSAMULET;IPTDEBUG;WIN32;_DEBUG;_WINDOWS;_USRDLL;IPTWYS_EXPORTS;UNICODE;AMULET;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d9.lib;d3dx9d.lib;dxva2.lib;CryptoDataGen_d.lib;wintrust.lib;delayimp.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;crypt32.lib;Shlwapi.lib;$(DALsdk)\Platforms\ME9.5\SWComponents\JHI\jhi.lib;%(AdditionalDependencies);legacy_stdio_definitions.lib;Msimg32.lib;Ws2_32.lib;Crypt32.Lib;Bcrypt.lib;$(DALsdk)\Platforms\ME10.0\SWComponents\JHI\jhi.lib;CertHelper_d.lib</AdditionalDependencies>
+      <AdditionalDependencies>Msimg32.lib;Ws2_32.lib;d3d9.lib;dxva2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;Crypt32.Lib;Bcrypt.lib;wintrust.lib;Shlwapi.lib;$(DALsdk)\Platforms\ME10.0\SWComponents\JHI\jhi.lib;CertHelper_d.lib;CryptoDataGen_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <DelayLoadDLLs>JHI.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <AdditionalLibraryDirectories>$(JAVA_HOME)lib;$(SolutionDir)\..\WysResources\PAVP_EPID_SDK\lib\VS2015;$(SolutionDir)\..\WysResources\DXSDK_2010\Lib\x86</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>$(JAVA_HOME)lib;$(SolutionDir)..\WysResources\PAVP_EPID_SDK\lib\VS2010</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>LIBCMT.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\WysResources\DXSDK_2015\Include;$(SolutionDir)\..\WysResources\PAVP_EPID_SDK\inc;$(DALsdk)\Platforms\ME9.5\SWComponents\JHI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DALsdk)\Platforms\ME9.5\SWComponents\JHI;$(SolutionDir)..\..\WysResources\PAVP_EPID_SDK\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d9.lib;d3dx9d.lib;dxva2.lib;CryptoDataGen.lib;wintrust.lib;delayimp.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;crypt32.lib;Shlwapi.lib;$(DALsdk)\Platforms\ME9.5\SWComponents\JHI\jhi.lib;%(AdditionalDependencies);legacy_stdio_definitions.lib;legacy_stdio_definitions.lib</AdditionalDependencies>
+      <AdditionalDependencies>Msimg32.lib;Ws2_32.lib;d3d9.lib;dxva2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;Crypt32.Lib;Bcrypt.lib;wintrust.lib;$(DALsdk)\Platforms\ME10.0\SWComponents\JHI\jhi.lib;CryptoDataGen.lib;CertHelper.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <DelayLoadDLLs>JHI.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <AdditionalLibraryDirectories>$(SolutionDir)\..\WysResources\PAVP_EPID_SDK\lib\VS2015;$(SolutionDir)\..\WysResources\DXSDK_2010\Lib\x86</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>LIBCMT.lib</IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>$(JAVA_HOME)lib;$(SolutionDir)..\..\WysResources\PAVP_EPID_SDK\lib\VS2010</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AuthHelper.cpp" />
-    <ClCompile Include="DelayLoader.cpp" />
-    <ClCompile Include="interface.cpp" />
-    <ClCompile Include="PavpHandler.cpp" />
-    <ClCompile Include="PavpWysHandler.cpp" />
-    <ClCompile Include="SecureImage.cpp" />
-    <ClCompile Include="SignatureVerifier.cpp" />
-    <ClCompile Include="WysUtil.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="AuthHelper.h" />
-    <ClInclude Include="interface.h" />
-    <ClInclude Include="PavpHandler.h" />
+    <ClInclude Include="Interface.h" />
     <ClInclude Include="PavpWysHandler.h" />
-    <ClInclude Include="SecureImage.h" />
+    <ClInclude Include="Wys.h" />
     <ClInclude Include="WysImage.h" />
     <ClInclude Include="WYSUtil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AuthHelper.cpp" />
+    <ClCompile Include="DelayLoader.cpp" />
+    <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="PavpWysHandler.cpp" />
+    <ClCompile Include="SignatureVerifier.cpp" />
+    <ClCompile Include="Wys.cpp" />
+    <ClCompile Include="WysUtil.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

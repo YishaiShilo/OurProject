@@ -1,6 +1,6 @@
 /**
 ***
-*** Copyright  (C) 1985-2014 Intel Corporation. All rights reserved.
+*** Copyright  (C) 2014 Intel Corporation. All rights reserved.
 ***
 *** The information and source code contained herein is the exclusive
 *** property of Intel Corporation. and may not be disclosed, examined
@@ -15,53 +15,11 @@
 #include <iostream>
 #include <jhi.h>
 #include <DelayImp.h>
-#include "PavpHandler.h"
 #include "PavpWysHandler.h"
 #include "WysImage.h"
 
-
 using namespace std;
 
-//TA command IDs
-static int CMD_GET_GROUP_ID = 0;
-static int CMD_DECRYPT_SYMETRIC_KEY			= 5;
-static int CMD_GENERATE_PAVP_SESSION_KEY	= 6;
-static int CMD_LOAD_METADATA				= 7;
-static int CMD_GET_TA_DATA					= 8;
-static int CMD_GET_REMAINING_TIMES			= 9;
-static int CMD_SET_NONCE					= 10;
-static int CMD_IS_PROVISIONED				= 11;
-static int CMD_RESET						= 12; 
-
-//Authentication command IDs:
-static int CMD_SEND_AUTHENTICATION_ID = 13;
-
-// Sigma command IDs
-static int CMD_INIT_AND_GET_S1 = 1;
-static int CMD_GET_S3_MESSAGE_LEN = 2;
-static int CMD_PROCESS_S2_AND_GET_S3 = 3;
-static int STATUS_SUCCEEDED = 0;
-static int STATUS_FAILED = -1;
-static int INITIALIZE_FAILED = -2;
-static int INSTALL_FAILED = -3;
-static int OPEN_SESSION_FAILED = -4;
-
-
-
-//convention definitions
-static int PROVISIONED = 0;
-static int NOT_PROVISIONED = 1;
-
-//length definitions
-#define EPID_NONCE_LEN 32
-#define EPID_SIGNATURE_LEN 569
-#define ERROR_MESSAGE_LEN 200
-#define GROUP_ID_LENGTH 4
-#define S1_MESSAGE_LEN 104
-#define INT_SIZE 4
-
-
-// WYS.h
 /**********************************************************************************************//**
  * 	Values that represent WYSRESULT value. 
  **************************************************************************************************/
@@ -198,148 +156,78 @@ typedef struct _CANCEL_MSG
 } CANCEL_MSG;
 
 
-
-class SecureImage
+class Wys
 {
-public:
-	//return current instance of the SecureImage class
-	static SecureImage* Session();
-
-	/*Return the TA public key abd signature, at first run or after reset- will generate a new pair of keys*/
-	bool getPublicKey(byte* modulus,byte* exponent, byte* signed_modulus, byte* signed_exponent, byte* signature_nonce, char* errorMsg);
-
-	/*Parses the server data nad presents the image */
-	bool showImage(UINT8* ServerData, HWND targetControl,char* errorMsg);	
-
-	/*Refereshes the view of the image. should be called periodically while image is displayed*/
-	bool refresh();
-
-	/*Close the soltion - will close PAVP session, save metadata and deinit TA and JHI*/
-	bool close(char* errorMsg);
-
-	/*Close the PAVP session*/
-	bool closePavpSession();
-
-	/*Return the number of times the current image can be viewed, -1 for failure.*/
-	int getRemainingTimes();
-
-	/*Reset the solution - will clean the TA keys and metadata and will reset the TA MTC.
-	Note that in real use cases - this option should not be exposed so easily, as it is a potential security hole.*/
-	bool resetAll(char* errorMsg);
-
-	//Get the EPID Group ID for this platform
-	bool getGroupId(byte *groupId);
-
-	// Sigma functions:
-	int GetS1Message(byte *s1Msg);
-
-	int GetS3MessageLen(byte *s2Msg, int s2MsgLen, byte *s3MsgLen);
-
-	int GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte *s3Msg);
-
-
-	//Authentication function:
-	int sendAuthenticationId(byte *AuthenticationId, int Len, byte *encryptedId);
-
-	// WYS functions
-	WYSRESULT doWysSequence(HWND windowHandle, unsigned char wysImageType);
-
-	WYSRESULT onMouseDown(HWND windowHandle, UINT16 x, UINT16 y);
-	WYSRESULT onMouseUp(UINT16 x, UINT16 y);
-
-	UINT32 onClickSubmit(wchar_t* userInput, UINT16 inputLength);
-	WYSRESULT onClickClear();
-	bool closePavpWysSession();
-
-	bool getOtp(void* outArr, int arrLength);
 private:
-	//functions:
-
-	SecureImage(void);
-	~SecureImage(void);
-
-	//helper function to perform JHI calls and return errors
-	bool callJHI(JVM_COMM_BUFFER* buff, int command, char* errorMsg);
-
-	//load solution and TA metadata
-	bool loadData();
-
-	//Save solution and TA metadata
-	bool saveData(char* errorMsg);
-
-	//Check if current platform is EPID provisioned
-	bool isProvisioned(char* errorMsg);
-
-	//helper function to parse the meta data
-	int parseMetaData(byte *rawData);
-
-	//helper function to translate JHI error codes to string
-	const char* getJHIRet(JHI_RET ret);
-
-	//**data members**
-	//path to the Intel DAL trusted application 
+	//This is the path to the Intel DAL trusted application that was created in Eclipse.
 	string taPath;
-	//UUID of the trusted application.
-	string taId;
-	//path of teh metadata file
-	string metaDataPath;
-	//flag indicating whether the class was initialized succeessflly or not
-	bool initialized;
-	//char pointer that stores the initialization error(if exists)
-	char initializationError[ERROR_MESSAGE_LEN];
-	//flag indicating whether there is any data to save or not
-	bool isAnyData;
-
-	//handle of JHI session
-	JHI_HANDLE handle;
-	//handle of TA session
-	JHI_SESSION_HANDLE session;
-
-	//current displayed encrypted bitmap
-	UINT8* encryptedCodeBitmap;
-
-
 	
+	/*This is the UUID of this trusted application.
+	This is the same value as the UUID field in the Intel DAL trusted application manifest.*/
+	string taId;
 
-	//buffer that stores the keys as they are recieved from the TA
-	byte keysData[1664];
-
-	// WYS members
 	UINT32 imageId;
+
 	WYSIMAGEOBJS_HASH_MAP	m_wysImageObjs;
+
+	//flag indicating whether the sample was initialized successfully or not
+	bool initialized;
+
 	//flag indicate whether PAVP jhiSessionHandle exists or not
 	bool sessionExists;
 
-	//Instance of PavpWysHandler
-	PavpWysHandler handler;
+	//JHI handlers
+	JHI_HANDLE jhiHandle;
+	JHI_SESSION_HANDLE jhiSessionHandle;
 
 	//encrypted bitmap we display
 	UINT8* encryptedBitmap;
 
+	//Instance of PavpWysHandler
+	PavpWysHandler handler;
+
 	UINT32 pavpSessionHandle;
 
-	WYSWINDOW_PROPS wysWindowProps;
+	WYSWINDOW_PROPS wysWindowProps; 
 
-	// WYS functions
+public:
+	static Wys* Session();
+	
+	WYSRESULT doWysSequence(HWND windowHandle, unsigned char wysImageType);
+
+	WYSRESULT onMouseDown(HWND windowHandle, UINT16 x, UINT16 y);
+	WYSRESULT onMouseUp(UINT16 x, UINT16 y);
+	
+	UINT32 onClickSubmit(wchar_t* userInput, UINT16 inputLength);
+	WYSRESULT onClickClear();
+
+	bool getOtp(void* outArr, int arrLength);
+	
+	bool close();
+	bool closePavpSession();
+
+private:
+	Wys(void);
+	~Wys(void);
+
 	WYSRESULT doWysDisplay(UINT32* pavpSessionHandle, unsigned char wysImageType);
-	WYSRESULT createStdImage(UINT32 pavpSessionHandle, IN XY_PAIR_BYTES *pwysImagePosition, IN CREATE_WYSIMAGE *pWysImageCreateParams, IN UINT32 wysImageCreateParamsLen, IN void *rsvdparam1, IN UINT32 rsvparam2);
-	WYSRESULT displayImage(XY_PAIR_BYTES *pWysImagePosition, CREATE_WYSIMAGE *pWysImage);
-	WYSRESULT sendWYSStdWindowRequest(CREATE_WYSIMAGE *pWysWindowParams, CREATE_WINDOW_RESPONSE_MSG *pRespData, UINT32 *pRespDataLength);
+	WYSRESULT createStdImage(UINT32 pavpSessionHandle, IN XY_PAIR_BYTES *pwysImagePosition, IN CREATE_WYSIMAGE *pWysImageCreateParams, IN UINT32 wysImageCreateParamsLen, IN void *rsvdparam1,	IN UINT32 rsvparam2);
+	WYSRESULT displayImage(XY_PAIR_BYTES *pWysImagePosition, CREATE_WYSIMAGE *pWysImage );
+	WYSRESULT sendWYSStdWindowRequest( CREATE_WYSIMAGE *pWysWindowParams, CREATE_WINDOW_RESPONSE_MSG *pRespData, UINT32 *pRespDataLength );
 	WYSRESULT repaintImage(UINT32* pavpSessionHandle, UINT32 wysImageId);
 
-	void deleteWysImageObject(WysImage *pWysImageObj, unsigned int wysImageId);
-	WysImage* getWysImageObject(unsigned int wysImageId);
+	void deleteWysImageObject( WysImage *pWysImageObj, unsigned int wysImageId );
+	WysImage* getWysImageObject( unsigned int wysImageId );
 	WYSRESULT releaseImageX(UINT32 wysImageId = WYS_IMAGE_ID_ALL, BOOL bCancel = FALSE);
-	WYSRESULT getLocalWysImageFromFWAndDisplay(CREATE_WINDOW_RESPONSE_MSG *windowResp, RECT *wysImageRect, void **pDecoderRenderTargets);
+	WYSRESULT getLocalWysImageFromFWAndDisplay( CREATE_WINDOW_RESPONSE_MSG *windowResp, RECT *wysImageRect, void **pDecoderRenderTargets );
 	WYSRESULT getImageFromFW(UINT32 mejhiHandle, UINT32 ImageSize, UINT8 *pImageBuff);
 	WYSRESULT jhiSendRecv(UINT32 reqBufLen, void *pSendReq, UINT32 recvBufLen, void *pRecvBuf, UINT32 *pRespDataLen = NULL, UINT8 *pRespData = NULL);
 	bool drawClickEffect(HWND windowHandle, int btnL, int btnT, int btnW, int btnH, DWORD color);
-
-	WYSRESULT submitClickInput(INT32 wysImageType, XYPAIR_VECTOR *Clicks);
-	WYSRESULT submitCaptchaString(UINT32 captchaStringLen, const wchar_t *sCaptchaString);
+	
+	WYSRESULT submitClickInput(INT32 wysImageType, XYPAIR_VECTOR *Clicks );
+	WYSRESULT submitCaptchaString( UINT32 captchaStringLen, const wchar_t *sCaptchaString );
 	WYSRESULT ReleaseImageX(UINT32 wysImageId = WYS_IMAGE_ID_ALL, BOOL bCancel = FALSE);
 	WYSRESULT wysCancel(unsigned int appParam);
 	void DeleteWysImageObject(WysImage *pWysImageObj, unsigned int wysImageId);
-	inline bool eraseClickEffect(WysImage *pWysImageObj) { return FAILED(handler.DisplayVideo(pWysImageObj->m_pDecoderRenderTargets, &pWysImageObj->m_wysImgRenderRect, true)); }
+	inline bool eraseClickEffect(WysImage *pWysImageObj) { return FAILED(handler.DisplayVideo(pWysImageObj->m_pDecoderRenderTargets, &pWysImageObj->m_wysImgRenderRect, true )); }
 };
-

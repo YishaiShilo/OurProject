@@ -2,6 +2,8 @@ package SecureImageApplet;
 
 import com.intel.util.*;
 
+import WYS.StandardWindow;
+
 import java.util.Hashtable;
 
 import com.intel.crypto.*;
@@ -10,6 +12,7 @@ import com.intel.crypto.NotInitializedException;
 import com.intel.langutil.ArrayUtils;
 import com.intel.langutil.TypeConverter;
 import com.intel.ui.ProtectedOutput;
+import SecureImageApplet.WYS.WYS;
 
 //
 // Implementation of DAL Trusted Application: SecureImageApplet 
@@ -39,6 +42,7 @@ public class SecureImageApplet extends IntelApplet {
 
 	private byte[] _sigmaReplyBuffer;
 	private Sigma sigma;
+	private WYS wysIns;
 
 
 	/*
@@ -58,14 +62,11 @@ public class SecureImageApplet extends IntelApplet {
 	private static final int CMD_GENERATE_PAVP_SESSION_KEY = 6;
 	private static final int CMD_SET_NONCE = 10;
 	private static final int CMD_IS_PROVISIONED = 11;
-
 	private static final int CMD_RESET = 12;
 
 	// Error codes
 	private static final int UNRECOGNIZED_COMMAND = -10;
-
 	private static final int FAILED_TO_ENCRYPT_DATA = -100;
-
 	private static final int ERROR_REPLAY = -2;
 	private static final int ERROR_EXCEED = -3;
 
@@ -79,6 +80,19 @@ public class SecureImageApplet extends IntelApplet {
 	boolean shouldSave;
 	int limitation, imageId;
 	Hashtable map;
+	
+	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+
+	public static String bytesToHex(byte[] bytes) {
+		char[] hexChars = new char[bytes.length * 2];
+		for (int j = 0; j < bytes.length; j++) {
+			int v = bytes[j] & 0xFF;
+			hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+			hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+		}
+		return new String(hexChars);
+	}
+
 
 	public static byte[] padding(byte[] input) {
 		int len = input.length;
@@ -130,21 +144,11 @@ public class SecureImageApplet extends IntelApplet {
 		}
 
 	}
-
-	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-
-	public static String bytesToHex(byte[] bytes) {
-		char[] hexChars = new char[bytes.length * 2];
-		for (int j = 0; j < bytes.length; j++) {
-			int v = bytes[j] & 0xFF;
-			hexChars[j * 2] = HEX_ARRAY[v >>> 4];
-			hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
-		}
-		return new String(hexChars);
+	
+	private int WYS_method(byte[] request) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
-
-
-
 
 
 	private int decryptSymetricKey(byte[] commandData) {
@@ -339,6 +343,10 @@ public class SecureImageApplet extends IntelApplet {
 			switch (commandId) {
 			case CMD_GET_AUTHENTICATION_ID: // added this for authentication stage:
 			{
+				result = WYS_method(request);
+				wysIns = new WYS();
+				wysIns.onInit(request);
+				
 				DebugPrint.printString("in-aut id");
 				result = GetAuthenticationId(request);
 				break;
@@ -385,6 +393,9 @@ public class SecureImageApplet extends IntelApplet {
 		 */
 		return APPLET_SUCCESS;
 	}
+
+	
+
 
 	/**
 	 * This method will be called by the VM when the session being handled by this

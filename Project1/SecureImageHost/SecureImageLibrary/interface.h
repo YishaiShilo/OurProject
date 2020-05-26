@@ -11,6 +11,7 @@
 **/
 #include <Windows.h>
 #include <d3d9.h>
+#include "WYSUtil.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,6 +19,7 @@ extern "C" {
 
 #define DRM_EXPORT __declspec(dllexport) BOOL
 #define SIGMA_EXPORT __declspec(dllexport) int
+#define WYSSAMPLEEXPORT __declspec(dllexport)
 
 
 /*Parses the server data nad presents the image */
@@ -61,6 +63,26 @@ SIGMA_EXPORT GetS3Message(byte *s2Msg, int s2MsgLen, int s3MessageLen, byte *s3M
 
 // Authentication function:  
 SIGMA_EXPORT sendAuthenticationId(byte *AuthenticationId, int Len, byte *encryptedId);
+
+// WYS functions
+
+
+
+WYSSAMPLEEXPORT WYSRESULT doWysSequence(HWND windowHandle, unsigned char wysImageType);
+
+WYSSAMPLEEXPORT bool onMouseDown(HWND windowHandle, UINT16 x, UINT16 y);
+WYSSAMPLEEXPORT bool onMouseUp(UINT16 x, UINT16 y);
+
+WYSSAMPLEEXPORT bool onClickSubmit(wchar_t* userInput, UINT16 inputLength);
+WYSSAMPLEEXPORT bool onClickClear();
+
+WYSSAMPLEEXPORT bool getOtp(void* outArr, int arrLength);
+
+//de-init PAVP and JHI
+//WYSSAMPLEEXPORT bool close();
+
+//de-init PAVP
+WYSSAMPLEEXPORT bool closePavpWysSession();
 
 #ifdef __cplusplus
 };
