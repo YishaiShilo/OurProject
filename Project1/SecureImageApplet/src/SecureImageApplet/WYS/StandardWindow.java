@@ -211,7 +211,10 @@ public class StandardWindow
 		offset += m_protectedOutput.getEncryptedKeyRecord(response, (short)offset);
 		
 		offset += m_protectedOutput.getIV(response, (short)offset);
-		
+		DebugPrint.printString("image size in bulid:");
+		DebugPrint.printInt(m_imageSize);
+		DebugPrint.printString("offset:");
+		DebugPrint.printInt(offset);
 		TypeConverter.intToBytes(m_imageSize, response, offset);
 		offset += TypeConverter.INT_BYTE_SIZE;
 		
@@ -291,7 +294,9 @@ public class StandardWindow
 		
 		short logoSizeY = TypeConverter.bytesToShort(request, offset);
 		offset += TypeConverter.SHORT_BYTE_SIZE;
-
+		DebugPrint.printString("window type:");
+		DebugPrint.printInt(windowType);
+		
 		switch (windowType)
 		{
 			case WINDOW_TYPE_PINPAD:
@@ -314,6 +319,7 @@ public class StandardWindow
 											new XYPair(logoSizeX, logoSizeY),
 											request,
 											offset);
+					DebugPrint.printString("after create pinpad");
 				}
 				catch (UiException ex)
 				{
@@ -367,7 +373,7 @@ public class StandardWindow
 											//for ME9.5 and below
 										    //Label.FONT_TYPE_NEO_SANS_INTEL,
 											//for ME10 and above
-											Label.FONT_TYPE_NEO_SANS_INTEL,
+											Label.FONT_TYPE_CLEAR_SANS,
 											dialogColor,
 											frameColor,
 											frameBorderColor,
@@ -393,6 +399,8 @@ public class StandardWindow
 		try
 		{
 			m_imageSize = m_protectedOutput.startRendering(m_dialog, ProtectedOutput.RENDERING_FORMAT_XRGB);
+			DebugPrint.printString("image size:");
+			DebugPrint.printInt(m_imageSize);
 		}
 		catch (UiException ex)
 		{
@@ -402,6 +410,8 @@ public class StandardWindow
 		
 		m_responseData = prepareBuildWindowResponse();
 		m_responseLength = m_responseData.length;
+		DebugPrint.printString("response:");
+		DebugPrint.printBuffer(m_responseData);
 		
 		return IntelApplet.APPLET_SUCCESS;
 	}
@@ -662,6 +672,9 @@ public class StandardWindow
 			DebugPrint.printString("Wrong standard request size");
 			return retCode;
 		}
+		DebugPrint.printString("sub command:");
+		DebugPrint.printInt(request[requestOffset]);
+
 
 		switch ( request[requestOffset] ) // first byte is sub command ID
 		{

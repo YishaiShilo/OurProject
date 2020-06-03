@@ -41,6 +41,8 @@ public class WYS
 	public static final int APPLET_SUCCESS = 0;
 		
 	private StandardWindow m_standardWindow;
+	private byte[] 			m_responseData;
+	private int				m_responseLength;
 	
 	private final byte[] PIN = {1, 7, 1, 7};
 	
@@ -77,7 +79,7 @@ public class WYS
 	 * @param	request		the input data for this command 
 	 * @return	the return value should not be used by the applet
 	 */
-	public byte[] invokeCommand(int commandID, byte[] request) {
+	public int invokeCommand(int commandID, byte[] request) {
 		int res = IntelApplet.APPLET_ERROR_NOT_SUPPORTED;
 		
 		switch (commandID)
@@ -89,9 +91,12 @@ public class WYS
 				if ( (res == IntelApplet.APPLET_SUCCESS) &&
 					 (m_standardWindow.getResponseSize() > 0) )
 				{
-					byte[] response = new byte[m_standardWindow.getResponseSize()];
-					m_standardWindow.getResponse(response, 0);
-					return response;
+					m_responseLength = m_standardWindow.getResponseSize();
+					m_responseData = new byte[m_responseLength];
+					m_standardWindow.getResponse(m_responseData, 0);
+					DebugPrint.printString("response buffer");
+					DebugPrint.printBuffer(m_responseData);
+					
 				}
 				break;
 				
@@ -119,7 +124,7 @@ public class WYS
 			default:
 				break;
 		}
-		return null;
+		//return null;
 		
 		//setResponseCode(res);
 		
@@ -129,7 +134,7 @@ public class WYS
 		 * this purpose. Trusted Application is expected to return APPLET_SUCCESS code 
 		 * from this method and use the setResposeCode method instead.
 		 */
-//		return APPLET_SUCCESS;
+		return res;
 	}
 	
 	private int getOtp()
@@ -139,15 +144,24 @@ public class WYS
 			DebugPrint.printString("OTP is blocked.");
 			return IntelApplet.APPLET_ERROR_BAD_STATE;
 		}
-		
-		byte[] otp = new byte[TypeConverter.INT_BYTE_SIZE];
-		Random.getRandomBytes(otp, (short)0, (short)otp.length);
-		
-		setResponse(otp, 0, otp.length);
+		m_responseLength = TypeConverter.INT_BYTE_SIZE;
+		m_responseData = new byte[m_responseLength];
+		Random.getRandomBytes(m_responseData, (short)0, (short)m_responseData.length);
 		
 		return IntelApplet.APPLET_SUCCESS;
 	}
 
+	/**
+	 * This method can be used by the applet to retrieve the size of the response data 
+	 * to be returned to the host side application after calling the <code>processCommand</code>
+	 * method.
+	 * @return the number of bytes to be returned to the host side application after processing a command.
+	 */
+	public int getResponseSize()
+	{
+		return m_responseLength;
+	}
+	
 	private boolean isOtpAllowed()
 	{
 		if ( m_standardWindow.getUserInputStatus() == true )
@@ -166,6 +180,25 @@ public class WYS
 		return false;
 	}
 	
+	/**
+	 * This method should be used by the applet to retrieve the response data to be sent
+	 * back to the host side application after calling the <code>processCommand</code> method.  
+	 * @param response the destination array
+	 * @param responseOffset offset in the destination array
+	 * @return the number of bytes copied into the destination array
+	 */
+	public int getResponse(byte[] response, int responseOffset)
+	{
+		if ( m_responseData != null )
+		{
+			ArrayUtils.copyByteArray(m_responseData, 0, response, responseOffset, m_responseLength);
+			return m_responseLength;
+		}
+		else
+		{
+			return 0;
+		}
+	}
 	/*
 	 * This method will be called by the VM when the session being handled by
 	 * this Trusted Application instance is being closed 

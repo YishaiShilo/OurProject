@@ -60,7 +60,7 @@ public class ButtonSkin extends RectangleSkin
 	   //for ME9.5 and below
 	   //return Label.FONT_TYPE_NEO_SANS_INTEL;
 	   //for ME10 and above
-	   return Label.FONT_TYPE_NEO_SANS_INTEL;
+	   return Label.FONT_TYPE_CLEAR_SANS;
    }
     
    protected int m_fontColor;

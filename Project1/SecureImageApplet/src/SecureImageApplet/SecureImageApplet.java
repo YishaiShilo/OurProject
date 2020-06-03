@@ -1,17 +1,17 @@
 package SecureImageApplet;
 
-import com.intel.util.*;
-
-import WYS.StandardWindow;
 
 import java.util.Hashtable;
 
+
+import com.intel.util.*;
 import com.intel.crypto.*;
 import com.intel.crypto.IllegalParameterException;
 import com.intel.crypto.NotInitializedException;
 import com.intel.langutil.ArrayUtils;
 import com.intel.langutil.TypeConverter;
 import com.intel.ui.ProtectedOutput;
+
 import SecureImageApplet.WYS.WYS;
 
 //
@@ -59,6 +59,7 @@ public class SecureImageApplet extends IntelApplet {
 	private static final int CMD_INIT_SIGMA = 1;
 
 	private static final int CMD_GET_AUTHENTICATION_ID = 13; // added this for authentication stage
+	private static final int CMD_WYS_STANDARD = 0xFFFF0001;
 	private static final int CMD_GENERATE_PAVP_SESSION_KEY = 6;
 	private static final int CMD_SET_NONCE = 10;
 	private static final int CMD_IS_PROVISIONED = 11;
@@ -343,12 +344,24 @@ public class SecureImageApplet extends IntelApplet {
 			switch (commandId) {
 			case CMD_GET_AUTHENTICATION_ID: // added this for authentication stage:
 			{
-				result = WYS_method(request);
 				wysIns = new WYS();
 				wysIns.onInit(request);
 				
 				DebugPrint.printString("in-aut id");
 				result = GetAuthenticationId(request);
+				break;
+			}
+			
+			case CMD_WYS_STANDARD:
+			{
+				wysIns = new WYS();
+				wysIns.onInit(request);
+				result = wysIns.invokeCommand(commandId, request);
+				
+				_sigmaReplyBuffer = new byte[wysIns.getResponseSize()];
+				wysIns.getResponse(_sigmaReplyBuffer, 0);
+				DebugPrint.printString("reply buffer:");
+				DebugPrint.printBuffer(_sigmaReplyBuffer);
 				break;
 			}
 

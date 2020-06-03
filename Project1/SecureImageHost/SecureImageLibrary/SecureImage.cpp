@@ -42,6 +42,10 @@ SecureImage::SecureImage(void)
 	{
 		initialized=true;
 
+		gWysConfig.globalConfig.maxAllowedClicks = WYS_MAX_ALLOWED_CLICKS_ON_IMAGE;
+		gWysConfig.globalConfig.maxCaptchaLength = WYS_MAX_CAPTCHA_INPUT_LENGTH;
+		gWysConfig.wysEventActions = WYSEVENT_ACTION_NONE;
+
 		//This is the path to the Intel DAL Trusted Application that was created in Eclipse.
 		taPath = "C:\\Project\\OurProject\\Project1\\SecureImageApplet\\bin\\SecureImageApplet.dalp";
 		//taPath = "C:\\Users\\USER\\Desktop\\project\\OurProject\\OurProject\\Project1\\SecureImageApplet\\bin\\SecureImageApplet.dalp";

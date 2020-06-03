@@ -46,9 +46,7 @@ namespace CSharpClientUI
 
             this.socket = socket;
             this.wysIns = new WysForm();
-            wysIns.Activate();
-            wysIns.ShowDialog();
-            
+            wysIns.ShowDialog();      
         }
 
 

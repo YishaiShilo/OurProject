@@ -23,7 +23,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <ApiLevel>ME90</ApiLevel>
+    <ApiLevel>ME100</ApiLevel>
     <DalTemplate />
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
