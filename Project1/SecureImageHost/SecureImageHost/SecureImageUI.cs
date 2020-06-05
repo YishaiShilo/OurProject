@@ -57,7 +57,7 @@ namespace CSharpClientUI
             InitializeComponent();        
             btnGetPicture.Enabled = false;
             btnShow.Enabled = false;
-            btnSave.Enabled = false;
+            //btnSave.Enabled = false;
             btnSendKeys.Enabled = false;
             sessionExists = false;
         }
@@ -70,7 +70,14 @@ namespace CSharpClientUI
             {
                 //connect to server
                 client = new TcpClient();
-                client.Connect(serverName, port);
+
+                //IPAddress ipAddress = Dns.GetHostEntry("www.google.com").AddressList[0];  //added
+                //Console.WriteLine(ipAddress.ToString());  //added
+                //IPAddress addr = IPAddress.Parse("192.168.14.103");  //added.  need this
+                //IPEndPoint ipEndPoint = new IPEndPoint(addr, 27015); //added.  need this
+                //client.Connect(ipEndPoint); //added.  need this
+
+                client.Connect(serverName, port); //was before
                 socket = client.Client;
 
                 socket.Send(BitConverter.GetBytes(SECURE_IMAGE));
@@ -78,7 +85,7 @@ namespace CSharpClientUI
                 //UI enablements
                 btnConnect.Enabled = false;
                 btnSendKeys.Enabled = true;
-                rbLoad.Enabled = false;
+                //rbLoad.Enabled = false;
                 lblServerStatus.Text = "Connected";
                 lblServerStatus.ForeColor = Color.Green;
             }
@@ -127,7 +134,7 @@ namespace CSharpClientUI
                 btnGetPicture.Enabled = false;
                 btnShow.Enabled = true;
                 flickerTimer.Enabled = true;
-                btnSave.Enabled = true;
+                //btnSave.Enabled = true;
                 lblGetPicStatus.Text = "Image is loaded. Click Show Image button!";
                 lblGetPicStatus.ForeColor = Color.Green;
             }
@@ -192,9 +199,9 @@ namespace CSharpClientUI
 
             //UI code
             btnShow.Enabled = true;
-            btnSave.Enabled = true;
-            lblLocalPictureStatus.Text = path.ToString() + " image is loaded. Click Show Image button!";
-            lblLocalPictureStatus.ForeColor = Color.Green;
+            //btnSave.Enabled = true;
+            //lblLocalPictureStatus.Text = path.ToString() + " image is loaded. Click Show Image button!";
+            //lblLocalPictureStatus.ForeColor = Color.Green;
             flickerTimer.Enabled = true;
 
         }
@@ -221,18 +228,18 @@ namespace CSharpClientUI
             {
                 //get number of times  presented image can be shown again
                 sessionExists = true;
-                lblNumViews.Text = SecureImageHostWrapper.getRemainingTimes().ToString();
+                //lblNumViews.Text = SecureImageHostWrapper.getRemainingTimes().ToString();
                 //start a refresh thred to refresh the view periodically
                 refreshThread = new Thread(new ThreadStart(refresh));
                 refreshThread.Start();
                 //UI code
                 btnShow.Enabled = false;
-                rbLoad.Enabled = true;
+                //rbLoad.Enabled = true;
                 rbNew.Enabled = true;
-                if (rbLoad.Checked)
-                    rbLoad_CheckedChanged(null, null);
-                else
-                    rbNew_CheckedChanged(null, null);
+                //if (rbLoad.Checked)
+                //    rbLoad_CheckedChanged(null, null);
+                //else
+                //    rbNew_CheckedChanged(null, null);
             }
             else
             {
@@ -283,13 +290,13 @@ namespace CSharpClientUI
 
         private void rbNew_CheckedChanged(object sender, EventArgs e)
         {
-            btnLoad.Enabled = false;
+            //btnLoad.Enabled = false;
             btnConnect.Enabled = true;
         }
 
         private void rbLoad_CheckedChanged(object sender, EventArgs e)
         {
-            btnLoad.Enabled = true;
+            //btnLoad.Enabled = true;
             btnConnect.Enabled = false;
         }
 
@@ -342,15 +349,15 @@ namespace CSharpClientUI
 
             lblGetPicStatus.Text="";
             lblKeyStatus.Text="";
-            lblNumViews.Text="?";
+            //lblNumViews.Text="?";
             lblServerStatus.Text="Disconnected";
-            lblLocalPictureStatus.Text="No image is loaded";
+            //lblLocalPictureStatus.Text="No image is loaded";
 
             Color color=Color.FromArgb(0, 66, 129);
             lblGetPicStatus.ForeColor = color;
             lblKeyStatus.ForeColor = color;
             lblServerStatus.ForeColor = color;
-            lblLocalPictureStatus.ForeColor = color;           
+            //lblLocalPictureStatus.ForeColor = color;           
         }
 
         private void install_Click(object sender, EventArgs e)
@@ -374,6 +381,11 @@ namespace CSharpClientUI
             {
                 this.passwordLabel.Text = "password failed to be sent";
             }
+        }
+
+        private void SecureImageUI_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
