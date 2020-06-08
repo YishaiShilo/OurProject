@@ -112,7 +112,7 @@ namespace CSharpClientUI
                 btnSendKeys.Enabled = false;
                 btnGetPicture.Enabled = true;
                 lblKeyStatus.ForeColor = Color.Green;
-                lblKeyStatus.Text = "Key was sent successfully";
+                lblKeyStatus.Text = "Keys were exchanged successfully";
             }
             else
             {
@@ -135,7 +135,7 @@ namespace CSharpClientUI
                 btnShow.Enabled = true;
                 flickerTimer.Enabled = true;
                 //btnSave.Enabled = true;
-                lblGetPicStatus.Text = "Image is loaded. Click Show Image button!";
+                lblGetPicStatus.Text = "Image is loaded. Click Show Image!";
                 lblGetPicStatus.ForeColor = Color.Green;
             }
             else
