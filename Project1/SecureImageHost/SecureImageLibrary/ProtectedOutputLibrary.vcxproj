@@ -18,6 +18,7 @@
     <ProjectGuid>{B33C60FB-3AEC-47AE-8071-C60B6973C8F9}</ProjectGuid>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <ProjectName>SecureImageLibrary</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -31,6 +32,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -66,8 +68,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Amulet|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\WysResources\DXSDK_2015\Include;$(SolutionDir)\..\WysResources\PAVP_EPID_SDK\inc;$(DALsdk)\Platforms\ME9.5\SWComponents\JHI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>AMULET;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\WysResources\DXSDK_2015\Include;$(SolutionDir)\..\WysResources\PAVP_EPID_SDK\inc;$(DALsdk)\Platforms\ME9.5\SWComponents\JHI;$(DALsdk)\Platforms\ME10.0\SWComponents\JHI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AMULET;WYSAMULET;IPTDEBUG;WIN32;_DEBUG;_WINDOWS;_USRDLL;IPTWYS_EXPORTS;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>d3d9.lib;d3dx9d.lib;dxva2.lib;CryptoDataGen_d.lib;wintrust.lib;delayimp.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;crypt32.lib;Shlwapi.lib;$(DALsdk)\Platforms\ME9.5\SWComponents\JHI\jhi.lib;%(AdditionalDependencies);legacy_stdio_definitions.lib;Msimg32.lib;Ws2_32.lib;Crypt32.Lib;Bcrypt.lib;$(DALsdk)\Platforms\ME10.0\SWComponents\JHI\jhi.lib;CertHelper_d.lib</AdditionalDependencies>

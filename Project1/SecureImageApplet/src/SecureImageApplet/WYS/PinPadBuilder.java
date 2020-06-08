@@ -24,6 +24,7 @@ package SecureImageApplet.WYS;
 import com.intel.crypto.Random;
 import com.intel.langutil.TypeConverter;
 import com.intel.ui.*;
+import com.intel.util.DebugPrint;
 
 class Frame extends CompositeWidget
 {
@@ -169,7 +170,7 @@ public class PinPadBuilder
          /* Update the next row vertical location */
          firstButtonLocation =  new XYPair(firstButtonLocation.getX(), (short)(firstButtonLocation.getY() + buttonSize.getY() +  BUTTON_SPACING_VERTICAL));
       }
-      //DebugPrint.printString("DONE");
+      DebugPrint.printString("DONE");
        
       return f;
    }
