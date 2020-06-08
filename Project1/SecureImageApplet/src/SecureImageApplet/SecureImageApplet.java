@@ -54,15 +54,13 @@ public class SecureImageApplet extends IntelApplet {
 	private static final int ZERO_INDEX = 0;
 
 	// Commands
-	private static final int CMD_GET_GROUP_ID = 0;
 	private static final int CMD_DECRYPT_SYMETRIC_KEY = 5;
 	private static final int CMD_INIT_SIGMA = 1;
 
 	private static final int CMD_GET_AUTHENTICATION_ID = 13; // added this for authentication stage
 	private static final int CMD_WYS_STANDARD = 0xFFFF0001;
+	private static final int CMD_SEND_AUT_KEY = 22;
 	private static final int CMD_GENERATE_PAVP_SESSION_KEY = 6;
-	private static final int CMD_SET_NONCE = 10;
-	private static final int CMD_IS_PROVISIONED = 11;
 	private static final int CMD_RESET = 12;
 
 	// Error codes
@@ -82,19 +80,6 @@ public class SecureImageApplet extends IntelApplet {
 	int limitation, imageId;
 	Hashtable map;
 	
-	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-
-	public static String bytesToHex(byte[] bytes) {
-		char[] hexChars = new char[bytes.length * 2];
-		for (int j = 0; j < bytes.length; j++) {
-			int v = bytes[j] & 0xFF;
-			hexChars[j * 2] = HEX_ARRAY[v >>> 4];
-			hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
-		}
-		return new String(hexChars);
-	}
-
-
 	public static byte[] padding(byte[] input) {
 		int len = input.length;
 		int padding = 16 - (len % 16);
@@ -127,9 +112,6 @@ public class SecureImageApplet extends IntelApplet {
 		// TODO: need to return the encrypted Id to send to server
 		try {
 			byte[] padded = padding(userAuthenticationId);
-			DebugPrint.printString("padded: " + new String(padded));
-			DebugPrint.printString("padded: " + bytesToHex(padded));
-
 			byte[] encryptedId = sigma.encrypt(padded, padded.length);
 
 			_sigmaReplyBuffer = new byte[encryptedId.length];
@@ -138,19 +120,11 @@ public class SecureImageApplet extends IntelApplet {
 			return APPLET_SUCCESS;
 		} catch (Exception e) {
 			DebugPrint.printString("exception");
-			DebugPrint.printString(e.toString());
-			DebugPrint.printString(e.getMessage());
-
 			return FAILED_TO_ENCRYPT_DATA;
 		}
 
 	}
 	
-	private int WYS_method(byte[] request) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 
 	private int decryptSymetricKey(byte[] commandData) {
 		int status = IntelApplet.APPLET_ERROR_GENERIC;
@@ -172,33 +146,24 @@ public class SecureImageApplet extends IntelApplet {
 				// TODO: is need to be in length of 24 bytes (4 times, 4 id, 16 key)?. or
 				count = sigma.cryptoObject.decryptComplete(commandData, (short) 0, (short) 32, DecryptedBuffer, (short) 0);
 			} catch (IllegalParameterException ex) {
-				DebugPrint.printString("0");
 				throw new Exception("illegalParameterException");
 			} catch (ComputationException ex) {
-				DebugPrint.printString("1");
 				throw new Exception("computationException, error returned from the crypto engine.");
 			} catch (NotInitializedException ex) {
-				DebugPrint.printString("2");
 				throw new Exception("notInitializedException");
 			} catch (CryptoException ex) {
-				DebugPrint.printString("3");
-
 				throw new Exception("an internal error occurred");
 			}
-			DebugPrint.printString("after decrypt");
 			DebugPrint.printString("decrypt buffer: ");
 			DebugPrint.printBuffer(DecryptedBuffer);
 
 			ArrayUtils.copyByteArray(DecryptedBuffer, 0, Times, 0, 4);
 			limitation = TypeConverter.bytesToInt(Times, 0);
-			DebugPrint.printString("limit:");
 
 			DebugPrint.printInt(limitation);
 			ArrayUtils.copyByteArray(DecryptedBuffer, 4, Times, 0, 4);
 			// get image Id
 			imageId = TypeConverter.bytesToInt(Times, 0);
-			DebugPrint.printString("image id:");
-			DebugPrint.printInt(imageId);
 			// get the times the picture was viewed, the image Id is the key in
 			// the map
 			Object key = new Integer(imageId);
@@ -277,18 +242,17 @@ public class SecureImageApplet extends IntelApplet {
 
 			// workaround to fit amulet TODO: delete or use host+server workaround
 			// ArrayUtils.copyByteArray(DecryptedSymmetricKey, 0, response, 0, 16);
-			DebugPrint.printString("decrypted key in generate: ");
 			DebugPrint.printBuffer(DecryptedSymmetricKey);
 			DebugPrint.printString("encrypted key from gfx: ");
 			DebugPrint.printBuffer(response);
-			DebugPrint.printString("if encrypted key = decrypted, Workaround for amulet, delete on hardware");
+			//DebugPrint.printString("if encrypted key = decrypted, Workaround for amulet, delete on hardware");
 			setResponse(response, 0, response.length);
 
 			status = IntelApplet.APPLET_SUCCESS;
 		} catch (Exception ex) {
 			byte[] errorResponse = ("Error: failed to generate PAVP session key - " + ex.getMessage()).getBytes();
 			setResponse(errorResponse, 0, errorResponse.length);
-			DebugPrint.printString("Error: failed to generate PAVP Session key\n" + ex.getMessage());
+			//DebugPrint.printString("Error: failed to generate PAVP Session key\n" + ex.getMessage());
 			return status;
 		}
 
@@ -309,6 +273,9 @@ public class SecureImageApplet extends IntelApplet {
 			// there is data to load
 			dataLoaded = false;
 		}
+		
+		wysIns = new WYS();
+		wysIns.onInit(request);
 		return APPLET_SUCCESS;
 	}
 
@@ -343,9 +310,7 @@ public class SecureImageApplet extends IntelApplet {
 		} else {
 			switch (commandId) {
 			case CMD_GET_AUTHENTICATION_ID: // added this for authentication stage:
-			{
-				wysIns = new WYS();
-				wysIns.onInit(request);
+			{				
 				
 				DebugPrint.printString("in-aut id");
 				result = GetAuthenticationId(request);
@@ -354,14 +319,23 @@ public class SecureImageApplet extends IntelApplet {
 			
 			case CMD_WYS_STANDARD:
 			{
-				wysIns = new WYS();
-				wysIns.onInit(request);
+				
 				result = wysIns.invokeCommand(commandId, request);
 				
+				int size = wysIns.getResponseSize();
+				DebugPrint.printInt(size);
 				_sigmaReplyBuffer = new byte[wysIns.getResponseSize()];
 				wysIns.getResponse(_sigmaReplyBuffer, 0);
+				DebugPrint.printInt(size);
+				DebugPrint.printString(" after get");
 				DebugPrint.printString("reply buffer:");
 				DebugPrint.printBuffer(_sigmaReplyBuffer);
+				break;
+			}
+			
+			case CMD_SEND_AUT_KEY:
+			{
+				
 				break;
 			}
 

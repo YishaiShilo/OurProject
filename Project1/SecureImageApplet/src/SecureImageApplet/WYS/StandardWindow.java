@@ -20,14 +20,12 @@
 --*/
 package SecureImageApplet.WYS;
 
-import SecureImageApplet.WYS.CaptchaBuilder.Captcha;
 
 import com.intel.crypto.Random;
 import com.intel.langutil.ArrayUtils;
 import com.intel.langutil.TypeConverter;
 import com.intel.ui.Dialog;
 import com.intel.ui.Image;
-import com.intel.ui.Label;
 import com.intel.ui.ProtectedOutput;
 import com.intel.ui.UiException;
 import com.intel.ui.UiIllegalParameterException;
@@ -53,7 +51,6 @@ public class StandardWindow
 	private final static byte WINDOW_TYPE_UNKNOWN	= -1;
 	private final static byte WINDOW_TYPE_PINPAD	= 1;
 	private final static byte WINDOW_TYPE_OK		= 2;
-	private final static byte WINDOW_TYPE_CAPTCHA	= 3;
 	
 	private final static byte SUB_COMMAND_BUILD_WINDOW		= 1;
 	private final static byte SUB_COMMAND_SET_KEY			= 2;	
@@ -95,7 +92,6 @@ public class StandardWindow
 	private int 			m_imageSize;
 	private byte 			m_windowType;
 	private int 			m_imageHandle;
-	private Captcha 		m_captchaText;
 	private boolean 		m_userAuthenticated;
 	private byte[] 			m_userPin; 
 	private int 			m_applicationParam;
@@ -105,7 +101,6 @@ public class StandardWindow
 	private static final short WIDGET_ID_PINPAD = 4;
 	private static final short WIDGET_ID_LOGO = 5;
 	private static final short WIDGET_ID_OKBUTTON = 6;
-	private static final short WIDGET_ID_CAPTCHA = 7;
 
 	/*
 	protected static final int COLOR_RGB_WHITE = 0x00FFFFFF;
@@ -140,7 +135,6 @@ public class StandardWindow
 		m_dialog = null;
 		m_imageSize = 0;
 		m_windowType = WINDOW_TYPE_UNKNOWN;
-		m_captchaText = null;
 		if ( m_protectedOutput != null )
 		{
 			try
@@ -357,40 +351,7 @@ public class StandardWindow
 				}
 				
 				break;
-				
-			case WINDOW_TYPE_CAPTCHA:
-				
-				m_windowType = WINDOW_TYPE_CAPTCHA;
-
-				try
-				{
-					DebugPrint.printString("####  Captcha  #####");
-					m_captchaText = Captcha.getInstance();
-					m_captchaText.generateCaptcha(textLength);
-					
-					m_dialog = createCAPTCHA(new XYPair(dialogSizeX, dialogSizeY),
-											frameBorderWidth,
-											//for ME9.5 and below
-										    //Label.FONT_TYPE_NEO_SANS_INTEL,
-											//for ME10 and above
-											Label.FONT_TYPE_CLEAR_SANS,
-											dialogColor,
-											frameColor,
-											frameBorderColor,
-											fontColor,
-											new XYPair(logoSizeX, logoSizeY),
-											request,
-											offset,
-											m_captchaText.getString());
-				}
-				catch (UiException ex)
-				{
-					DebugPrint.printString("Failed to build standard CAPTCHA window");
-					return IntelApplet.APPLET_ERROR_BAD_PARAMETERS;
-				}
-				
-				break;
-				
+							
 			default:
 				DebugPrint.printString("Wrong standard window type received");
 				return IntelApplet.APPLET_ERROR_BAD_PARAMETERS;
@@ -553,33 +514,6 @@ public class StandardWindow
 				
 				break;
 				
-			case WINDOW_TYPE_CAPTCHA:
-				
-				String inputText = new String("");
-				byte inputTextLength = request[offset];
-				offset++;
-				
-				if ( (request.length - offset) < inputTextLength )
-				{
-					DebugPrint.printString("Failed to parse submitted text");
-					return IntelApplet.APPLET_ERROR_BAD_PARAMETERS;
-				}
-				
-				for (i = 0; i < inputTextLength; i++)
-				{
-					inputText += (char)(request[offset + i]);
-				}
-				
-				if ( m_captchaText.equalsTo(inputText) )
-				{
-					m_userAuthenticated = true;
-				}
-				else
-				{
-					m_userAuthenticated = false;
-				}
-
-				break;
 				
 			default:
 				
@@ -922,33 +856,7 @@ public class StandardWindow
 	 * @param captchaStr the text to be displayed to the user in ASCII format
 	 * @return Dialog object describing the standard CAPTCHA window
 	 */
-	public static Dialog createCAPTCHA(XYPair winSize, byte frameBorderWidth, byte fontType,
-									int winColor, int frameColor, int frameBorderColor, int fontColor, 
-									XYPair logoSize,  byte[] logoImage, int logoIndex, String captchaStr)
-	{
-		if ( (captchaStr == null) || (captchaStr.length() == 0) || captchaStr.equals("") )
-		{
-			throw new UiIllegalParameterException();
-		}
-
-		Dialog dialog = Dialog.create(winColor, winSize); 
-
-		if ( (logoSize.getX() > 0) && (logoSize.getY() > 0) )
-		{
-			dialog.addWidget(getIntelLogoImage(logoImage,logoSize,logoIndex));
-		}
-
-		// calculate the bounding box size
-		XYPair captchaSize = getStandardFrameSize(winSize, logoSize);
-		XYPair captchaLoc = getStandardFrameLocation(winSize, logoSize);
-		
-		Widget captcha = CaptchaBuilder.createCapthaPad(WIDGET_ID_CAPTCHA, captchaSize, captchaLoc,
-														frameBorderWidth, frameColor, frameBorderColor,
-														fontColor, fontType, captchaStr);
-		dialog.addWidget(captcha);
-		
-		return dialog;
-	}
+	
 
 	
 	private static Image getIntelLogoImage(byte[] logo, XYPair logoSize, int offset)

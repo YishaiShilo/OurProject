@@ -542,6 +542,9 @@ HRESULT PavpHandler::DoDecryptionBlt()
     SwapEndian_8B(dwCounter+2); 
 
 	status=Aes128CtrDecrypt(image.BmpBuffer, image.BmpBufferSize, decryptedImg, image.BmpBufferSize, s1,KEY_RECORD_SIZE, (unsigned int *)dwCounter, 32); 
+
+	// TODO: delete. for debug
+	decryptedImg = image.BmpBuffer;
 	if(status != CdgStsOk)
 		return S_FALSE;
 

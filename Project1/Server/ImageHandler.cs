@@ -53,6 +53,8 @@ namespace DALSamplesServer
             symmetric_key = generateAESkey();
             // change for decryption problem, TODO: delete
             Console.WriteLine("Key for image: " + BitConverter.ToString(symmetric_key));
+            // TODO: delete for debug
+            //return bitstream;
             return ProtectedOutputHostWrapper.encryptBitmap(bitstream, symmetric_key);
         }
 
@@ -64,9 +66,8 @@ namespace DALSamplesServer
             aes.KeySize = 128;
             aes.GenerateKey();
             // change for decryption problem, TODO: delete
-
-            byte[] e = { 0xa8, 0xda, 0xc6, 0x2f, 0x1c, 0x25, 0x81, 0xe2, 0xdf, 0x45, 0x8e, 0x21, 0x67, 0x3e, 0x55, 0x30 };
-            return e;
+            //byte[] e = { 0xa8, 0xda, 0xc6, 0x2f, 0x1c, 0x25, 0x81, 0xe2, 0xdf, 0x45, 0x8e, 0x21, 0x67, 0x3e, 0x55, 0x30 };
+            //return e;
             return aes.Key;
         }
 
@@ -245,7 +246,7 @@ namespace DALSamplesServer
                     int command = BitConverter.ToInt32(cmd, 0);
                     if (command == REQUESTING_IMAGE)
                     {
-                        encrypted_image = encryptImage("C:\\Project\\OurProject\\Project1\\Server\\Images\\ImageToEncrypt.bmp");
+                        encrypted_image = encryptImage("C:\\Project\\OurProject\\Project1\\Server\\Images\\numbers.bmp");
                         sendImage();
                         return true;
 

@@ -95,7 +95,7 @@ public class WYS
 					m_responseData = new byte[m_responseLength];
 					m_standardWindow.getResponse(m_responseData, 0);
 					DebugPrint.printString("response buffer");
-					DebugPrint.printBuffer(m_responseData);
+					//DebugPrint.printBuffer(m_responseData);
 					
 				}
 				break;
@@ -134,6 +134,7 @@ public class WYS
 		 * this purpose. Trusted Application is expected to return APPLET_SUCCESS code 
 		 * from this method and use the setResposeCode method instead.
 		 */
+		DebugPrint.printString("before res");
 		return res;
 	}
 	
@@ -180,6 +181,35 @@ public class WYS
 		return false;
 	}
 	
+	public int getPin(byte[] response, int responseOffset)
+	{
+		byte[] userPIN = m_standardWindow.getPin();
+		
+		if (userPIN != null)
+		{
+			ArrayUtils.copyByteArray(userPIN, 0, response, responseOffset, m_responseLength);
+			return userPIN.length;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+	public int getPinLength()
+	{
+		byte[] userPIN = m_standardWindow.getPin();
+		
+		if (userPIN != null)
+		{
+			return userPIN.length;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
 	/**
 	 * This method should be used by the applet to retrieve the response data to be sent
 	 * back to the host side application after calling the <code>processCommand</code> method.  
@@ -189,8 +219,11 @@ public class WYS
 	 */
 	public int getResponse(byte[] response, int responseOffset)
 	{
+		DebugPrint.printString("in get");
+
 		if ( m_responseData != null )
 		{
+			DebugPrint.printString("in if");
 			ArrayUtils.copyByteArray(m_responseData, 0, response, responseOffset, m_responseLength);
 			return m_responseLength;
 		}

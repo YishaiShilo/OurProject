@@ -20,7 +20,7 @@ public class Sigma {
 	private static final int INTEL_SIGNED_CERT_TYPE	= 4;
 	private static final int FAILED_TO_GET_SESSION_PARAMS	= -90;
 	
-	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+//	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 	public byte[]      _sigmaReplyBuffer;
 	
 	private static final int FAILED_TO_INITIALIZE_SIGMA		= -30;
@@ -44,16 +44,16 @@ public class Sigma {
 	
 
 	
-	public static String bytesToHex(byte[] bytes) {
-	    char[] hexChars = new char[bytes.length * 2];
-	    for (int j = 0; j < bytes.length; j++) {
-	        int v = bytes[j] & 0xFF;
-	        hexChars[j * 2] = HEX_ARRAY[v >>> 4];
-	        hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
-	    }
-	    return new String(hexChars);
-	}
-	
+//	public static String bytesToHex(byte[] bytes) {
+//	    char[] hexChars = new char[bytes.length * 2];
+//	    for (int j = 0; j < bytes.length; j++) {
+//	        int v = bytes[j] & 0xFF;
+//	        hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+//	        hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+//	    }
+//	    return new String(hexChars);
+//	}
+//	
 	
 
 	
@@ -83,6 +83,7 @@ public class Sigma {
 		//Once the SigmaAlgEx instance usage is finished, we have to clean and free the resource
 		try {
 			_sigmaAlgEx.dispose();
+			_sigmaAlgEx = null;
 		} catch (Throwable e) {
 			return FAILED_TO_DISPOSE_SIGMA;
 		}
@@ -153,11 +154,9 @@ public class Sigma {
 	private int CreateS1Message() {
 		byte[] s1Msg = null;
 		int s1MsgLen;
-		DebugPrint.printString("S1 start");
 
 		try {
 			s1MsgLen = _sigmaAlgEx.getS1MessageLength();
-			DebugPrint.printString("S1 2");
 
 			//Create S1 message bytes array
 			s1Msg = new byte[s1MsgLen];
@@ -214,14 +213,12 @@ public class Sigma {
 		 * A function that initialize cryptoObject, which is an object that we use for
 		 * encryption and decryption. we need to call it somewhere!
 		 */
-		DebugPrint.printString("before create cipher");
 		cryptoObject = SymmetricBlockCipherAlg.create(SymmetricBlockCipherAlg.ALG_TYPE_AES_CBC);
 		DebugPrint.printString("after create cipher");
 
 		byte[] ivArray = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		// TODO: set random IV and send to server.
 		cryptoObject.setKey(skey, (short) 0, (short) 16); // the key here is 128 bit long!
-		DebugPrint.printString("after set key");
 		cryptoObject.setIV(ivArray, (short) 0, (short) 16); // the iv is set to 0 by default so this function
 															// doesn't really important
 		DebugPrint.printString("after set iv");
@@ -231,11 +228,9 @@ public class Sigma {
 	
 	//Verify received S2 message and create S3 message
 	private int VerifyS2AndCreateS3(byte[] s2Message) {
-		DebugPrint.printString("im in the start of VerifyS2AndCreateS3. s3DataLen = " + Integer.toString(s3DataLen));
 		//Received an empty message
 		
 		if (s2Message == null) {
-			DebugPrint.printString("im in the checking of s2 message");
 			return INCORRECT_S2_BUFFER;
 		}
 				
@@ -252,11 +247,8 @@ public class Sigma {
 			*Non-Revoked proofs created by the prover based on the Signature Revocation List from S2 
 		 */
 		try {
-			DebugPrint.printString("im in the beggining of the try.");
 			int res = _sigmaAlgEx.processS2Message(s2Message, ZERO_INDEX, s2Message.length, s3Data, ZERO_INDEX);
-			DebugPrint.printString("im in the try. res = " + Integer.toString(res));
 			if (res != s3DataLen) {
-				DebugPrint.printString("im in the if. res = " + Integer.toString(res) + "s3DataLen = " + Integer.toString(s3DataLen));
 				return FAILED_TO_PROCESS_S2;
 			}
 
@@ -278,8 +270,8 @@ public class Sigma {
 		byte[] secretKey = new byte[secretKeyLen];
 		_sigmaAlgEx.getSecretKey(secretKey, (short) 0);
 		skey = secretKey;
-		DebugPrint.printString("key Len: " + Integer.toString(secretKeyLen));
-		DebugPrint.printString("key : " + bytesToHex(secretKey));
+//		DebugPrint.printString("key Len: " + Integer.toString(secretKeyLen));
+//		DebugPrint.printString("key : " + bytesToHex(secretKey));
 		
 		
 		try
