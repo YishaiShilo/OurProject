@@ -65,7 +65,7 @@
             // 
             this.btnConnect.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConnect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.btnConnect.Location = new System.Drawing.Point(311, 129);
+            this.btnConnect.Location = new System.Drawing.Point(326, 129);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(100, 28);
             this.btnConnect.TabIndex = 0;
@@ -77,7 +77,7 @@
             // 
             this.btnSendKeys.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.btnSendKeys.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.btnSendKeys.Location = new System.Drawing.Point(311, 223);
+            this.btnSendKeys.Location = new System.Drawing.Point(326, 223);
             this.btnSendKeys.Name = "btnSendKeys";
             this.btnSendKeys.Size = new System.Drawing.Size(100, 28);
             this.btnSendKeys.TabIndex = 1;
@@ -89,7 +89,7 @@
             // 
             this.btnGetPicture.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.btnGetPicture.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.btnGetPicture.Location = new System.Drawing.Point(311, 427);
+            this.btnGetPicture.Location = new System.Drawing.Point(326, 415);
             this.btnGetPicture.Name = "btnGetPicture";
             this.btnGetPicture.Size = new System.Drawing.Size(100, 28);
             this.btnGetPicture.TabIndex = 2;
@@ -277,7 +277,7 @@
             // 
             this.button1.Font = new System.Drawing.Font("Verdana", 9.75F);
             this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(66)))), ((int)(((byte)(129)))));
-            this.button1.Location = new System.Drawing.Point(311, 177);
+            this.button1.Location = new System.Drawing.Point(326, 178);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 28);
             this.button1.TabIndex = 41;
@@ -287,27 +287,31 @@
             // 
             // passwordBox
             // 
-            this.passwordBox.Location = new System.Drawing.Point(263, 318);
+            this.passwordBox.Location = new System.Drawing.Point(56, 280);
             this.passwordBox.Name = "passwordBox";
             this.passwordBox.Size = new System.Drawing.Size(160, 20);
             this.passwordBox.TabIndex = 43;
             // 
             // sendPasswordbtn
             // 
-            this.sendPasswordbtn.Location = new System.Drawing.Point(39, 318);
+            this.sendPasswordbtn.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sendPasswordbtn.ForeColor = System.Drawing.Color.Navy;
+            this.sendPasswordbtn.Location = new System.Drawing.Point(326, 272);
             this.sendPasswordbtn.Name = "sendPasswordbtn";
-            this.sendPasswordbtn.Size = new System.Drawing.Size(136, 23);
+            this.sendPasswordbtn.Size = new System.Drawing.Size(100, 28);
             this.sendPasswordbtn.TabIndex = 45;
-            this.sendPasswordbtn.Text = "send password";
+            this.sendPasswordbtn.Text = "password";
             this.sendPasswordbtn.UseVisualStyleBackColor = true;
             this.sendPasswordbtn.Click += new System.EventHandler(this.passwordButtonClick);
             // 
             // passwordLabel
             // 
             this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Location = new System.Drawing.Point(61, 344);
+            this.passwordLabel.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.passwordLabel.ForeColor = System.Drawing.Color.Navy;
+            this.passwordLabel.Location = new System.Drawing.Point(53, 303);
             this.passwordLabel.Name = "passwordLabel";
-            this.passwordLabel.Size = new System.Drawing.Size(83, 13);
+            this.passwordLabel.Size = new System.Drawing.Size(113, 14);
             this.passwordLabel.TabIndex = 46;
             this.passwordLabel.Text = "password status";
             // 

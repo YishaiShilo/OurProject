@@ -376,10 +376,13 @@ namespace CSharpClientUI
             if (res)
             {
                 this.passwordLabel.Text = "password was sent successfully";
+                this.passwordLabel.ForeColor = Color.Green;
+
             }
             else
             {
-                this.passwordLabel.Text = "password failed to be sent";
+                this.passwordLabel.Text = "Failed to send password";
+                this.passwordLabel.ForeColor = Color.Red;
             }
         }
 
