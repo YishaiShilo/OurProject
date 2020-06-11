@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureImageHost", "SecureIm
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureImageLibrary", "SecureImageLibrary\ProtectedOutputLibrary.vcxproj", "{B33C60FB-3AEC-47AE-8071-C60B6973C8F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WysHost", "WysHost\WysHost.csproj", "{A1830EBD-8817-43E5-9DDE-8F6D85492F92}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WysLibrary", "WysLibrary\WysLibrary.vcxproj", "{E4AC490D-0103-4FC3-BBED-196469A290E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Amulet|Mixed Platforms = Amulet|Mixed Platforms
@@ -59,6 +63,42 @@ Global
 		{B33C60FB-3AEC-47AE-8071-C60B6973C8F9}.Release|Win32.Build.0 = Release|Win32
 		{B33C60FB-3AEC-47AE-8071-C60B6973C8F9}.Release|x86.ActiveCfg = Release|Win32
 		{B33C60FB-3AEC-47AE-8071-C60B6973C8F9}.Release|x86.Build.0 = Release|Win32
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Amulet|Mixed Platforms.ActiveCfg = Amulet|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Amulet|Mixed Platforms.Build.0 = Amulet|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Amulet|Win32.ActiveCfg = Amulet|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Amulet|Win32.Build.0 = Amulet|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Amulet|x86.ActiveCfg = Amulet|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Amulet|x86.Build.0 = Amulet|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Debug|Win32.ActiveCfg = Debug|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Debug|Win32.Build.0 = Debug|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Debug|x86.ActiveCfg = Debug|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Debug|x86.Build.0 = Debug|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Release|Win32.ActiveCfg = Release|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Release|Win32.Build.0 = Release|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Release|x86.ActiveCfg = Release|x86
+		{A1830EBD-8817-43E5-9DDE-8F6D85492F92}.Release|x86.Build.0 = Release|x86
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Amulet|Mixed Platforms.ActiveCfg = Amulet|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Amulet|Mixed Platforms.Build.0 = Amulet|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Amulet|Win32.ActiveCfg = Amulet|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Amulet|Win32.Build.0 = Amulet|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Amulet|x86.ActiveCfg = Amulet|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Amulet|x86.Build.0 = Amulet|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Debug|Win32.Build.0 = Debug|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Debug|x86.ActiveCfg = Debug|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Debug|x86.Build.0 = Debug|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Release|Win32.ActiveCfg = Release|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Release|Win32.Build.0 = Release|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Release|x86.ActiveCfg = Release|Win32
+		{E4AC490D-0103-4FC3-BBED-196469A290E0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

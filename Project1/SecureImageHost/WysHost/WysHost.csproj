@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1632E556-785E-4A48-926C-A8227AD99964}</ProjectGuid>
+    <ProjectGuid>{A1830EBD-8817-43E5-9DDE-8F6D85492F92}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CSharpClientUI</RootNamespace>
-    <AssemblyName>CSharpClientUI</AssemblyName>
+    <RootNamespace>WysHost</RootNamespace>
+    <AssemblyName>WysHost</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DalTemplate>True</DalTemplate>
@@ -41,7 +41,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\CSharpClientUI.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Release\WysHost.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
@@ -51,16 +51,7 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Logo.ico</ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JhiSharp, Version=8.0.0.0, Culture=neutral, PublicKeyToken=9866126a24a1c019, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\DALsdk\Platforms\ME10.0\SWComponents\JHI\JhiSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -73,25 +64,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutForm.cs">
+    <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutForm.Designer.cs">
-      <DependentUpon>AboutForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Handlers\AuthenticationHandler.cs" />
-    <Compile Include="Handlers\EncryptionHandler.cs" />
-    <Compile Include="SecureImageUI.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SecureImageHostWrapper.cs" />
-    <Compile Include="SecureImageUI.Designer.cs">
-      <DependentUpon>SecureImageUI.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="AboutForm.resx">
-      <DependentUpon>AboutForm.cs</DependentUpon>
+    <Compile Include="WysWrapper.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -103,9 +86,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SecureImageUI.resx">
-      <DependentUpon>SecureImageUI.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -120,26 +100,38 @@
     <None Include="Background.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Logo.ico" />
+    <None Include="WYS.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Title.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TitleNarrow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WysHost\WysHost.csproj">
-      <Project>{a1830ebd-8817-43e5-9dde-8f6d85492f92}</Project>
-      <Name>WysHost</Name>
-    </ProjectReference>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy "$(SolutionDir)$(ConfigurationName)\SecureImageLibrary.dll" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\SecureImageLibrary.dll"
-copy "$(SolutionDir)$(ConfigurationName)\SecureImageLibrary.pdb" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\SecureImageLibrary.pdb"
-copy "$(SolutionDir)..\WysResources\epid_keyrevlist.dat" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\epid_keyrevlist.dat"
-copy "$(SolutionDir)..\WysResources\epid_paramcert.dat" "$(SolutionDir)$(ProjectName)\bin\$(ConfigurationName)\epid_paramcert.dat"</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(SolutionDir)$(ConfigurationName)\WysLibrary.dll" "$(SolutionDir)SecureImageHost\bin\$(ConfigurationName)\WysLibrary.dll"
+copy "$(SolutionDir)$(ConfigurationName)\WysLibrary.pdb" "$(SolutionDir)SecureImageHost\bin\$(ConfigurationName)\WysLibrary.pdb"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

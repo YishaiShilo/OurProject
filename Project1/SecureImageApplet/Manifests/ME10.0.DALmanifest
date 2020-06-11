@@ -1,0 +1,14 @@
+firmware.min_version: 10.0.0.2000
+applet.id: 33ad2931-2dd1-4387-b073-e9895fb9a5ef
+applet.name: SecureImageApplet
+applet.vendor: Intel
+applet.version: 1.0
+security.version: 1
+applet.heap.size: 50000
+applet.platform: ME
+applet.api.level: 5
+applet.description: This is the SecureImageApplet applet
+applet.flash.quota: 0
+applet.debug.enable: true
+applet.written.by.intel: true
+applet.feature.set: 0
