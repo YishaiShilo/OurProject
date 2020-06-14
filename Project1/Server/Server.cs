@@ -40,7 +40,9 @@ namespace DALSamplesServer
         public Server()
         {
             //start listening for clients
+            //IPAddress addr = IPAddress.Parse("192.168.14.39"); 
             tcpListener = new TcpListener(IPAddress.Any, 27015);
+            //tcpListener = new TcpListener(addr, 27015);
             listenThread = new Thread(new ThreadStart(listenForClients));
             listenThread.Start();
         }
