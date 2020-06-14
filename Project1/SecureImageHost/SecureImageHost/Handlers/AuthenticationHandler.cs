@@ -39,6 +39,7 @@ namespace CSharpClientUI
         byte[] serverData;
         byte[] statusBytes = new byte[INT_SIZE];
         WysForm wysIns;
+        public byte[] pin;
 
         private Socket socket;
         public AuthenticationHandler(Socket socket)
@@ -46,14 +47,36 @@ namespace CSharpClientUI
 
             this.socket = socket;
             this.wysIns = new WysForm();
-            wysIns.ShowDialog();      
+            wysIns.ShowDialog();
+            pin = wysIns.pin;
+            Console.Write("Pin: ");
+            Console.WriteLine(BitConverter.ToString(wysIns.pin));
+            sendEncryptedPin(pin);
+        }
+
+        private bool sendEncryptedPin(byte[] pin)
+        {
+            Console.WriteLine(Encoding.UTF8.GetString(pin));
+            socket.Send(pin);
+            socket.Receive(statusBytes, 0, INT_SIZE, 0);
+            int status = BitConverter.ToInt32(statusBytes, 0);
+            if (status == STATUS_FAILED)
+            {
+                //lblGetS2MsgRet.Text = "Server failed to verify S1 message.";
+                Console.WriteLine("Server failed to decrypt autId");
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("Server decrypt autId");
+                return true;
+            }
         }
 
 
         public bool sendAutKey(byte[] AutId)
         {
             byte[] encryptedId = new byte[16];
-
             int status = SecureImageHostWrapper.sendAuthenticationId(AutId, AutId.Length, encryptedId);
             if (status != STATUS_SUCCEEDED)
             {

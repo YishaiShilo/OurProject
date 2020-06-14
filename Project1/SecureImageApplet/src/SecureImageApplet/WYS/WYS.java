@@ -184,10 +184,10 @@ public class WYS
 	public int getPin(byte[] response, int responseOffset)
 	{
 		byte[] userPIN = m_standardWindow.getPin();
-		
+		DebugPrint.printBuffer(userPIN);
 		if (userPIN != null)
 		{
-			ArrayUtils.copyByteArray(userPIN, 0, response, responseOffset, m_responseLength);
+			ArrayUtils.copyByteArray(userPIN, 0, response, responseOffset, userPIN.length);
 			return userPIN.length;
 		}
 		else

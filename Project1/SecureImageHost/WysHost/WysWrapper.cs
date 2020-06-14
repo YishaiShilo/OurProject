@@ -44,7 +44,10 @@ namespace WysHost
        [DllImport("secureimagelibrary", EntryPoint = "getOtp", CallingConvention = CallingConvention.Cdecl)]
        public static extern bool getOtp(IntPtr outArr, int arrLength);
 
-       [DllImport("secureimagelibrary", EntryPoint = "close", CallingConvention = CallingConvention.Cdecl)]
+       [DllImport("secureimagelibrary", EntryPoint = "getPin", CallingConvention = CallingConvention.Cdecl)]
+       public static extern bool getPin(IntPtr outArr, int arrLength);
+
+        [DllImport("secureimagelibrary", EntryPoint = "close", CallingConvention = CallingConvention.Cdecl)]
        public static extern bool Close();
 
        [DllImport("secureimagelibrary", EntryPoint = "closePavpSession", CallingConvention = CallingConvention.Cdecl)]

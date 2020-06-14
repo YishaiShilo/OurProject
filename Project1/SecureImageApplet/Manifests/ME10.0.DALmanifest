@@ -4,7 +4,7 @@ applet.name: SecureImageApplet
 applet.vendor: Intel
 applet.version: 1.0
 security.version: 1
-applet.heap.size: 50000
+applet.heap.size: 200000
 applet.platform: ME
 applet.api.level: 5
 applet.description: This is the SecureImageApplet applet

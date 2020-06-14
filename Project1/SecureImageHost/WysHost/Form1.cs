@@ -25,7 +25,7 @@ namespace WysHost
 {
     public partial class WysForm : Form
     {
-        
+        public byte[] pin;
         public WysForm()
         {
             InitializeComponent();
@@ -37,21 +37,7 @@ namespace WysHost
         /// <returns>One of the LogicInterface.WYS_IMAGE_TYPE_ constants.</returns>
         private Byte getWysImageType()
         {
-            Byte wysImageType = 0;
-            if (radioButton_pinPad.Checked)
-            {
-                wysImageType = WysWrapper.WYS_IMAGE_TYPE_PINPAD;
-            }
-            else if (radioButton_okButton.Checked)
-            {
-                wysImageType = WysWrapper.WYS_IMAGE_TYPE_OKBUTTON;
-            }
-            else if (radioButton_captcha.Checked)
-            {
-                wysImageType = WysWrapper.WYS_IMAGE_TYPE_CAPTCHA;
-            }
-
-            return wysImageType;
+           return WysWrapper.WYS_IMAGE_TYPE_PINPAD;
         }
 
         /// <summary>
@@ -61,20 +47,7 @@ namespace WysHost
         private void button_initAndRender_Click(object sender, EventArgs e)
         {
             //Grey out the GUI:
-            radioButton_captcha.Enabled = false;
-            radioButton_okButton.Enabled = false;
-            radioButton_pinPad.Enabled = false;
-
-            if (radioButton_captcha.Checked)
-            {
-                label_captchaInput.Visible = true;
-                textBox_captchaInput.Visible = true;
-            }
-            else
-            {
-                label_captchaInput.Visible = false;
-                textBox_captchaInput.Visible = false;
-            }
+            
 
             UInt32 ret = WysWrapper.doWysSequence(panel_wysView.Handle, getWysImageType());
             alertOnFailure(ret, WysWrapper.SAMPLE_CODE_SUCCESS, "WYS", "WYS operations failed");
@@ -107,46 +80,32 @@ namespace WysHost
         private void button_submit_Click(object sender, EventArgs e)
         {
             bool ret;
-            if(getWysImageType() == WysWrapper.WYS_IMAGE_TYPE_CAPTCHA)
-            {
-                string userInput = textBox_captchaInput.Text;
-                UInt16 inputLength = (UInt16)userInput.Length;
-                //To be called on "submit" events, when in CAPTCHA mode. The user's input is passed as parameter.
-                ret = WysWrapper.onClickSubmit(userInput, inputLength);
-            }
-            else
-            {
-                //To be called on "submit" events. Not to be used in CAPTCHA mode.
-                ret = WysWrapper.onClickSubmit(null, 0);
-            }
-            const int otpLength = 4;
-            byte[] otpBytes = new byte[otpLength];
-            IntPtr outArr = Marshal.AllocHGlobal(otpLength);
-            if (WysWrapper.getOtp(outArr, otpLength))
-            {
-                Marshal.Copy(outArr, otpBytes, 0, otpLength);
-                Marshal.FreeHGlobal(outArr);
+           
+            //To be called on "submit" events. Not to be used in CAPTCHA mode.
+            ret = WysWrapper.onClickSubmit(null, 0);
+            
+            //const int otpLength = 4;
+            //byte[] otpBytes = new byte[otpLength];
+            //IntPtr outArr = Marshal.AllocHGlobal(otpLength);
+            //if (WysWrapper.getOtp(outArr, otpLength))
+            //{
+            //    Marshal.Copy(outArr, otpBytes, 0, otpLength);
+            //    Marshal.FreeHGlobal(outArr);
 
-                string otp = BitConverter.ToString(otpBytes).Replace("-", "");
-                MessageBox.Show(string.Format("Success! The generated OTP is: {0}", otp));
-            }
-            else
-            {
-                MessageBox.Show("Failed to verify user input.");
-            }
+            //    string otp = BitConverter.ToString(otpBytes).Replace("-", "");
+            //    MessageBox.Show(string.Format("Success! The generated OTP is: {0}", otp));
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Failed to verify user input.");
+            //}
 
-            radioButton_captcha.Visible = true;
-            radioButton_okButton.Visible = true;
+           
             radioButton_pinPad.Visible = true;
             radioButton_pinPad.Checked = true;
-            textBox_captchaInput.Text = null;
 #if AMULET
-            radioButton_captcha.Enabled = true;
-            radioButton_okButton.Enabled = true;
             radioButton_pinPad.Enabled = true;         
 #else
-        radioButton_captcha.Enabled = false;
-            radioButton_okButton.Enabled = false;
             radioButton_pinPad.Enabled = false;
             button_clear.Enabled = false;
             button_initAndRender.Enabled = false;
@@ -186,9 +145,10 @@ namespace WysHost
         /// </summary>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Hide();
-            WysWrapper.Close();
-            Application.Exit();
+
+            this.Hide();
+            //WysWrapper.Close();
+            //Application.Exit();
         }
 
         /// <summary>
@@ -203,24 +163,23 @@ namespace WysHost
             }
         }
 
-        private void radioButton_okButton_CheckedChanged(object sender, EventArgs e)
+        private void button_send_Click(object sender, EventArgs e)
         {
-            if (radioButton_pinPad.Checked)
+            const int pinLength = 16; // encrypted, block size minimum 16B (128 bits)
+            pin = new byte[pinLength];
+            IntPtr outArr = Marshal.AllocHGlobal(pinLength);
+            if (WysWrapper.getPin(outArr, pinLength))
             {
-                label_captchaInput.Visible = false;
-                textBox_captchaInput.Visible = false;
+                Marshal.Copy(outArr, pin, 0, pinLength);
+                Marshal.FreeHGlobal(outArr);
+
+                Console.Write("encrypted pin: ");
+                Console.WriteLine(pin);
             }
-            else if (radioButton_okButton.Checked)
+            else
             {
-                label_captchaInput.Visible = false;
-                textBox_captchaInput.Visible = false;
-            }
-            else if (radioButton_captcha.Checked)
-            {
-                label_captchaInput.Visible = true;
-                textBox_captchaInput.Visible = true;
+                MessageBox.Show("Failed to get encrypted pin.");
             }
         }
-
     }
 }

@@ -54,7 +54,7 @@ namespace DALSamplesServer
             // change for decryption problem, TODO: delete
             Console.WriteLine("Key for image: " + BitConverter.ToString(symmetric_key));
             // TODO: delete for debug
-            //return bitstream;
+            return bitstream;
             return ProtectedOutputHostWrapper.encryptBitmap(bitstream, symmetric_key);
         }
 
@@ -91,10 +91,10 @@ namespace DALSamplesServer
             {
                 //copy the RGB
                 xrgb[xrgbPos] = bitstream[i];         // R
-                xrgb[xrgbPos + 1] = bitstream[i + 1]; // G
-                xrgb[xrgbPos + 2] = bitstream[i + 2]; // B
+                xrgb[xrgbPos + 2] = bitstream[i + 1]; // G
+                xrgb[xrgbPos + 3] = bitstream[i + 2]; // B
                 //Add the Alpha channel
-                xrgb[xrgbPos + 3] = 0;                // X
+                xrgb[xrgbPos + 1] = 0;                // X
 
                 //the 32-bit bitmap - 4 bytes per pixel
                 xrgbPos += 4;
@@ -246,7 +246,7 @@ namespace DALSamplesServer
                     int command = BitConverter.ToInt32(cmd, 0);
                     if (command == REQUESTING_IMAGE)
                     {
-                        encrypted_image = encryptImage("C:\\Project\\OurProject\\Project1\\Server\\Images\\numbers.bmp");
+                        encrypted_image = encryptImage("C:\\Project\\OurProject\\Project1\\Server\\Images\\colors.bmp");
                         sendImage();
                         return true;
 

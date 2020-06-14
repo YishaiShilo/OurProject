@@ -543,8 +543,6 @@ HRESULT PavpHandler::DoDecryptionBlt()
 
 	status=Aes128CtrDecrypt(image.BmpBuffer, image.BmpBufferSize, decryptedImg, image.BmpBufferSize, s1,KEY_RECORD_SIZE, (unsigned int *)dwCounter, 32); 
 
-	// TODO: delete. for debug
-	decryptedImg = image.BmpBuffer;
 	if(status != CdgStsOk)
 		return S_FALSE;
 
@@ -552,7 +550,9 @@ HRESULT PavpHandler::DoDecryptionBlt()
 
 	hBmp = NULL;
 	do {
-		hBmp = ::CreateBitmap( DisplayWidth, DisplayHeight, 1, 32, decryptedImg );
+		// TODO: delete. for debug
+		hBmp = ::CreateBitmap(DisplayWidth, DisplayHeight, 1, 32, image.BmpBuffer);
+		//hBmp = ::CreateBitmap( DisplayWidth, DisplayHeight, 1, 32, decryptedImg );
 		if( hBmp == NULL ) {
 			break;
 		}

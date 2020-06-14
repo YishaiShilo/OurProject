@@ -112,6 +112,9 @@ public class SecureImageApplet extends IntelApplet {
 		// TODO: need to return the encrypted Id to send to server
 		try {
 			byte[] padded = padding(userAuthenticationId);
+			//sigmaReplyBuffer = new byte[IdCode.length];
+			//ArrayUtils.copyByteArray(IdCode, ZERO_INDEX, _sigmaReplyBuffer, ZERO_INDEX, IdCode.length);
+			//return APPLET_SUCCESS;
 			byte[] encryptedId = sigma.encrypt(padded, padded.length);
 
 			_sigmaReplyBuffer = new byte[encryptedId.length];
@@ -309,13 +312,13 @@ public class SecureImageApplet extends IntelApplet {
 			_sigmaReplyBuffer = sigma._sigmaReplyBuffer;
 		} else {
 			switch (commandId) {
-			case CMD_GET_AUTHENTICATION_ID: // added this for authentication stage:
-			{				
-				
-				DebugPrint.printString("in-aut id");
-				result = GetAuthenticationId(request);
-				break;
-			}
+//			case CMD_GET_AUTHENTICATION_ID: // added this for authentication stage:
+//			{				
+//				
+//				DebugPrint.printString("in-aut id");
+//				result = GetAuthenticationId(request);
+//				break;
+//			}
 			
 			case CMD_WYS_STANDARD:
 			{
@@ -329,13 +332,19 @@ public class SecureImageApplet extends IntelApplet {
 				DebugPrint.printInt(size);
 				DebugPrint.printString(" after get");
 				DebugPrint.printString("reply buffer:");
-				DebugPrint.printBuffer(_sigmaReplyBuffer);
+				//DebugPrint.printBuffer(_sigmaReplyBuffer);
 				break;
 			}
 			
 			case CMD_SEND_AUT_KEY:
 			{
+				byte[] pin = new byte[wysIns.getPinLength()];
+				DebugPrint.printString("pin len:");
+				DebugPrint.printInt(wysIns.getPinLength());
 				
+				wysIns.getPin(pin, 0);
+				
+				result = GetAuthenticationId(pin);
 				break;
 			}
 

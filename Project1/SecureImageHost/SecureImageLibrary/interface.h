@@ -78,6 +78,8 @@ WYSSAMPLEEXPORT bool onClickClear();
 
 WYSSAMPLEEXPORT bool getOtp(void* outArr, int arrLength);
 
+WYSSAMPLEEXPORT bool getPin(void* outArr, int arrLength);
+
 //de-init PAVP and JHI
 //WYSSAMPLEEXPORT bool close();
 

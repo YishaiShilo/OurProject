@@ -34,7 +34,7 @@ static int CMD_IS_PROVISIONED				= 11;
 static int CMD_RESET						= 12; 
 
 //Authentication command IDs:
-static int CMD_SEND_AUTHENTICATION_ID = 13;
+static int CMD_SEND_AUTHENTICATION_ID = 22;
 
 // Sigma command IDs
 static int CMD_INIT_AND_GET_S1 = 1;
@@ -252,7 +252,12 @@ public:
 	bool closePavpWysSession();
 
 	bool getOtp(void* outArr, int arrLength);
+
+	bool getPin(void* outArr, int arrLength);
+
 private:
+
+
 	//functions:
 
 	SecureImage(void);

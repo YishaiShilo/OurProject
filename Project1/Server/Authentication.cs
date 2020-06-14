@@ -34,6 +34,8 @@ namespace DALSamplesServer
             {
                 decryptedId = encryption.DecryptBytes(encryptedId);
                 Console.WriteLine("decryptedId: " + Encoding.UTF8.GetString(decryptedId));
+                Console.WriteLine("decryptedId: " + BitConverter.ToString(decryptedId));
+
                 socket.Send(BitConverter.GetBytes(STATUS_SUCCEEDED));
                 return true;
             }

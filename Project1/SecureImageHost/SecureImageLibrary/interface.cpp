@@ -142,6 +142,11 @@ bool getOtp(void* outArr, int arrLength)
 	return SecureImage::Session()->getOtp(outArr, arrLength);
 }
 
+bool getPin(void* outArr, int arrLength)
+{
+	return SecureImage::Session()->getPin(outArr, arrLength);
+}
+
 bool closePavpWysSession()
 {
 	return SecureImage::Session()->closePavpWysSession();

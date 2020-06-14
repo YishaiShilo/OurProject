@@ -24,7 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DalTemplate>True</DalTemplate>
-    <ApiLevel>ME90</ApiLevel>
+    <ApiLevel>ME100</ApiLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -56,7 +56,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JhiSharp">
-      <HintPath>..\..\..\..\Platforms\ME9.0\SWComponents\JHI\JhiSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\DALsdk\Platforms\ME10.0\SWComponents\JHI\JhiSharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />

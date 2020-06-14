@@ -1026,6 +1026,35 @@ bool SecureImage::getOtp(void* outArr, int arrLength)
 }
 
 
+/*get encrypted pin from applet*/
+bool SecureImage::getPin(void* outArr, int arrLength)
+{
+	JHI_RET ret;
+	JVM_COMM_BUFFER commBuff;
+	char rBuff[2048];
+	commBuff.RxBuf->buffer = rBuff;
+	commBuff.RxBuf->length = 2048;
+	commBuff.TxBuf->length = 0;
+
+	INT32 resp = 0;
+	if (handle != NULL && session != NULL)
+	{
+		ret = JHI_SendAndRecv2(handle, session, CMD_SEND_AUTHENTICATION_ID, &commBuff, &resp);
+		if (ret == JHI_SUCCESS)
+		{
+			if (commBuff.RxBuf->length != arrLength)
+			{
+				return false;
+			}
+			memcpy(outArr, commBuff.RxBuf->buffer, commBuff.RxBuf->length);
+		}
+	}
+	else resp = -1;
+
+	return resp == RESP_CODE_APPLET_SUCCESS;
+}
+
+
 /*Displays the image using PAVP session handle*/
 WYSRESULT SecureImage::doWysDisplay(UINT32* pavpSessionHandle, unsigned char wysImageType)
 {
