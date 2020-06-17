@@ -246,7 +246,7 @@ namespace DALSamplesServer
                     int command = BitConverter.ToInt32(cmd, 0);
                     if (command == REQUESTING_IMAGE)
                     {
-                        encrypted_image = encryptImage("C:\\Project\\OurProject\\Project1\\Server\\Images\\colors.bmp");
+                        encrypted_image = encryptImage("C:\\Project\\OurProject\\Project1\\Server\\Images\\numbers.bmp");
                         sendImage();
                         return true;
 

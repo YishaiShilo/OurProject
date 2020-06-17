@@ -367,21 +367,10 @@ namespace CSharpClientUI
 
         private void passwordButtonClick(object sender, EventArgs e)
         {
-            //textBox2.Text
             
-            byte[] AuthenticationId = Encoding.ASCII.GetBytes(this.passwordBox.Text);
-            Console.WriteLine(this.passwordBox.Text);
+            
             autHandler = new AuthenticationHandler(socket);
-            //Console.WriteLine(autHandler.pin);
-            //bool res = autHandler.sendAutKey(autHandler.pin);
-            //if (res)
-            //{
-            //    this.passwordLabel.Text = "password was sent successfully";
-            //}
-            //else
-            //{
-            //    this.passwordLabel.Text = "password failed to be sent";
-            //}
+            
 
         }
 
